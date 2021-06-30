@@ -518,6 +518,12 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       foundUser.uploads = foundUser.uploads + 1;
       foundUser.points = foundUser.points + 60;
       foundUser.level_points = foundUser.level_points + 40;
+      var prev_lvl = foundUser.level;
+      var next_lvl = prev_lvl + 1;
+      if(foundUser.level_points>= (foundUser.check_point + (next_lvl*100)) ){
+        foundUser.check_point = foundUser.check_point + next_lvl*100;
+        foundUser.level++;
+      }
       if (doc.category == "Lecture Notes") {
         foundUser.notes_uploads++;
       } else if (doc.category == "Question Paper") {
@@ -893,6 +899,13 @@ app.post('/single_material/:document_id/reviews', isLoggedIn, checkReviewExisten
       console.log("upvote done");
       foundDoc.upvotes++; 
       docOwner.upvotes++;
+      docOwner.level_points = docOwner.level_points + 5;
+      var prev_lvl = docOwner.level;
+      var next_lvl = prev_lvl + 1;
+      if(docOwner.level_points>= (docOwner.check_point + (next_lvl*100)) ){
+        docOwner.check_point = docOwner.check_point + next_lvl*100;
+        docOwner.level++;
+      }
   }
   else{
       console.log("downvote done");
@@ -902,6 +915,8 @@ app.post('/single_material/:document_id/reviews', isLoggedIn, checkReviewExisten
   foundDoc.save();
   const user = await User.findById(req.user._id);
   user.points += 5;
+
+  
 
   await review.save();
   await foundDoc.save();

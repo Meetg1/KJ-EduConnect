@@ -82,6 +82,10 @@ const UserSchema = new mongoose.Schema({
   tag:{
     type: String,
     default: "Amateur"
+  }, 
+  check_point:{
+    type: Number,
+    default: 0 
   }
 });
 

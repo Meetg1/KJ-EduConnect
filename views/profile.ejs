@@ -119,7 +119,7 @@
             </h4>
             <hr>
             <div class="numBox">
-              <div class="num"><span><strong><%= user.level %></strong></span></div>
+              <div class="num"><span><strong><%= user.check_point + (user.level+1)*100 - user.level_points %> more points for next level</strong></span></div>
             </div>
             <div class="numBox">
               <div class="num ml-2 light"></div>
