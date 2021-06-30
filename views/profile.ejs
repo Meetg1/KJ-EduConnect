@@ -120,7 +120,10 @@
             </h4>
             <hr>
             <div class="numBox">
-              <div class="num"><span><strong><%= user.check_point + (user.level+1)*100 - user.level_points %> more points for next level</strong></span></div>
+              <div class="num"><span><strong>
+                <progress id="" value="<%=user.level_points%>" max="<%= user.check_point + (user.level+1)*100 %>" style="height: 55%; width:100%  "> </progress>
+                <h6><%= user.check_point + (user.level+1)*100 - user.level_points %> more points for next level</h6> 
+                </strong></span></div>
             </div>
             <div class="numBox">
               <div class="num ml-2 light"></div>
@@ -216,5 +219,6 @@
       </section>
 
     </div>
-    </div>
   </div>
+  </div>
+</body>
