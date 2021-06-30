@@ -1,0 +1,337 @@
+html {
+  font-size: 100%;
+}
+
+.searchbar {
+  width: 25rem !important;
+}
+
+.searchbar::placeholder {
+  font-weight: 400;
+}
+
+.uploadBox,
+.pointBox,
+.upvoteBox {
+  border: 1px solid #e6e9ec;
+  border-radius: 3px;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.mgn {
+  margin-top: -15px;
+}
+
+.clr {
+  padding-bottom: 10px;
+}
+
+.num {
+  font-size: 18px;
+}
+
+.color {
+  color: #4e657e;
+  font-size: 20px;
+}
+
+.light {
+  color: #9ea9b5;
+}
+
+.numBox {
+  display: flex;
+  justify-content: space-around;
+}
+
+.jumbotron {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  height: 250px;
+}
+
+.profile-user-settings {
+  margin-top: 1.1rem;
+}
+
+.profile-user-name {
+  display: inline-block;
+  font-size: 3.2rem;
+  font-weight: 300;
+  color: #020202;
+}
+
+.followBtn {
+  margin-top: -25px;
+  margin-left: 10px;
+}
+
+.profile-stats li {
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1.1;
+  margin-right: 4.5rem;
+  cursor: pointer;
+}
+
+.profile-stats li:last-of-type {
+  margin-right: 0;
+}
+
+.profile-stat-count {
+  /* margin-left: 1.7em; */
+}
+
+.univ {
+  font-size: 1.1em;
+  color: #0069d9;
+}
+
+.box {
+  width: 15.5rem;
+  padding: 20px;
+  height: 7rem;
+  float: right;
+  margin-top: -150px;
+  margin-right: 150px;
+}
+
+.wrapper {
+  padding: 100px;
+}
+
+.image--cover {
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  margin: 40px;
+  object-fit: cover;
+  object-position: center right;
+}
+
+.format {
+  color: #4e657e;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-left: 1.3rem;
+}
+
+.star {
+  margin-top: -2px;
+  color: goldenrod;
+}
+
+.star1 {
+  margin-top: -2px;
+  color: blue;
+  height: 35px;
+  margin-left: 4px;
+}
+
+.star2 {
+  margin-top: -2px;
+  color: rgb(253, 208, 208);
+  height: 35px;
+  margin-left: 0px;
+}
+
+.pointl_size {
+  font-size: 16px;
+  position: absolute;
+  top: 10px;
+  color: #4e657e;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.upload {
+  margin-top: 130px;
+  margin-left: 250px;
+}
+
+.uploadbtn {
+  margin-top: -2px;
+  margin-left: 7px;
+}
+
+.uparrow {
+  margin-left: 4px;
+}
+
+.txt {
+  color: #4e657e;
+}
+
+.tip {
+  color: darkblue;
+  background-color: #e6e9ec;
+  /* margin-left: 10px; */
+  font-size: 17px;
+  font-family: inherit;
+  padding: 10px;
+}
+
+.htip {
+  color: #4e657e;
+  font-size: 20px;
+  /* float: left;
+  margin-left: 15px; */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.bulb {
+  margin-top: -2px;
+  color: darkgoldenrod;
+}
+
+.file {
+  height: 25vh;
+}
+
+.img {
+  height: 10rem;
+  width: 20%;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  float: left;
+  margin-right: 30px;
+}
+
+#title_link {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: -5px;
+}
+
+.material_type {
+  color: gray;
+  font-size: 0.45rem;
+  padding: 3px;
+  border: rgb(224, 224, 224) 2px solid;
+  border-radius: 14px;
+}
+
+.date {
+  display: inline-block;
+  width: 21rem;
+  margin-top: 0px;
+}
+
+.date {
+  margin-top: 20px;
+  font-size: 0.75rem;
+}
+
+.content {
+  padding-top: 7px;
+}
+
+.content h5 {
+  font-size: 0.75rem;
+}
+
+.content1 {
+  margin-top: -45px;
+}
+
+.results img {
+  height: 10rem;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  float: left;
+  margin-right: 30px;
+}
+
+.file {
+  height: 25vh;
+}
+
+.content {
+  margin-left: 30px;
+}
+
+.content h5 {
+  font-size: 1rem;
+}
+
+#title_link {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: -5px;
+}
+
+.material_type {
+  color: gray;
+  font-size: 0.75rem;
+  padding: 3px;
+  border: rgb(224, 224, 224) 2px solid;
+  border-radius: 14px;
+}
+
+.date {
+  margin-top: 37px;
+}
+
+@media (max-width: 992px) {
+  .container.m {
+    width: 90% !important;
+  }
+
+  .searchbar {
+    width: 15em !important;
+  }
+
+  .login:hover {
+    border-bottom: 2px solid #0069d9;
+    margin-bottom: -3px;
+  }
+}
+
+@media (max-width: 454px) {
+  .searchbar {
+    width: 10em !important;
+  }
+
+  .profile-user-name {
+    font-size: 2rem;
+  }
+
+  .image--cover {
+    position: absolute;
+    top: 45px;
+    margin-left: 80px;
+  }
+}
+
+@media (max-width: 790px) {
+  html {
+    font-size: 80%;
+  }
+
+  .content {
+    margin-left: 0px;
+  }
+
+  .date {
+    display: inline-block;
+    width: 21rem;
+    margin-top: 0px;
+  }
+
+  .jumbotron {
+    height: 230px;
+  }
+}
+
+#form_pic {
+  margin-top: -240px;
+  margin-left: -180px;
+}
+
+.next-step {
+  margin-left: -293px;
+  margin-top: 90px;
+}

@@ -1,0 +1,55 @@
+body {
+  background-color: #e6e9ec;
+}
+
+.container1 {
+  margin-top: 20px;
+  align-content: center;
+  position: relative;
+}
+
+.para {
+  font-size: 22px;
+  padding: 20px;
+  margin-top: 15px;
+  margin-left: 130px;
+  color: #4e657e;
+}
+.form-control-edu {
+  margin-top: -12px;
+  display: block;
+  border: 1px solid #ccc;
+  border-top-style: solid;
+  border-radius: 3px;
+  width: 445px;
+  height: 45px;
+  text-indent: 10px;
+}
+
+::placeholder {
+  color: #a9a9a9;
+  padding-left: 10px;
+}
+
+#section1 {
+  position: relative;
+  min-height: 50vh;
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+section .container2 {
+  position: relative;
+  width: 600px;
+  height: 200px;
+  background: #fff;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
