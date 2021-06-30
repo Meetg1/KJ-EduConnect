@@ -272,7 +272,7 @@ const isUploader = async(req, res, next) => {
   }
   const doc = await Document.findById(req.params.document_id);
   const user = await User.findById(req.user._id)
-  if(!user.isAdmin && !doc.uploader.id.equals(req.user._id)){
+  if(!user.role ==='teacher' && !doc.uploader.id.equals(req.user._id)){
     req.flash('danger', 'You do not have permission to do that!');
     return res.redirect('/results/1');
   }
@@ -298,14 +298,14 @@ const isVerified=async function(req,res,next){
   }
 }
 
-const isAdmin = async(req, res, next) => {
+const isTeacher = async(req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
     return res.redirect("/signup");
   }
   try {
     const user = await User.findById(req.user._id)
-    if(!user.isAdmin){
+    if(!user.role==='teacher'){
       req.flash("danger", "You are not an admin!")
       return res.redirect('back')
     }
@@ -584,7 +584,7 @@ app.get("/results/:page", async(req, res) => {
 
   if(req.user) {
     const user = await User.findById(req.user._id)
-    if(user.isAdmin){
+    if(user.role==='teacher'){
       return res.redirect('/admin/statistics')
     }
     res.render("results.ejs", {
@@ -628,7 +628,7 @@ app.post("/search/:page", async(req, res) => {
 
   if(req.user) {
     const user = await User.findById(req.user._id)
-    if(user.isAdmin){
+    if(user.role==='teacher'){
       return res.redirect('/admin/statistics')
     }
     res.render("results.ejs", {
@@ -670,7 +670,7 @@ app.get("/search/:page", async(req, res) => {
 
   if(req.user) {
     const user = await User.findById(req.user._id)
-    if(user.isAdmin){
+    if(user.role==='teacher'){
       return res.redirect('/admin/statistics')
     }
     res.render("results.ejs", {
@@ -721,7 +721,7 @@ app.post("/filter/:page", async(req, res) => {
 
   if(req.user) {
     const user = await User.findById(req.user._id)
-    if(user.isAdmin){
+    if(user.role==='teacher'){
       return res.redirect('/admin/statistics')
     }
     res.render("results.ejs", {
@@ -763,7 +763,7 @@ app.get("/filter/:page", async(req, res) => {
 
   if(req.user) {
     const user = await User.findById(req.user._id)
-    if(user.isAdmin){
+    if(user.role==='teacher'){
       return res.redirect('/admin/statistics')
     }
     res.render("results.ejs", {
@@ -974,7 +974,7 @@ app.get("/single_material/:document_id", async function (req, res) {
 
   if(req.user){
     const user = await User.findById(req.user._id);
-    if(!user.isAdmin && doc.isReported){
+    if(!user.role==='teacher' && doc.isReported){
       res.render('taken-down.ejs');
     }else{
       res.render('single_material.ejs', { doc });
@@ -1104,8 +1104,8 @@ app.post("/login",isVerified, isNotBanned,(req, res, next) => {
   })(req, res, next);
 });
 
-// User.findById("6090fc1304d9b41090f84eb9", function(err, user) {
-//   user.isAdmin = true
+// User.findById("60dc4e6a0b2d59068cc7e142", function(err, user) {
+//   user.role = 'teacher'
 //   user.save()
 // })
 
@@ -1263,27 +1263,27 @@ app.get('/notification/:notificationId', isLoggedIn, async(req, res) => {
 //  Stat.create({id:1})
 
 
-app.get('/admin/statistics', isAdmin,async(req,res)=>{
+app.get('/admin/statistics', isTeacher,async(req,res)=>{
   const stats = await Stat.findOne({id:1})
   res.render('adminStats.ejs', {stats})
 })
 
-app.get('/admin/users', isAdmin,async(req,res)=>{
+app.get('/admin/users', isTeacher,async(req,res)=>{
   const users = await User.find({})
   res.render('adminUsers.ejs', {users})
 })
 
-app.get('/admin/allDocuments',  isAdmin,async(req,res)=>{
+app.get('/admin/allDocuments',  isTeacher,async(req,res)=>{
   const docs = await Document.find({})
   res.render('adminDocs.ejs', {docs})
 })
 
-app.get('/admin/reportedDocuments', isAdmin,async(req,res)=>{
+app.get('/admin/reportedDocuments', isTeacher,async(req,res)=>{
   const docs = await Document.find({isReported:true})
   res.render('adminreportedDocs.ejs', {docs})
 })
 
-app.post('/users/:userId/ban', isAdmin,async(req,res)=>{
+app.post('/users/:userId/ban', isTeacher,async(req,res)=>{
   const user = await User.findById(req.params.userId)
   if(user.isBanned){
     user.isBanned = false
@@ -1291,6 +1291,19 @@ app.post('/users/:userId/ban', isAdmin,async(req,res)=>{
   }else{
     user.isBanned = true
     req.flash('danger', `${user.fullname} has been banned!`)
+  }
+  await user.save()  
+  res.redirect('/admin/Users')
+})
+
+app.post('/users/:userId/promote', isTeacher, async(req,res)=>{
+  const user = await User.findById(req.params.userId)
+  if(user.role!=="moderator"){
+    user.role = "moderator"
+    req.flash('success', `${user.fullname} has been promoted to a moderator role!`)
+  }else{
+    user.role = "student"
+    req.flash('danger', `${user.fullname} has been demoted from moderator role!`)
   }
   await user.save()  
   res.redirect('/admin/Users')

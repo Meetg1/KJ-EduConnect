@@ -6,9 +6,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String,
+    enum: ["teacher", "moderator", "student"],
+    default: "student"
   },
   university: {
     type: String,
@@ -42,32 +43,32 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  followers : [{
+  followers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
-  notifications : [{
+  notifications: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Notification"
   }],
-  profilePic :{ 
+  profilePic: {
     type: String,
     default: "stockPhoto.jpg"
-  }, 
-  usernameToken:String,
-  isVerified:{
+  },
+  usernameToken: String,
+  isVerified: {
     type: Boolean,
     default: false
   },
-  isBanned:{
+  isBanned: {
     type: Boolean,
     default: false
   },
-  stared : [{
+  stared: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Document"
   }],
-  reports : {
+  reports: {
     type: Number,
     default: 0
   },
@@ -79,7 +80,7 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  tag:{
+  tag: {
     type: String,
     default: "Amateur"
   }

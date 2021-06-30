@@ -50,7 +50,7 @@ html {
 .jumbotron {
   padding-top: 15px;
   padding-bottom: 15px;
-  height: 250px;
+  height: 40vh;
 }
 
 .profile-user-settings {
@@ -322,7 +322,7 @@ html {
   }
 
   .jumbotron {
-    height: 230px;
+    height: 33vh;
   }
 }
 

@@ -88,6 +88,15 @@
                         <button class="btn btn-xs btn-danger">BAN</button>
                       </form>
                     <%}%>
+                    <% if (user.role!=="moderator") { %>
+                      <form action='/users/<%=user._id%>/promote' method="POST" class="d-inline">
+                        <button class="btn btn-xs btn-success">Promote</button>
+                      </form>
+                    <% }else{ %>
+                      <form action='/users/<%=user._id%>/promote' method="POST" class="d-inline">
+                        <button class="btn btn-xs btn-danger">Demote</button>
+                      </form>
+                    <%}%>
                     <h1 class="h2 text-danger" style="margin-top: 30px;">Total Reports: <%=user.reports%></h1>
                   </div>
                   <hr style="margin-top : 65px;">      

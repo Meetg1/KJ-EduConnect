@@ -42,16 +42,17 @@
           </div>
         </div>
         <br>
+        <div class="univ" href="#"><%= user.role %></div>
         <div class="univ" href="#"><%= user.university %></div>
-          <div class="univ mt-2" href="#"><%= user.username %></div>
-          <div class="profile-stats">
-            <ul class="pl-0">
-              <br>
-              <li><span class="profile-stat-count"><strong><%= user.uploads %></strong></span> Uploads</li>
-              <li><span class="profile-stat-count"><strong><%= user.followerCount %></strong></span> followers</li>
-            </ul>
-          </div>
+        <div class="univ mt-2" href="#"><%= user.username %></div>
+        <div class="profile-stats">
+          <ul class="pl-0">
+            <br>
+            <li><span class="profile-stat-count"><strong><%= user.uploads %></strong></span> Uploads</li>
+            <li><span class="profile-stat-count"><strong><%= user.followerCount %></strong></span> followers</li>
+          </ul>
         </div>
+        
 
       </div>
     </div>
@@ -201,12 +202,10 @@
                 </svg>
               </span>
             </div>
-          </div>
-          <% if(currentUser && doc.uploader.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          </div>          
           <form action='/single_material/<%=doc._id%>?_method=DELETE' method="POST">
             <button class="btn btn-xs btn-danger mgn">Delete</button>
-          </form>
-          <% } %>
+          </form>          
         </div>
         <hr style="margin-top : 55px;">
 
