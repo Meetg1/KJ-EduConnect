@@ -70,6 +70,18 @@ const UserSchema = new mongoose.Schema({
   reports : {
     type: Number,
     default: 0
+  },
+  level: {
+    type: Number,
+    default: 0
+  },
+  level_points: {
+    type: Number,
+    default: 0
+  },
+  tag:{
+    type: String,
+    default: "Amateur"
   }
 });
 

@@ -29,6 +29,7 @@ const methodOverride = require('method-override');
 const fs = require("fs");
 const crypto=require("crypto");
 const user = require("./models/user.js");
+
 //var id = '608811b26b688b2430750380';
 //User.findByIdAndDelete(id, function (err, docs) {
  // if (err){
@@ -516,6 +517,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       const foundUser = await User.findById(req.user._id).populate('followers').exec();
       foundUser.uploads = foundUser.uploads + 1;
       foundUser.points = foundUser.points + 60;
+      foundUser.level_points = foundUser.level_points + 40;
       if (doc.category == "Lecture Notes") {
         foundUser.notes_uploads++;
       } else if (doc.category == "Question Paper") {
