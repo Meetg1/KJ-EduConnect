@@ -1034,7 +1034,7 @@ app.post("/register", async (req, res) => {
     req.checkBody("fullname", "Name is required").notEmpty();
     req.checkBody("university", "University is required").notEmpty();
     req.checkBody("username", "Enter a valid Email-id").isEmail();
-    req.checkBody("password", "password must be of minimum 6 characters").isLength({ min: 6 })
+    // req.checkBody("password", "password must be of minimum 6 characters").isLength({ min: 6 })
     req.checkBody("cpwd", "Passwords do not match").equals(req.body.password);
 
     let errors = req.validationErrors();
@@ -1061,7 +1061,7 @@ app.post("/register", async (req, res) => {
       const link=`http://localhost:3000/verify-email/?token=${user.usernameToken}`;
       req.flash("success","You are now registered! Please verify your account through mail.")
       console.log(link);          
-      sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
+      // sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
       res.redirect("/signup");
       let stat = await Stat.findOne({id:1})
       stat.totalUsers++
