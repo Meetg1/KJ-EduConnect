@@ -248,6 +248,15 @@ button, select {
     color: var(--dark);
     border-radius: 0.4rem;
 }
+.image--cover {
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center right;
+    margin-left: 22%;
+    margin-bottom: 15px;
+  }
 @media screen and (max-width: 700px) {
     .c-flag {
         width: 2.4rem;

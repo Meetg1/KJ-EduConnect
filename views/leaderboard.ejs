@@ -14,10 +14,13 @@
             <div class="l-grid__item l-grid__item--sticky">
                 <div class="c-card u-bg--light-gradient u-text--dark">
                     <div class="c-card__body">
+                        <img src="../profilePic/<%=logged_in_user.profilePic %>" class="image--cover">
                         <div class="u-display--flex u-justify--space-between">
+                            
                             <div class="u-text--left">
+            
                                 <div class="u-text--small">My Rank</div>
-                                <h2>3rd Place</h2>
+                                <h2><%= logged_in_rank + 1%></h2>
                             </div>
                             <div class="u-text--right">
                                 <div class="u-text--small">My Points</div>
@@ -28,7 +31,7 @@
                 </div>
                 <div class="c-card">
                     <div class="c-card__body">
-                        <div class="u-text--center" id="winner"></div>
+                        <div class="u-text--center" id="winner"><%= logged_in_user.fullname %></div>
                     </div>
                 </div>
             </div>
@@ -50,13 +53,14 @@
                                     
                                 </div>
                             </li>
+                            <!-- RANK 1 -->
                             <li class="c-list__item">
                                 <div class="c-list__grid">
                                     <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--yellow">1</div>
                                     <div class="c-media">
-                                        <img class="c-avatar c-media__img" src="https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col-retina/image.png" />
+                                        <img class="c-avatar c-media__img" src="../profilePic/<%=users[0].profilePic %>" alt="" />
                                         <div class="c-media__content">
-                                            <div class="c-media__title"><%= users[0].fullname %></div>
+                                            <div class="c-media__title"><a href="/users/<%=users[0].id%>" style="color:white;"><%= users[0].fullname %></a></div> 
                                             <a class="c-media__link u-text--small" href="" target="_blank"><%= users[0].tag %></a>
                                         </div>
                                     </div>
@@ -68,14 +72,54 @@
                                 </div>
                             </li>
                             <br>
-                                <% for (var i =1; i < users.length;  i++ ) { %>
+                            <!-- RANK 2 -->
+                            <li class="c-list__item">
+                                <div class="c-list__grid">
+                                    <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--teal">2</div>
+                                    <div class="c-media">
+                                        <img class="c-avatar c-media__img" src="../profilePic/<%=users[1].profilePic %>" alt="" />
+                                        <div class="c-media__content">
+                                            <div class="c-media__title"><a href="/users/<%=users[1].id%>" style="color:white;"><%= users[1].fullname %></a></div> 
+                                            <a class="c-media__link u-text--small" href="" target="_blank"><%= users[1].tag %></a>
+                                        </div>
+                                    </div>
+                                    <div class="u-text--center c-kudos u-text--teal">
+                                        <div class="u-mt--8">
+                                            <strong><%= users[1].level_points %> ⭐️</strong> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <br>
+                            <!-- RANK 3 -->
+                            <li class="c-list__item">
+                                <div class="c-list__grid">
+                                    <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--orange">3</div>
+                                    <div class="c-media">
+                                        <img class="c-avatar c-media__img" src="../profilePic/<%=users[2].profilePic %>" alt="" />
+                                        <div class="c-media__content">
+                                            <div class="c-media__title"><a href="/users/<%=users[2].id%>" style="color:white;"><%= users[2].fullname %></a></div> 
+                                            <a class="c-media__link u-text--small" href="" target="_blank"><%= users[2].tag %></a>
+                                        </div>
+                                    </div>
+                                    <div class="u-text--center c-kudos u-text--orange">
+                                        <div class="u-mt--8">
+                                            <strong><%= users[2].level_points %> 🔥'</strong> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <br>
+                            <!-- RANK 4 to end -->
+                                <% for (var i =3; i < users.length;  i++ ) { %>
                                 <li class="c-list__item">
                                             <div class="c-list__grid">
                                                 <div class="c-flag c-place u-bg--white"><%= i+1 %></div>
                                                 <div class="c-media">
-                                                    <img class="c-avatar c-media__img" src="https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col-retina/image.png" />
+                                                    <img class="c-avatar c-media__img" src="../profilePic/<%=users[i].profilePic %>" />
                                                     <div class="c-media__content">
-                                                        <div class="c-media__title"><%= users[i].fullname %></div>
+                                         
+                                                        <div class="c-media__title"><a href="/users/<%=users[i].id%>" style="color:white;"><%= users[i].fullname %></a></div>                                 
                                                         <a class="c-media__link u-text--small" href="" target="_blank"><%= users[i].tag %></a>
                                                     </div>
                                                 </div>
