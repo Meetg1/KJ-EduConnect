@@ -19,9 +19,9 @@ const DocumentSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-  year : String,
+  year: String,
   topic: {
     type: String,
     required: true,
@@ -42,29 +42,33 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  reporters:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
-  isReported : {
-    type: Boolean,
-    default: false
-  }, 
-  driveId : String,
-  mimeType : String,
-  fileName : String, 
-  previewPics : [String],
-  uploader : {                                            
-    id : {
+  reporters: [
+    {
       type: mongoose.Schema.Types.ObjectId,
-      ref : 'User'
+      ref: "User",
     },
-    username : String
+  ],
+  isReported: {
+    type: Boolean,
+    default: false,
   },
-  reviews : [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Review"
-  }]
+  driveId: String,
+  mimeType: String,
+  fileName: String,
+  // previewPics : [String],
+  uploader: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    username: String,
+  },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Document", DocumentSchema);

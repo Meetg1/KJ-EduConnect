@@ -354,18 +354,18 @@ var upload1 = multer({
   storage: storage1,
 });
 
-var storage2 = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "public/previewPics"));
-  },
-  filename: function (req, file, cb) {
-    cb(null, uuidv1() + path.extname(file.originalname));
-  },
-});
+// var storage2 = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, "public/previewPics"));
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, uuidv1() + path.extname(file.originalname));
+//   },
+// });
 
-var upload2 = multer({
-  storage: storage2,
-});
+// var upload2 = multer({
+//   storage: storage2,
+// });
 
 var storage3 = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -392,18 +392,18 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
   res.send(file);
 });
 
-var previewPicIds = [];
-app.post("/uploadpics", upload2.single("file"), (req, res, next) => {
-  previewPicIds.push(req.file.filename);
-  // console.log(file);
-  if (!file) {
-    const error = new Error("Please upload a file");
-    error.httpStatusCode = 400;
-    return next(error);
-  }
+// var previewPicIds = [];
+// app.post("/uploadpics", upload2.single("file"), (req, res, next) => {
+//   previewPicIds.push(req.file.filename);
+//   // console.log(file);
+//   if (!file) {
+//     const error = new Error("Please upload a file");
+//     error.httpStatusCode = 400;
+//     return next(error);
+//   }
 
-  res.send(file);
-});
+//   res.send(file);
+// });
 
 app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
   //profilePicIds.push(req.file.filename);
@@ -483,9 +483,9 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       console.log("sgdagsgfds" + errors);
       return res.redirect("back");
     }
-    if (previewPicIds.length == 0) {
-      return res.redirect("back");
-    }
+    // if (previewPicIds.length == 0) {
+    //   return res.redirect("back");
+    // }
 
     const uploadedFile = await uploadToDrive(file.originalname, file.mimetype);
 
@@ -509,7 +509,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       driveId: driveId,
       mimeType: file.mimetype,
       fileName: file.originalname,
-      previewPics: previewPicIds,
+      // previewPics: previewPicIds,
     });
 
     const uploadedDoc = await doc.save();
@@ -534,7 +534,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       foundUser.assignments_uploads++;
     }
     foundUser.save();
-    previewPicIds = [];
+    // previewPicIds = [];
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDocuments++;
     stat.pointsEarned += 60;
@@ -982,25 +982,20 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
- 
   logged_in_user = await User.find((id = req.user._id));
   users = await User.find().sort({ level_points: -1 });
-  
 
   function checkAdult(user) {
-    console.log(user.username );
+    console.log(user.username);
     return user.username === logged_in_user[0].username;
   }
 
-  var logged_in_rank = (users.findIndex(checkAdult));
-
-
-
+  var logged_in_rank = users.findIndex(checkAdult);
 
   res.render("leaderboard.ejs", {
     users: users,
     logged_in_user: logged_in_user[0],
-    logged_in_rank: logged_in_rank
+    logged_in_rank: logged_in_rank,
   });
   // allUsers = User.find({}, function (err, users) {
   //   users.sort({level_points:-1})
@@ -1021,8 +1016,7 @@ app.get("/single_material/:document_id", async function (req, res) {
     })
     .populate("author");
 
-  
-    console.log("abcdd "+doc.driveId);
+  console.log("abcdd " + doc.driveId);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
@@ -1052,21 +1046,21 @@ app.delete(
     await Review.deleteMany({ _id: { $in: doc.reviews } }); //delete all reviews of the document
 
     //deleting file's previewPics
-    for (let i = 0; i < doc.previewPics.length; i++) {
-      const pathToFile = path.join(
-        __dirname,
-        "public/previewPics",
-        doc.previewPics[i]
-      );
-      console.log("path : " + pathToFile);
-      fs.unlink(pathToFile, function (err) {
-        if (err) {
-          throw err;
-        } else {
-          console.log("Successfully deleted the file : " + pathToFile);
-        }
-      });
-    }
+    // for (let i = 0; i < doc.previewPics.length; i++) {
+    //   const pathToFile = path.join(
+    //     __dirname,
+    //     "public/previewPics",
+    //     doc.previewPics[i]
+    //   );
+    //   console.log("path : " + pathToFile);
+    //   fs.unlink(pathToFile, function (err) {
+    //     if (err) {
+    //       throw err;
+    //     } else {
+    //       console.log("Successfully deleted the file : " + pathToFile);
+    //     }
+    //   });
+    // }
 
     let user = await User.findById(doc.uploader.id);
     user.uploads--;
