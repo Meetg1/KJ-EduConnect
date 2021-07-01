@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["teacher", "moderator", "student"],
-    default: "student"
+    default: "student",
   },
   university: {
     type: String,
@@ -43,51 +43,57 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  followers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
-  notifications: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Notification"
-  }],
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  notifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Notification",
+    },
+  ],
   profilePic: {
     type: String,
-    default: "stockPhoto.jpg"
+    default: "stockPhoto.jpg",
   },
   usernameToken: String,
   isVerified: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isBanned: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  stared: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Document"
-  }],
+  stared: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Document",
+    },
+  ],
   reports: {
     type: Number,
-    default: 0
+    default: 0,
   },
   level: {
     type: Number,
-    default: 0
+    default: 0,
   },
   level_points: {
     type: Number,
-    default: 0
+    default: 0,
   },
   tag: {
     type: String,
-    default: "Amateur"
-  }, 
-  check_point:{
+    default: "Amateur",
+  },
+  check_point: {
     type: Number,
-    default: 0 
-  }
+    default: 0,
+  },
 });
 
 UserSchema.plugin(passportLocalMongoose);

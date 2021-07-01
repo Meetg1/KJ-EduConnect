@@ -15,7 +15,7 @@ html {
 .upvoteBox {
   border: 1px solid #e6e9ec;
   border-radius: 3px;
-  margin-left: 2rem;
+  margin-left: 1.1rem;
   margin-bottom: 2rem;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -48,13 +48,8 @@ html {
 }
 
 .jumbotron {
-  padding-top: 15px;
+  padding-top: 35px;
   padding-bottom: 15px;
-  height: 40vh;
-}
-
-.profile-user-settings {
-  margin-top: 1.1rem;
 }
 
 .profile-user-name {
@@ -87,27 +82,21 @@ html {
 
 .univ {
   font-size: 1.1em;
-  color: #0069d9;
 }
 
-.box {
+/* .box {
   width: 15.5rem;
   padding: 20px;
   height: 7rem;
   float: right;
   margin-top: -150px;
   margin-right: 150px;
-}
-
-.wrapper {
-  padding: 100px;
-}
+} */
 
 .image--cover {
-  width: 11rem;
-  height: 11rem;
+  width: 13rem;
+  height: 13rem;
   border-radius: 50%;
-  margin: 40px;
   object-fit: cover;
   object-position: center right;
 }
@@ -116,7 +105,6 @@ html {
   color: #4e657e;
   font-size: 20px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin-left: 1.3rem;
 }
 
 .star {
@@ -162,15 +150,6 @@ html {
 
 .txt {
   color: #4e657e;
-}
-
-.tip {
-  color: darkblue;
-  background-color: #e6e9ec;
-  /* margin-left: 10px; */
-  font-size: 17px;
-  font-family: inherit;
-  padding: 10px;
 }
 
 .htip {
@@ -298,17 +277,15 @@ html {
   .profile-user-name {
     font-size: 2rem;
   }
-
-  .image--cover {
-    position: absolute;
-    top: 45px;
-    margin-left: 80px;
-  }
 }
 
-@media (max-width: 790px) {
+@media (max-width: 770px) {
   html {
     font-size: 80%;
+  }
+
+  .top {
+    text-align: center;
   }
 
   .content {
@@ -321,17 +298,9 @@ html {
     margin-top: 0px;
   }
 
-  .jumbotron {
-    height: 33vh;
+  .followBtn {
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-bottom: 30px;
   }
-}
-
-#form_pic {
-  margin-top: -240px;
-  margin-left: -180px;
-}
-
-.next-step {
-  margin-left: -293px;
-  margin-top: 90px;
 }
