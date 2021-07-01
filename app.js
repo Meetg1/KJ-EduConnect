@@ -980,6 +980,30 @@ app.get("/landing", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("signup.ejs");
 });
+//docs = await Document.find().sort({ upvotes: -1 });
+
+app.get("/leaderboard", isLoggedIn, async (req, res) => {
+  //console.log("AYZZZZZ");
+  //console.log(req.user._id);
+  logged_in_user = await User.find((id = req.user._id));
+  users = await User.find().sort({ level_points: -1 });
+  //console.log("abcddddd " + users.length);
+  //console.log(logged_in_user[0]);
+  console.log(users.username);
+  console.log(logged_in_user[0]);
+  console.log(users.indexOf(logged_in_user[0]));
+  res.render("leaderboard.ejs", {
+    users: users,
+    logged_in_user: logged_in_user[0],
+  });
+  // allUsers = User.find({}, function (err, users) {
+  //   users.sort({level_points:-1})
+  //   console.log("abcddddd" + users.length);
+  //   res.render("leaderboard.ejs", {
+  //     users: users,
+  //   });
+  // });
+});
 
 app.get("/single_material/:document_id", async function (req, res) {
   const doc = await Document.findById(req.params.document_id)
@@ -1062,7 +1086,9 @@ app.post("/register", async (req, res) => {
     req.checkBody("fullname", "Name is required").notEmpty();
     req.checkBody("university", "University is required").notEmpty();
     req.checkBody("username", "Enter a valid Email-id").isEmail();
-    // req.checkBody("password", "password must be of minimum 6 characters").isLength({ min: 6 })
+    req
+      .checkBody("password", "password must be of minimum 6 characters")
+      .isLength({ min: 6 });
     req.checkBody("cpwd", "Passwords do not match").equals(req.body.password);
 
     let errors = req.validationErrors();
@@ -1136,8 +1162,8 @@ app.post("/login", isVerified, isNotBanned, (req, res, next) => {
   })(req, res, next);
 });
 
-// User.findById("60dc4e6a0b2d59068cc7e142", function(err, user) {
-//   user.role = 'teacher'
+// User.findById("6090fc1304d9b41090f84eb9", function(err, user) {
+//   user.isAdmin = true
 //   user.save()
 // })
 
