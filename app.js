@@ -980,21 +980,27 @@ app.get("/landing", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("signup.ejs");
 });
-//docs = await Document.find().sort({ upvotes: -1 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
-  //console.log("AYZZZZZ");
-  //console.log(req.user._id);
+ 
   logged_in_user = await User.find((id = req.user._id));
   users = await User.find().sort({ level_points: -1 });
-  //console.log("abcddddd " + users.length);
-  //console.log(logged_in_user[0]);
-  console.log(users.username);
-  console.log(logged_in_user[0]);
-  console.log(users.indexOf(logged_in_user[0]));
+  
+
+  function checkAdult(user) {
+    console.log(user.username );
+    return user.username === logged_in_user[0].username;
+  }
+
+  var logged_in_rank = (users.findIndex(checkAdult));
+
+
+
+
   res.render("leaderboard.ejs", {
     users: users,
     logged_in_user: logged_in_user[0],
+    logged_in_rank: logged_in_rank
   });
   // allUsers = User.find({}, function (err, users) {
   //   users.sort({level_points:-1})
@@ -1015,6 +1021,8 @@ app.get("/single_material/:document_id", async function (req, res) {
     })
     .populate("author");
 
+  
+    console.log("abcdd "+doc.driveId);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
