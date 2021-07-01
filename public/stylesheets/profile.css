@@ -152,11 +152,17 @@ html {
   color: #4e657e;
 }
 
+.tip {
+  color: darkblue;
+  background-color: #e6e9ec;
+  font-size: 17px;
+  font-family: inherit;
+  padding: 10px;
+}
+
 .htip {
   color: #4e657e;
   font-size: 20px;
-  /* float: left;
-  margin-left: 15px; */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 

@@ -36,7 +36,9 @@
                           <div>
                             <% if (user.role==="moderator" ) { %>
                               <div class="badge badge-primary univ" href="#">Moderator</div>
-                              <% } %>
+                              <% }else if(user.role==="teacher" ) {%>
+                                <div class="badge badge-primary univ" href="#">Teacher</div>
+                                <% } %>
                           </div>
                           <div class="text-primary univ mt-2" href="#">
                             <%= user.university %>
@@ -90,8 +92,8 @@
                       </strong></span></div>
                 </div>
                 <div class="numBox">
-                  <div class="num ml-4 light"> notes</div>
-                  <div class="num ml-5 light"> papers</div>
+                  <div class="num ml-4 light"> Lecture <br> Notes</div>
+                  <div class="num ml-5 light"> Question <br> Papers</div>
                   <div class="num ml-3 light"> Assignments</div>
                 </div>
 

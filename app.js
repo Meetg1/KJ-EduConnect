@@ -1086,9 +1086,9 @@ app.post("/register", async (req, res) => {
     req.checkBody("fullname", "Name is required").notEmpty();
     req.checkBody("university", "University is required").notEmpty();
     req.checkBody("username", "Enter a valid Email-id").isEmail();
-    req
-      .checkBody("password", "password must be of minimum 6 characters")
-      .isLength({ min: 6 });
+    // req
+    //   .checkBody("password", "password must be of minimum 6 characters")
+    //   .isLength({ min: 6 });
     req.checkBody("cpwd", "Passwords do not match").equals(req.body.password);
 
     let errors = req.validationErrors();
