@@ -21,6 +21,21 @@ html {
   padding-bottom: 20px;
 }
 
+.format {
+  margin-top: 90px;
+}
+
+.next-step {
+  margin-top: 1px;
+  width: 90px;
+  margin-left: -50px;
+}
+
+#form_pic {
+  margin-top: -120px;
+  margin-left: 600px;
+}
+
 .mgn {
   margin-top: -15px;
 }
