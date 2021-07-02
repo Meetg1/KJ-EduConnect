@@ -1389,6 +1389,33 @@ app.get("/undefined", (req, res) => {
   res.redirect("/upload");
 });
 
+
+app.get('/autocomplete', function(req, res, next){
+  var regex= new RegExp(req.query["term"],'i');
+
+  var UserFinder = User.find({username:regex} , {'username':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(10);
+
+  UserFinder.exec(function(err, data){
+    
+    var result = [];
+    if(!err){
+      if(data && data.length && data.length>0){
+        data.forEach(user => {
+          let obj = {
+            id: user.id,
+            label: user.username
+          };
+          result.push(obj);
+        });
+      }
+      console.log(result);
+      res.jsonp(result);
+    }
+  });
+
+});
+
+
 const port = 3000;
 
 app.listen(port, () => {
