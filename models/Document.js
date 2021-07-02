@@ -69,6 +69,14 @@ const DocumentSchema = new mongoose.Schema({
       ref: "Review",
     },
   ],
+  downloads: {
+    type: Number,
+    default: 0,
+  },
+  recentDownloads: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Document", DocumentSchema);

@@ -1,3 +1,36 @@
+/* The Modal (background) */
+.modalContent {
+  width: 25rem;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: none;
+  background-color: #ffeded;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  padding: 9rem 3rem;
+}
+
+.modalContent .accept {
+  background-color: #ed6755;
+  border: none;
+  border-radius: 5px;
+  width: 80%;
+  padding: 14px;
+  font-size: 16px;
+  color: white;
+  box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+}
+
+.modalContent img {
+  width: 82px;
+  margin-bottom: 15px;
+}
+
 .searchbar {
   width: 25em !important;
 }
@@ -83,7 +116,7 @@ img {
 }
 
 .w3-row {
-  background-color: #1597bb
+  background-color: #1597bb;
 }
 
 .downloadBtn {
@@ -148,11 +181,11 @@ input[type="radio"] {
   height: 0;
 }
 
-input[type="radio"]:active~label {
+input[type="radio"]:active ~ label {
   opacity: 1;
 }
 
-input[type="radio"]:checked~label {
+input[type="radio"]:checked ~ label {
   opacity: 1;
 }
 
@@ -184,7 +217,6 @@ input[type="radio"]:checked~label {
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
-
   .prev,
   .next,
   .text {
