@@ -28,17 +28,7 @@ const { v1: uuidv1 } = require("uuid");
 const methodOverride = require("method-override");
 const fs = require("fs");
 const crypto = require("crypto");
-const user = require("./models/user.js");
-
-//var id = '608811b26b688b2430750380';
-//User.findByIdAndDelete(id, function (err, docs) {
-// if (err){
-//   console.log(err)
-// }
-//else{
-//console.log("Deleted : ", docs);
-// }
-//});
+const schedule = require("node-schedule");
 
 //====================DATABASE CONNECTION==========================
 const db = process.env.MY_MONGODB_URI;
@@ -92,6 +82,26 @@ const oAuth2Client = new google.auth.OAuth2(
   REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+//let docs = await Document.find().sort({ recentDownloads: -1 }).limit(15);
+
+async function resetTrendingDocuments() {
+  let allDocs = await Document.find({});
+  allDocs.forEach(async (doc) => {
+    doc.recentDownloads = 0;
+    await doc.save();
+  });
+}
+
+//run at 12am on every saturday
+schedule.scheduleJob("0 0 * * 6", function () {
+  try {
+    resetTrendingDocuments();
+    console.log("resetting...");
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 async function sendMail(receiver, link) {
   try {
@@ -443,11 +453,14 @@ app.get("/download/:document_id", isLoggedIn, async (req, res) => {
       res.download(__dirname + "/downloads/" + doc.fileName);
       user.points -= 20;
       user.save();
-    }, 3000);
+    }, 5000);
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDownloads++;
     stat.pointsSpent += 20;
     stat.save();
+    doc.downloads++;
+    doc.recentDownloads++;
+    doc.save();
   } catch (error) {
     res.status(400).send("Error while downloading file. Try again later.");
   }
@@ -1016,7 +1029,7 @@ app.get("/single_material/:document_id", async function (req, res) {
     })
     .populate("author");
 
-  console.log("abcdd " + doc.driveId);
+  // console.log("abcdd " + doc.driveId);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
