@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const Document = require("./models/Document.js");
 const Review = require("./models/Review.js");
+const Reply = require("./models/Reply.js")
 const Notification = require("./models/Notification");
 const Stat = require("./models/Stat");
 const passport = require("passport");
@@ -1400,10 +1401,11 @@ app.get("/undefined", (req, res) => {
 app.get("/autocomplete", function (req, res, next) {
   var regex = new RegExp(req.query["term"], "i");
 
-  var UserFinder = User.find({ username: regex }, { username: 1 })
-    .sort({ updated_at: -1 })
-    .sort({ created_at: -1 })
-    .limit(10);
+app.get('/autocomplete', function(req, res, next){
+  console.log("abcd "+req);
+  var regex= new RegExp(req.query["term"],'i');
+
+  var UserFinder = User.find({username:regex} , {'username':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(10);
 
   UserFinder.exec(function (err, data) {
     var result = [];
@@ -1422,6 +1424,31 @@ app.get("/autocomplete", function (req, res, next) {
     }
   });
 });
+
+
+app.post(
+  "/single_material/:document_id/reply",
+  isLoggedIn,
+  async (req, res) => {
+    const reply = new Reply({
+      reply: req.body.reply,
+      author_reply: req.user._id,
+    });
+      console.log("a "+req.body.doc_id);
+      console.log("b "+req.body.comment_id);
+      console.log("c "+(req.user._id));
+      const req_doc = await Document.findById(req.params.document_id);
+      console.log(req_doc);
+      const req_review = await Review.findById(req.body.comment_id);
+      console.log(req_review);
+      req_review.replies.push(reply);
+      req_review.save();
+      console.log(req_doc);
+      console.log(req_review);
+      req.flash("success", "Replied to a comment. ");
+    });
+
+
 
 const port = 3000;
 

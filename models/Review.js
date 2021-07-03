@@ -12,7 +12,13 @@ const ReviewSchema = new mongoose.Schema({
     author: {    
         type: mongoose.Schema.Types.ObjectId,
         ref : 'User'                 
-    }
+    },
+    replies: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+             ref: "Reply", 
+        }
+    ]
 }, {
     // if timestamps are set to true, mongoose assigns createdAt and updatedAt fields to your schema, the type assigned is Date.
     timestamps: true
