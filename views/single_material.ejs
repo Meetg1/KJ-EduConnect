@@ -323,28 +323,30 @@
             </div>
             <br>
 
-
-            <% review.replies.forEach(function(reply){ %>
-              <div class="row">
-                <div class="col-md-3">
-                  <div>
-                    Review by:
-                   
+            <div class="ml-4 pl-4">
+              <% review.replies.forEach(function(reply){ %>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div>
+                      Replied by:
+                      <a href="/users/<%=reply.author_reply._id%>">
+                        <strong> <%= reply.author_reply.fullname %> </strong>
+                      </a>
+                    </div>
                   </div>
-                  
-                  
+                  <div class="col-md-9">
+                    <p style="text-align: justify" class="">
+                      <%= reply.reply %>
+                    </p>
+                  </div>
                 </div>
-                <div class="col-md-9">
-                  <p style="text-align: justify" class="mt-3">
-                    <%= reply.reply %>
-                  </p>
-                </div>
-              </div>
-              <br>
-              <% }) %>
+                <br>
+                <% }) %>
+            </div>
+            
 
 
-            <div class="col-md-3">
+            <div class="col-md-3 ml-4">
               <form action="/single_material/<%=doc._id%>/reply" method="POST">
                 <input name="doc_id" value="<%=doc._id%>" type="hidden"> 
                 <input name="comment_id" value="<%=review._id%>" type="hidden" >
