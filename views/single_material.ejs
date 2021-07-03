@@ -338,46 +338,46 @@
 
 
     <script>
-
        // Get the modal
        var modal = document.getElementById("modal");
-
       // Get the button that opens the modal
       var activeBtn = document.getElementById("downloadBtn");
-
       // Get the <span> element that closes the modal
       var span = document.querySelector(".accept");
-
       // When the user clicks on the button, open the modal
       activeBtn.onclick = function () {
         modal.style.display = "block";
       };
-
       setTimeout(() => {
         modal.style.display = "none";
       }, 5000);
-
        // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
         modal.style.display = "none";
       };
 
-function tag_user(prev_text,text_len){
-        console.log(text_len);
+
+// ==================TAGGING USER ====================
+      
+function tag_user(prev_text, user_tag){
+        var text_len = prev_text.length
+        console.log("prev_text is "+prev_text)
+        console.log("user_tag is "+ user_tag)
+
+        // console.log("4"+text_len);
         $('#searchName').autocomplete({
           source: function(req, res){
-            console.log(req['term'].substring(text_len));
-            var word=req['term'].substring(text_len);
-            req['term']=word;
-            console.log(req);
+            // console.log("5  "+req['term'].substring(text_len+1));
+            // var word=req['term'].substring(text_len);
+            req['term']=user_tag;
+            console.log("3 -   "+req);
             $.ajax({
               url:"../autocomplete/",
               dataType:"jsonp",
               type:"GET",
               data:req,
               success: function(data){
-                var full_text = prev_text+" "+data;
-                console.log(full_text); 
+          
                 res(data)
               }, 
               error: function(err){
@@ -386,35 +386,39 @@ function tag_user(prev_text,text_len){
             });
           },
           minlength: text_len,
-          select: function(event, ui){
-            if(ui.item){
-              $('#searchName').text(ui.item.label);
-            }
-          } 
+          // select: function(event, ui){
+          //   if(ui.item){
+          //     $('#searchName').text("prev_text + ui.item.label");
+          //   }
+          // } 
           
         });
-      }
+}
     
-          function abc(text){
-          var req_index = (text.indexOf('#'));
-          var len = (text.length);
-          if(req_index === len - 1 ){
+          function abc(full_text){
+          var req_index = (full_text.indexOf('#'));
+
+          var len = (full_text.length);
+          if(req_index !=-1 &&  req_index < len - 1 ){
             console.log("yes tag");
-            prev_text = text.substring(0,len);
-            tag_user(prev_text,len);
+            // let prev_text = full_text.substring(req_index+1);
+            var prev_text = full_text.substring(0,req_index);
+            var user_tag = full_text.substring(req_index+1);
+            tag_user(prev_text, user_tag);
+            // console.log("prevtext"+ prev_text)
           }
         }
     
     
-        $(document).ready(function(){
+  
             $("#searchName").on("input", function(){
                 // Print entered value in a div box
                 var text = ($(this).val());
                 abc(text);
-                //console.log(text);
+                // console.log("1"+text);
                 
             });
-        });
+        
   
 
 

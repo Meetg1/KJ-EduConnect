@@ -995,15 +995,15 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
-  logged_in_user = await User.find((id = req.user._id));
-  users = await User.find().sort({ level_points: -1 });
+  const logged_in_user = await User.find((id = req.user._id));
+  const users = await User.find().sort({ level_points: -1 }).limit(20);
 
   function checkAdult(user) {
     console.log(user.username);
     return user.username === logged_in_user[0].username;
   }
 
-  var logged_in_rank = users.findIndex(checkAdult);
+  const logged_in_rank = users.findIndex(checkAdult);
 
   res.render("leaderboard.ejs", {
     users: users,
@@ -1018,6 +1018,14 @@ app.get("/leaderboard", isLoggedIn, async (req, res) => {
   //   });
   // });
 });
+
+// app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
+//   const user = await User.findById(req.params.userId, "followers").populate(
+//     "followers",
+//     ["profilePic", "fullname"]
+//   );
+//   console.log(user);
+// });
 
 app.get("/single_material/:document_id", async function (req, res) {
   const doc = await Document.findById(req.params.document_id)
@@ -1389,21 +1397,22 @@ app.get("/undefined", (req, res) => {
   res.redirect("/upload");
 });
 
+app.get("/autocomplete", function (req, res, next) {
+  var regex = new RegExp(req.query["term"], "i");
 
-app.get('/autocomplete', function(req, res, next){
-  var regex= new RegExp(req.query["term"],'i');
+  var UserFinder = User.find({ username: regex }, { username: 1 })
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
 
-  var UserFinder = User.find({username:regex} , {'username':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(10);
-
-  UserFinder.exec(function(err, data){
-    
+  UserFinder.exec(function (err, data) {
     var result = [];
-    if(!err){
-      if(data && data.length && data.length>0){
-        data.forEach(user => {
+    if (!err) {
+      if (data && data.length && data.length > 0) {
+        data.forEach((user) => {
           let obj = {
             id: user.id,
-            label: user.username
+            label: user.username,
           };
           result.push(obj);
         });
@@ -1412,9 +1421,7 @@ app.get('/autocomplete', function(req, res, next){
       res.jsonp(result);
     }
   });
-
 });
-
 
 const port = 3000;
 

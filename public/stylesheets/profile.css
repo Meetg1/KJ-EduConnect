@@ -6,6 +6,45 @@ html {
   width: 25rem !important;
 }
 
+.modalContent {
+  width: 25rem;
+  height: 23rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: none;
+  background-color: #ffeded;
+  color: #000;
+  border-radius: 20px;
+  padding: 2rem 3rem 9rem;
+  position: fixed;
+  overflow: auto;
+}
+
+.modalContent .accept {
+  background-color: #ed6755;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+  float: right;
+  cursor: pointer;
+}
+
+.follower-list {
+  list-style-type: none;
+}
+
+.follower-list li img {
+  border-radius: 30%;
+  width: 2rem;
+  object-fit: cover;
+  object-position: center right;
+}
+
 .searchbar::placeholder {
   font-weight: 400;
 }
