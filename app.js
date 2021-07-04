@@ -1030,6 +1030,7 @@ app.get("/single_material/:document_id", async function (req, res) {
     .populate("author");
 
   // console.log("abcdd " + doc.driveId);
+
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");

@@ -25,16 +25,6 @@
 
     <br />
 
-    <h2 style="width: 100%; height: 480px; position: relative">
-      <iframe
-        src="https://drive.google.com/file/d/<%=doc.driveId%>/preview"
-        width="100%"
-        height="480"
-        frameborder="0"
-        scrolling="no"
-        seamless=""
-      ></iframe>
-
       <div
         style="
           width: 80px;
@@ -47,99 +37,151 @@
       >
         &nbsp;
       </div>
-
       <br />
     </h2>
     <br />
-    <form action="/single_material/<%=doc._id%>/report" method="POST">
-      <button
-        type="submit"
-        id="call"
-        onclick="repdoc()"
-        class="btn btn-danger btn-md ml-4"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-flag-fill"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"
-          />
-        </svg>
-        Report Document
-      </button>
-    </form>
 
-    <br />
+<!--Vertical Navbar-->
 
-    <div class="w3-row w3-center w3-padding-14">
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.university %> </span><br />
-        University
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.course %> </span><br />
-        Course
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.topic %> </span><br />
-        Topic
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.title %> </span><br />
-        Title
+<div class="vertical-nav bg-white" id="sidebar">
+  <div class="py-4 px-3 mb-4 bg-dark">
+    <div class="media d-flex align-items-center">
+      <img loading="lazy" src="profilePic/preview_icon.png" alt="..." width="80" height="80" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+      <div class="media-body">
+        <h4 class="m-0 auth"><a href="/users/<%=doc.uploader.id%>">
+          <%= doc.uploader.username %>
+        </a></h4>
+        <p class="font-weight-normal mb-0 author">Author</p>
       </div>
     </div>
+  </div>
 
-    <br />
-    <br />
 
-    <div class="w3-row w3-center w3-padding-14">
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.upvotes %> </span><br />
-        Upvotes
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white"> <%= doc.downvotes %> </span><br />
-        Downvotes
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge text-white">
-          <a href="/users/<%=doc.uploader.id%>">
-            <%= doc.uploader.username %>
-          </a></span
+<p class="text-gray w3-xlarge px-3 large pb-4 mb-0"><%= doc.title%></p>
+
+<ul class="nav flex-column bg-white mb-0">
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark bg-light">
+       <i class="fa fa-th-large text-primary fa-fw"></i>
+      <span>Topic</span>
+      <p><%=doc.topic%></p>
+    </a>
+  </li>
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+        <span>University</span>
+        <p><%= doc.university%></p>
+    </a>
+  </li>
+
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+        <span>Course</span>
+        <p><%= doc.course%></p>
+    </a>
+  </li>
+  
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+        <span>Upvotes</span>
+        <p> <%= doc.upvotes %></p>
+    </a>
+  </li>
+
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+        <span>Downvotes</span>
+        <p><%= doc.downvotes%></p>
+    </a>
+  </li>
+
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+      <form action="/download/<%=doc._id%>" method="get">
+        <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
+          Download
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-cloud-arrow-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"
+            />
+          </svg></button
         ><br />
-        Author Email
-      </div>
-      <div class="w3-quarter w3-section">
-        <form action="/download/<%=doc._id%>" method="get">
-          <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
-            Download
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-cloud-arrow-down-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"
-              />
-            </svg></button
-          ><br />
-        </form>
-      </div>
-    </div>
-    <br /><br />
+      </form>
+    </a>
+  </li>
 
-    <!-- review section starts here -->
-    <div class="container pb-5">
-      <div class="card mt-3 review-card">
+  
+  <li class="nav-item prettier">
+    <a href="#" class="nav-link text-dark">
+      <i class="fa fa-address-card text-primary fa-fw"></i>
+      <form action="/single_material/<%=doc._id%>/report" method="POST">
+        <button
+          type="submit"
+          id="call"
+          onclick="repdoc()"
+          class="btn btn-danger btn-md"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-flag-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"
+            />
+          </svg>
+          Report Document
+        </button>
+      </form>    
+    </a>
+  </li>
+  </ul>
+</div>
+
+
+
+
+
+<!-- End vertical navbar-->
+
+<!-- Page Content Holder
+<div class="page-content p-5 id="content">
+  <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
+    <i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Show Details</small>
+  </button>
+-->
+
+  <!--Preview Document-->
+     <div class="separator"></div>
+     <div class="row text-white">
+         <div class="col-sm-7">
+          <iframe
+          src="https://drive.google.com/file/d/<%=doc.driveId%>/preview"
+          width="100%"
+          height="895%"
+          frameborder="0"
+          scrolling="no"
+          seamless=""
+        ></iframe>  
+         </div>
+     </div>
+     <div class="container pb-5">
+      <div class="card review-card">
         <!--Setting up the add new review button that is used for collapsing-->
         <div class="card-header text-right text-light">
           <a
@@ -323,73 +365,91 @@
       </div>
     </div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-      crossorigin="anonymous"
-    ></script>
+</div>
 
-    <script>
-      // Get the modal
-      var modal = document.getElementById("modal");
 
-      // Get the button that opens the modal
-      var activeBtn = document.getElementById("downloadBtn");
 
-      // Get the <span> element that closes the modal
-      var span = document.querySelector(".accept");
+<script
+ src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+ integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+ crossorigin="anonymous"></script>
+<script
+src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+crossorigin="anonymous"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+crossorigin="anonymous"
+>
+</script>
+   
+<script>
+// Get the modal
+var modal = document.getElementById("modal");
 
-      // When the user clicks on the button, open the modal
-      activeBtn.onclick = function () {
-        modal.style.display = "block";
-      };
+// Get the button that opens the modal
+var activeBtn = document.getElementById("downloadBtn");
 
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
-        modal.style.display = "none";
-      };
+// Get the <span> element that closes the modal
+var span = document.querySelector(".accept");
 
-      setTimeout(() => {
-        modal.style.display = "none";
-      }, 5000);
-    </script>
+// When the user clicks on the button, open the modal
+activeBtn.onclick = function () {
+  modal.style.display = "block";
+};
 
-    <!-- <script>
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
 
-  var slideIndex = 1;
-  showSlides(slideIndex);
+setTimeout(() => {
+  modal.style.display = "none";
+}, 5000);
 
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
+$(function() { 
+  $('#sidebarCollapse').on('click', function() {
+    $('#sidebar, #content').toggleClass('active');
+  });
+});
 
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
 
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      slideIndex = 1
-    }
-    if (n < 1) { slideIndex = slides.length } for (i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
-    for (i = 0; i < dots.length; i++) { dots[i].className = dots[i].className.replace(" active_dots", ""); }
-    slides[slideIndex - 1].style.display = "block"; dots[slideIndex - 1].className += " active_dots";
-  }
+</script>
 
-  function repdoc() {
-    if (document.getElementById("call").innerHTML = "Document Report") {
-      document.getElementById("call").innerHTML = "Reported!";
-      document.getElementById("call").style.background = "darkgrey";
-    }
-  }
+<!-- <script>
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+var i;
+var slides = document.getElementsByClassName("mySlides");
+var dots = document.getElementsByClassName("dot");
+if (n > slides.length) {
+slideIndex = 1
+}
+if (n < 1) { slideIndex = slides.length } for (i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
+for (i = 0; i < dots.length; i++) { dots[i].className = dots[i].className.replace(" active_dots", ""); }
+slides[slideIndex - 1].style.display = "block"; dots[slideIndex - 1].className += " active_dots";
+}
+
+function repdoc() {
+if (document.getElementById("call").innerHTML = "Document Report") {
+document.getElementById("call").innerHTML = "Reported!";
+document.getElementById("call").style.background = "darkgrey";
+}
+}
 </script> -->
-  </body>
+
+</body>
 </html>

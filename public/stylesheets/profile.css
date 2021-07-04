@@ -36,6 +36,11 @@ html {
   margin-left: 600px;
 }
 
+.bi-star-fill {
+  margin-bottom: 4px;
+  color: goldenrod;
+}
+
 .mgn {
   margin-top: -15px;
 }
