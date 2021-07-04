@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const Document = require("./models/Document.js");
 const Review = require("./models/Review.js");
+const Reply = require("./models/Reply.js");
 const Notification = require("./models/Notification");
 const Stat = require("./models/Stat");
 const passport = require("passport");
@@ -557,6 +558,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     let newNotification = {
       username: foundUser.username,
       documentId: doc.id,
+      message: "uploaded a new document!",
     };
     //pushing the notification into each follower
     let followers = foundUser.followers;
@@ -995,15 +997,15 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
-  logged_in_user = await User.find((id = req.user._id));
-  users = await User.find().sort({ level_points: -1 });
+  const logged_in_user = await User.find((id = req.user._id));
+  const users = await User.find().sort({ level_points: -1 }).limit(20);
 
   function checkAdult(user) {
     console.log(user.username);
     return user.username === logged_in_user[0].username;
   }
 
-  var logged_in_rank = users.findIndex(checkAdult);
+  const logged_in_rank = users.findIndex(checkAdult);
 
   res.render("leaderboard.ejs", {
     users: users,
@@ -1019,18 +1021,27 @@ app.get("/leaderboard", isLoggedIn, async (req, res) => {
   // });
 });
 
+// app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
+//   const user = await User.findById(req.params.userId, "followers").populate(
+//     "followers",
+//     ["profilePic", "fullname"]
+//   );
+//   console.log(user);
+// });
+
 app.get("/single_material/:document_id", async function (req, res) {
   const doc = await Document.findById(req.params.document_id)
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "author",
-      },
-    })
+    .populate([
+      { path: "reviews", populate: [{ path: "author" }, { path: "replies" , populate: [{path: "author_reply"}]}] },
+    ])
     .populate("author");
 
+<<<<<<< HEAD
   // console.log("abcdd " + doc.driveId);
 
+=======
+  // console.log(doc.reviews[0].replies);
+>>>>>>> 1849bc558356d6368b046945d35a05374e6ae829
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
@@ -1389,6 +1400,73 @@ app.get("/undefined", (req, res) => {
   req.flash("danger", "Please enter all fields.");
   res.redirect("/upload");
 });
+
+app.get("/autocomplete", function (req, res, next) {
+  console.log("abcd " + req);
+  var regex = new RegExp(req.query["term"], "i");
+
+  var UserFinder = User.find({ username: regex }, { username: 1 })
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
+
+  UserFinder.exec(function (err, data) {
+    var result = [];
+    if (!err) {
+      if (data && data.length && data.length > 0) {
+        data.forEach((user) => {
+          let obj = {
+            id: user.id,
+            label: user.username,
+          };
+          result.push(obj);
+        });
+      }
+      console.log(result);
+      res.jsonp(result);
+    }
+  });
+});
+
+app.post(
+  "/single_material/:document_id/reply",
+  isLoggedIn,
+  async (req, res) => {
+    let newReply = {
+      reply: req.body.reply,
+      author_reply: req.user._id,
+    };
+
+    let reply = await Reply.create(newReply);
+    // console.log("a " + req.body.reply);
+    // console.log("b " + req.body.comment_id);
+    // console.log("c " + req.user._id);
+    const req_doc = await Document.findById(req.params.document_id);
+    console.log(req_doc);
+    const req_review = await Review.findById(req.body.comment_id);
+    console.log(req_review);
+    req_review.replies.push(reply);
+    await req_review.save();
+    let newNotification = {
+      username: req.user.username,
+      documentId: req.params.document_id,
+      message: "Replied on your comment",
+    };
+
+    let notification = await Notification.create(newNotification);
+    let comment_owner = await User.findById(req.body.comment_user_id);
+    comment_owner.notifications.push(notification);
+    await comment_owner.save();
+    // follower.notifications.push(notification);
+    // await follower.save();
+    console.log(notification);
+    console.log(comment_owner);
+    //console.log(req_doc);
+    //console.log(req_review);
+    req.flash("success", "Replied to a comment.");
+    res.redirect("/single_material/" + req.params.document_id);
+  }
+);
 
 const port = 3000;
 
