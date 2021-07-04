@@ -1036,12 +1036,7 @@ app.get("/single_material/:document_id", async function (req, res) {
     ])
     .populate("author");
 
-<<<<<<< HEAD
-  // console.log("abcdd " + doc.driveId);
-
-=======
   // console.log(doc.reviews[0].replies);
->>>>>>> 1849bc558356d6368b046945d35a05374e6ae829
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
