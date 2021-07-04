@@ -1032,16 +1032,22 @@ app.get("/leaderboard", isLoggedIn, async (req, res) => {
 app.get("/single_material/:document_id", async function (req, res) {
   const doc = await Document.findById(req.params.document_id)
     .populate([
-      { path: "reviews", populate: [{ path: "author" }, { path: "replies" , populate: [{path: "author_reply"}]}] },
+      {
+        path: "reviews",
+        populate: [
+          { path: "author" },
+          { path: "replies", populate: [{ path: "author_reply" }] },
+        ],
+      },
     ])
-    .populate("author");
+    .populate({
+      path: "uploader",
+      populate: {
+        path: "id",
+      },
+    });
 
-<<<<<<< HEAD
-  // console.log("abcdd " + doc.driveId);
-
-=======
-  // console.log(doc.reviews[0].replies);
->>>>>>> 1849bc558356d6368b046945d35a05374e6ae829
+  console.log(doc);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
