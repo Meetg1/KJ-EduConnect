@@ -558,6 +558,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     let newNotification = {
       username: foundUser.username,
       documentId: doc.id,
+      message: "uploaded a new document!",
     };
     //pushing the notification into each follower
     let followers = foundUser.followers;
@@ -1441,9 +1442,23 @@ app.post(
     console.log(req_review);
     req_review.replies.push(reply);
     await req_review.save();
-    console.log(req_doc);
-    console.log(req_review);
-    req.flash("success", "Replied to a comment. ");
+    let newNotification = {
+      username: req.user.username,
+      documentId: req.params.document_id,
+      message: "Replied on your comment",
+    };
+
+    let notification = await Notification.create(newNotification);
+    let comment_owner = await User.findById(req.body.comment_user_id);
+    comment_owner.notifications.push(notification);
+    await comment_owner.save();
+    // follower.notifications.push(notification);
+    // await follower.save();
+    console.log(notification);
+    console.log(comment_owner);
+    //console.log(req_doc);
+    //console.log(req_review);
+    req.flash("success", "Replied to a comment.");
     res.redirect("/single_material/" + req.params.document_id);
   }
 );

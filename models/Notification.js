@@ -5,7 +5,10 @@ const NotificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    documentId: String
+    documentId: String,
+    message : {
+        type: String,
+    }
 });
 
 module.exports = mongoose.model("Notification", NotificationSchema);
