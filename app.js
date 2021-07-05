@@ -1021,13 +1021,13 @@ app.get("/leaderboard", isLoggedIn, async (req, res) => {
   // });
 });
 
-// app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
-//   const user = await User.findById(req.params.userId, "followers").populate(
-//     "followers",
-//     ["profilePic", "fullname"]
-//   );
-//   console.log(user);
-// });
+app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
+  const user = await User.findById(req.params.userId, "followers").populate(
+    "followers",
+    ["profilePic", "fullname"]
+  );
+  res.send(user);
+});
 
 app.get("/single_material/:document_id", async function (req, res) {
   const doc = await Document.findById(req.params.document_id)
