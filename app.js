@@ -1291,6 +1291,14 @@ app.get("/users/:userId/follow", isLoggedIn, async (req, res) => {
   }
   user.followers.push(req.user._id);
   user.followerCount++;
+  user.level_points = user.level_points + 5;
+    var prev_lvl = user.level;
+    var next_lvl = prev_lvl + 1;
+    if (user.level_points >= user.check_point + next_lvl * 100) {
+      user.check_point = user.check_point + next_lvl * 100;
+      user.level++;
+    }
+    
   req.flash("success", "You started following " + user.fullname + ".");
   user.save();
 
