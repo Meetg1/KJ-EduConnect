@@ -957,9 +957,10 @@ app.get("/upload", isLoggedIn, (req, res) => {
 });
 
 app.get("/users/:user_id", async (req, res) => {
+  
   try {
     foundUser = await User.findById(req.params.user_id);
-
+    console.log(foundUser);
     if (!foundUser) {
       req.flash("danger", "No such user found");
       return res.redirect("back");
@@ -1042,7 +1043,7 @@ app.get("/single_material/:document_id", async function (req, res) {
       },
     });
 
-  console.log(doc);
+  console.log(doc.uploader);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
@@ -1089,6 +1090,11 @@ app.delete(
     // }
 
     let user = await User.findById(doc.uploader.id);
+    user.level_points = user.level_points - 40;
+    if(user.level_points<user.check_point){
+      user.check_point = user.check_point - (100*user.level);
+      user.level--;
+    }
     user.uploads--;
     if (doc.category == "Lecture Notes") {
       user.notes_uploads--;
@@ -1324,6 +1330,11 @@ app.get("/users/:userId/unfollow", isLoggedIn, async (req, res) => {
     user.followers.splice(i, 1);
   }
   user.followerCount--;
+  user.level_points = user.level_points - 5;
+    if(user.level_points<user.check_point){
+      user.check_point = user.check_point - (100*user.level);
+      user.level--;
+    }
   user.save();
   req.flash("success", `You unfollowed ${user.fullname}.`);
   res.redirect("back");
