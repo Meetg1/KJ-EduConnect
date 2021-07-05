@@ -14,9 +14,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
   </head>
 
   <body>
@@ -285,7 +283,7 @@
                         cols="70"
                         class="form-control mt-3"
                         placeholder="Write your review..."
-                        id="searchName"
+                        
                       ></input>
                     </div>
                     <div class="form-group">
@@ -440,55 +438,55 @@
 
 // ==================TAGGING USER ====================
       
-function tag_user(prev_text, user_tag){
-        var text_len = prev_text.length
-        console.log("prev_text is "+prev_text)
-        console.log("user_tag is "+ user_tag)
+// function tag_user(prev_text, user_tag){
+//         var text_len = prev_text.length
+//         console.log("prev_text is "+prev_text)
+//         console.log("user_tag is "+ user_tag)
 
-        // console.log("4"+text_len);
-        $('#searchName').autocomplete({
-          source: function(req, res){
-            // console.log("5  "+req['term'].substring(text_len+1));
-            // var word=req['term'].substring(text_len);
-            req['term']=user_tag;
-            console.log("3 -   "+req);
-            $.ajax({
-              url:"../autocomplete/",
-              dataType:"jsonp",
-              type:"GET",
-              data:req,
-              success: function(data){
+//         // console.log("4"+text_len);
+//         $('#searchName').autocomplete({
+//           source: function(req, res){
+//             // console.log("5  "+req['term'].substring(text_len+1));
+//             // var word=req['term'].substring(text_len);
+//             req['term']=user_tag;
+//             console.log("3 -   "+req);
+//             $.ajax({
+//               url:"../autocomplete/",
+//               dataType:"jsonp",
+//               type:"GET",
+//               data:req,
+//               success: function(data){
           
-                res(data)
-              }, 
-              error: function(err){
-                console.log(err);
-              }
-            });
-          },
-          minlength: text_len,
-          // select: function(event, ui){
-          //   if(ui.item){
-          //     $('#searchName').text("prev_text + ui.item.label");
-          //   }
-          // } 
+//                 res(data)
+//               }, 
+//               error: function(err){
+//                 console.log(err);
+//               }
+//             });
+//           },
+//           minlength: text_len,
+//           // select: function(event, ui){
+//           //   if(ui.item){
+//           //     $('#searchName').text("prev_text + ui.item.label");
+//           //   }
+//           // } 
           
-        });
-}
+//         });
+// }
     
-          function abc(full_text){
-          var req_index = (full_text.indexOf('#'));
+//           function abc(full_text){
+//           var req_index = (full_text.indexOf('#'));
 
-          var len = (full_text.length);
-          if(req_index !=-1 &&  req_index < len - 1 ){
-            console.log("yes tag");
-            // let prev_text = full_text.substring(req_index+1);
-            var prev_text = full_text.substring(0,req_index);
-            var user_tag = full_text.substring(req_index+1);
-            tag_user(prev_text, user_tag);
-            // console.log("prevtext"+ prev_text)
-          }
-        }
+//           var len = (full_text.length);
+//           if(req_index !=-1 &&  req_index < len - 1 ){
+//             console.log("yes tag");
+//             // let prev_text = full_text.substring(req_index+1);
+//             var prev_text = full_text.substring(0,req_index);
+//             var user_tag = full_text.substring(req_index+1);
+//             tag_user(prev_text, user_tag);
+//             // console.log("prevtext"+ prev_text)
+//           }
+//         }
 
         // function doReply(form){
         //   var formData= {
