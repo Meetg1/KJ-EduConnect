@@ -324,7 +324,7 @@
               function getFollowers() {
                 let loader = `<div id="loading"></div>`;
                 document.querySelector(".follower-list").innerHTML = loader;
-                fetch("http://localhost:3000/<%=currentUser._id%>/getFollowers")
+                fetch("http://localhost:3000/<%=user._id%>/getFollowers")
                   .then(res => {
                     if (!res.ok) {
                       throw Error("error")
