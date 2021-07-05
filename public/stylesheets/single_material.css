@@ -3,7 +3,7 @@
   width: 25rem;
   overflow: hidden;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
@@ -141,8 +141,8 @@ button:focus {
 }
 
 .vertical-nav {
-  min-width: 25rem;
-  width: 25rem;
+  min-width: 43rem;
+  width: 43rem;
   height: 100vh;
   position: fixed;
   top: 10;
@@ -174,12 +174,13 @@ button:focus {
 }
 
 .author {
+  font-size: 17px;
   color: #9ea9b5;
 }
 
 .text-white {
-  width: 132.5%;
-  margin-left: 360px;
+  width: 102.5%;
+  margin-left: 628px;
 }
 
 .text-uppercase {
@@ -223,6 +224,11 @@ button:focus {
   .vertical-nav {
     width: 10rem;
   }
+
+  .pb-5 {
+    margin-top: 558px;
+    width: 25rem;
+  }
 }
 
 .prettier {
@@ -251,12 +257,17 @@ li p {
 }
 
 .auth {
+  font-size: 30px;
   color: whitesmoke;
 }
 
 .pb-5 {
   margin-top: 598px;
-  width: 27.15rem;
+  width: 45rem;
   margin-left: -16px;
   height: 100px;
+}
+
+.mr-4 {
+  border: 4px solid whitesmoke;
 }

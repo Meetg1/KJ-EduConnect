@@ -643,7 +643,7 @@ app.post("/search/:page", async (req, res) => {
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
-  console.log("xyz: " + num_of_docs + " " + number_of_pages);
+  //console.log("xyz: " + num_of_docs + " " + number_of_pages);
 
   docs = docs.slice(skip, skip + limit);
 
@@ -672,9 +672,7 @@ app.post("/search/:page", async (req, res) => {
 app.get("/search/:page", async (req, res) => {
   var limit = 3;
   var page = req.params.page;
-  console.log("page:" + page);
   var skip = (page - 1) * limit;
-  console.log("skip: " + skip);
 
   docs = await Document.find({
     $or: [
@@ -684,7 +682,6 @@ app.get("/search/:page", async (req, res) => {
       { topic: { $regex: new RegExp(keyword, "i") } },
     ],
   });
-  console.log("docs: " + docs);
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
@@ -726,9 +723,7 @@ app.post("/filter/:page", async (req, res) => {
 
   var limit = 3;
   var page = req.params.page;
-  console.log("page:" + page);
   var skip = (page - 1) * limit;
-  console.log("skip: " + skip);
 
   docs = await Document.find({
     university: { $regex: new RegExp(university, "i") },
@@ -1407,29 +1402,47 @@ app.get("/undefined", (req, res) => {
   res.redirect("/upload");
 });
 
+// docs = await Document.find({
+//   $or: [
+//     { university: { $regex: new RegExp(keyword, "i") } },
+//     { course: { $regex: new RegExp(keyword, "i") } },
+//     { title: { $regex: new RegExp(keyword, "i") } },
+//     { topic: { $regex: new RegExp(keyword, "i") } },
+//   ],
+// });
+
 app.get("/autocomplete", function (req, res, next) {
-  console.log("abcd " + req);
+  
   var regex = new RegExp(req.query["term"], "i");
 
-  var UserFinder = User.find({ username: regex }, { username: 1 })
-    .sort({ updated_at: -1 })
-    .sort({ created_at: -1 })
-    .limit(10);
+  var DocFinder = Document.find({
+    $or: [
+      { title: regex }, { title: 1 },
+      { university: regex }, { university: 1 },
+      { topic: regex }, { topic: 1 },
+      { course: regex }, { course: 1 },
+    ],
+    
+  })
+  .sort({ updated_at: -1 })
+  .sort({ created_at: -1 })
+  .limit(10);
 
-  UserFinder.exec(function (err, data) {
+  DocFinder.exec(function (err, data) {
     var result = [];
     if (!err) {
       if (data && data.length && data.length > 0) {
-        data.forEach((user) => {
+        data.forEach((doc) => {
           let obj = {
-            id: user.id,
-            label: user.username,
+            id: doc.id,
+            label:"Topic: "+ doc.topic +", Title: " + doc.title + ", University: " + doc.university+", Course: "+ doc.course,
+            value:doc.topic,
           };
           result.push(obj);
         });
       }
-      console.log(result);
-      res.jsonp(result);
+      
+      res.jsonp(result);  
     }
   });
 });
