@@ -154,7 +154,7 @@
                       <div class="num ml-2 light">total</div>
                     </div>
                   </div>
-                  <div class="pointBox col-md-3 col-6">
+                  <div class="pointBox col-md-3 col-6"  data-toggle="modal" data-target="#exampleModal">
                     <h4 class="color">
                       Level <%= user.level %> - <%= user.tag %>
                           <!-- <svg class="star2" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -285,6 +285,36 @@
                           <%}%>
                             <%}%>
               </section>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">How to earn more points?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="text-align: left;">
+                    <b>
+                    1. Earn 40 points for every document you upload.
+                    <br><br>
+                    2. Earn 5 points for positive you get on your uploaded document.
+                    <br><br>
+                    3. Earn 5 points for every user who follows you.
+                    <br><br>
+                    Good luck guys! Earn points and level up your self.
+                    <br><br>
+                    </b>
+                  </div>
+                  <div class="modal-footer" style="align-items: center;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="margin-right: auto; margin-left: auto;">Thank you!</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
 
