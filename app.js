@@ -1466,6 +1466,73 @@ app.get("/autocomplete", function (req, res, next) {
   });
 });
 
+
+app.get("/autocompleteUniversity", function (req, res, next) {
+  
+  var regex = new RegExp(req.query["term"], "i");
+
+  var DocFinder = Document.find({
+    $or: [
+      { university: regex }, { university: 1 },
+    ],
+    
+  })
+  .sort({ updated_at: -1 })
+  .sort({ created_at: -1 })
+  .limit(10);
+
+  DocFinder.exec(function (err, data) {
+    var result = [];
+    if (!err) {
+      if (data && data.length && data.length > 0) {
+        data.forEach((doc) => {
+          let obj = {
+            id: doc.id,
+            label: doc.university,
+          };
+          result.push(obj);
+        });
+      }
+      
+      res.jsonp(result);  
+    }
+  });
+});
+
+app.get("/autocompleteCourse", function (req, res, next) {
+  
+  var regex = new RegExp(req.query["term"], "i");
+
+  var DocFinder = Document.find({
+    $or: [
+      { course: regex }, { course: 1 },
+    ],
+    
+  })
+  .sort({ updated_at: -1 })
+  .sort({ created_at: -1 })
+  .limit(10);
+
+  DocFinder.exec(function (err, data) {
+    var result = [];
+    if (!err) {
+      if (data && data.length && data.length > 0) {
+        data.forEach((doc) => {
+          let obj = {
+            id: doc.id,
+            label: doc.course,
+          };
+          result.push(obj);
+        });
+      }
+      
+      res.jsonp(result);  
+    }
+  });
+});
+
+
+
 app.post(
   "/single_material/:document_id/reply",
   isLoggedIn,

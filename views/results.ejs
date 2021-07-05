@@ -20,11 +20,11 @@
           <div class="row">
             <div class="filterBox col-lg-3 mb-3">
               <label class="d-block"  for="university">University filter</label>
-              <input type="text" class="form-control" name="university" style="width: inherit;" placeholder="Filter by university">
+              <input type="text" class="form-control" name="university" style="width: inherit;" placeholder="Filter by university" id="universityName">
             </div>
             <div class="filterBox col-lg-3 mb-3">
               <label class="d-block"  for="Course">Course filter</label>
-              <input type="text" class="form-control" name="course" style="width: inherit;" placeholder="Filter by course">       
+              <input type="text" class="form-control" name="course" style="width: inherit;" placeholder="Filter by course" id="courseName">       
             </div>
             <div class="filterBox col-lg-3 mb-3">
               <label class="d-block"  for="topic">Year filter</label>
@@ -142,9 +142,61 @@
             <%}%>
         <% } %>
         </div>
-        
+        <br>
+</div>
 
-<br>
-  
-    </div>
+<script>
+  $ (function (){
+        $('#universityName').autocomplete({
+          source: function(req, res){
+            $.ajax({
+              url:"../autocompleteUniversity/",
+              dataType:"jsonp",
+              type:"GET",
+              data:req,
+              success: function(data){
+                res(data)
+              }, 
+              error: function(err){
+                console.log(err);
+              }
+            });
+          },
+          minlength: 1,
+          select: function(event, ui){
+            if(ui.item){
+              $('#universityName').text(ui.item.label);
+            }
+          } 
+          
+          
+        });
+});
 
+$ (function (){
+        $('#courseName').autocomplete({
+          source: function(req, res){
+            $.ajax({
+              url:"../autocompleteCourse/",
+              dataType:"jsonp",
+              type:"GET",
+              data:req,
+              success: function(data){
+                res(data)
+              }, 
+              error: function(err){
+                console.log(err);
+              }
+            });
+          },
+          minlength: 1,
+          select: function(event, ui){
+            if(ui.item){
+              $('#courseName').text(ui.item.label);
+            }
+          } 
+          
+          
+        });
+});
+</script>
