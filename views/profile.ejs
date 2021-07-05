@@ -53,7 +53,7 @@
                             <ul class="pl-0">
                               <br />
                               <li>
-                                <span class="profile-stat-count"><strong>
+                                <span class="profile-stat-count" href="#uploads"><strong>
                                     <%= user.uploads %>
                                   </strong></span>
                                 Uploads
@@ -209,7 +209,7 @@
 
               <br />
 
-              <h1 class="htip mb-3">
+              <h1 class="htip mb-3" id="uploads">
                 My Uploads
                 <svg class="upld" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                   class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
@@ -257,6 +257,19 @@
                                     d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                 </svg>
                                 <%= doc.date.getDate()%>/<%= doc.date.getMonth()%>/<%= doc.date.getFullYear()%>
+                              </span>
+                              <span class="mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                  class="icon icon-tabler icon-tabler-file-download" width="20" height="20"
+                                  viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                                  stroke-linecap="round" stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                  <line x1="12" y1="11" x2="12" y2="17" />
+                                  <polyline points="9 14 12 17 15 14" />
+                                </svg>
+                                <%= doc.downloads%>
                               </span>
                               <span>
                                 <%= doc.upvotes %><svg class="text-success" xmlns="http://www.w3.org/2000/svg"

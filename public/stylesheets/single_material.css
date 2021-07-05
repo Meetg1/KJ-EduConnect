@@ -1,18 +1,17 @@
-/* The Modal (background) */
 .modalContent {
   width: 25rem;
-  overflow: hidden;
-  position: absolute;
-  top: 60%;
+  height: 23;
+  text-align: center;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
   display: none;
   background-color: #ffeded;
   color: #000;
-  text-align: center;
   border-radius: 20px;
   padding: 9rem 3rem;
+  position: fixed;
 }
 
 .modalContent .accept {
