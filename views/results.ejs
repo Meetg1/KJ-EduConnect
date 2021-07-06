@@ -21,12 +21,12 @@
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="university">University filter</label>
                   <input type="text" class="form-control" name="university" style="width: inherit;"
-                    placeholder="Filter by university">
+                    placeholder="Filter by university" id="universityName">
                 </div>
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="Course">Course filter</label>
                   <input type="text" class="form-control" name="course" style="width: inherit;"
-                    placeholder="Filter by course">
+                    placeholder="Filter by course" id="courseName">
                 </div>
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="topic">Year filter</label>
@@ -47,6 +47,57 @@
               <button type="submit" class="btn btn-outline-primary">Add filters
               </button>
             </form>
+
+          </section>
+          <hr>
+
+
+          <section class="results mt-4">
+
+            <h5>Trending Material :
+            </h5>
+
+            <% if(typeof(docs) !="undefined" ) { %>
+
+              <% docs.forEach((doc)=> { %>
+
+                <div class="file mt-5">
+                  <div class="img">
+                    <img src="../images/thumbnail.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <div style="position: relative;">
+                      <a href="/single_material/<%=doc._id%>" id="title_link">
+                        <%= doc.title %>
+                      </a>
+                      <span class="material_type">
+                        <%= doc.category %>
+                      </span>
+                    </div>
+                    <div class="filterBox col-lg-3 mb-3">
+                      <label class="d-block" for="Course">Course filter</label>
+                      <input type="text" class="form-control" name="course" style="width: inherit;"
+                        placeholder="Filter by course">
+                    </div>
+                    <div class="filterBox col-lg-3 mb-3">
+                      <label class="d-block" for="topic">Year filter</label>
+                      <input type="text" class="form-control" name="year" style="width: inherit;"
+                        placeholder="Filter by year">
+                    </div>
+                    <div class="filterBox col-lg-3 mb-3">
+                      <label class="d-block" for="category">Category filter</label>
+                      <select class="custom-select form-control" name="category">
+                        <option selected value="">Filter by category</option>
+                        <option value="Lecture Notes">Lecture Notes</option>
+                        <option value="Question Paper">Question Paper</option>
+                        <option value="Assignment">Assignment</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-outline-primary">Add filters
+                  </button>
+                  </form>
 
           </section>
           <hr>
@@ -179,5 +230,82 @@
 
 
           <br>
+          <<<<<<< HEAD </div>
+            =======
 
+            </section>
+
+            <div style="text-align: center;">
+              <% for (var i=1; i <=number_of_pages ; i++ ) { %>
+                <% if (i==current_page) { %>
+                  <a href="../<%= redirect %>/<%= i %>"
+                    style="border-style: solid; padding: 10px; text-decoration: none;">
+                    <%=i %>
+                  </a> &nbsp;
+                  <%}else{%>
+                    <a href="../<%= redirect %>/<%= i %>"
+                      style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                      <%=i %>
+                    </a> &nbsp;
+                    <%}%>
+                      <% } %>
+            </div>
+            <br>
         </div>
+
+        <script>
+          $(function () {
+            $('#universityName').autocomplete({
+              source: function (req, res) {
+                $.ajax({
+                  url: "../autocompleteUniversity/",
+                  dataType: "jsonp",
+                  type: "GET",
+                  data: req,
+                  success: function (data) {
+                    res(data)
+                  },
+                  error: function (err) {
+                    console.log(err);
+                  }
+                });
+              },
+              minlength: 1,
+              select: function (event, ui) {
+                if (ui.item) {
+                  $('#universityName').text(ui.item.label);
+                }
+              }
+
+
+            });
+          });
+
+          $(function () {
+            $('#courseName').autocomplete({
+              source: function (req, res) {
+                $.ajax({
+                  url: "../autocompleteCourse/",
+                  dataType: "jsonp",
+                  type: "GET",
+                  data: req,
+                  success: function (data) {
+                    res(data)
+                  },
+                  error: function (err) {
+                    console.log(err);
+                  }
+                });
+              },
+              minlength: 1,
+              select: function (event, ui) {
+                if (ui.item) {
+                  $('#courseName').text(ui.item.label);
+                }
+              }
+
+
+            });
+          });
+        </script>
+        >>>>>>> ca2744c7ebb259dbeee804f45b368334ece43d1c
