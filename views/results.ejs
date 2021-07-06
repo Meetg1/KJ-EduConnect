@@ -3,7 +3,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-  <link rel="stylesheet" href="../stylesheets/results.css">
+  <link rel="stylesheet" href="/stylesheets/results.css">
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   </head>
 
@@ -99,8 +99,8 @@
             <% if(typeof(docs) !="undefined" ) { %>
               <% docs.forEach((doc)=> { %>
                 <div class="file mt-5">
-                  <div class="img">
-                    <img src="../images/thumbnail.jpg" alt="">
+                  <div class="img ">
+                    <img src="/images/thumbnail.jpg" alt="" class="result-img">
                   </div>
                   <div class="content">
                     <div style="position: relative;">
@@ -209,7 +209,7 @@
             $('#universityName').autocomplete({
               source: function (req, res) {
                 $.ajax({
-                  url: "../autocompleteUniversity/",
+                  url: "/autocompleteUniversity/",
                   dataType: "jsonp",
                   type: "GET",
                   data: req,
@@ -235,7 +235,7 @@
             $('#courseName').autocomplete({
               source: function (req, res) {
                 $.ajax({
-                  url: "../autocompleteCourse/",
+                  url: "/autocompleteCourse/",
                   dataType: "jsonp",
                   type: "GET",
                   data: req,

@@ -27,7 +27,7 @@
         $('#searchName').autocomplete({
           source: function(req, res){
             $.ajax({
-              url:"../autocomplete/",
+              url:"/autocomplete/",
               dataType:"jsonp",
               type:"GET",
               data:req,
