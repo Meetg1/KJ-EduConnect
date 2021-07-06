@@ -229,7 +229,7 @@
                             <img src="../images/thumbnail.jpg" alt="" />
                           </div>
                           <div class="content">
-                            <a href="/single_material/<%=doc._id%>" id="title_link">
+                            <a href="/single_material/<%=doc.slug%>" id="title_link">
                               <%= doc.title %>
                             </a>
                             <span class="material_type">
@@ -290,7 +290,7 @@
                               </span>
                             </div>
                           </div>
-                          <form action="/single_material/<%=doc._id%>?_method=DELETE" method="POST">
+                          <form action="/single_material/<%=doc.slug%>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger mgn">Delete</button>
                           </form>
                         </div>

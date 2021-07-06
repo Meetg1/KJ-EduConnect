@@ -228,7 +228,7 @@ const checkReviewExistence = (req, res, next) => {
     req.flash("danger", "Please Log In First!");
     return res.redirect("/signup");
   }
-  Document.findById(req.params.document_id)
+  Document.findOne({ slug: req.params.slug })
     .populate("reviews")
     .exec(function (err, foundDoc) {
       if (!foundDoc || err) {
@@ -240,10 +240,10 @@ const checkReviewExistence = (req, res, next) => {
       });
       if (foundReview) {
         req.flash("danger", "You have already reviewed this document!");
-        res.redirect("/single_material/" + req.params.document_id);
+        res.redirect("/single_material/" + req.params.slug);
       } else if (foundDoc.uploader.id.equals(req.user._id)) {
         req.flash("danger", "You cant review your own document!");
-        res.redirect("/single_material/" + req.params.document_id);
+        res.redirect("/single_material/" + req.params.slug);
       } else {
         next();
       }
@@ -256,7 +256,7 @@ const checkReportExistence = async (req, res, next) => {
     return res.redirect("/signup");
   }
   try {
-    const foundDoc = await Document.findById(req.params.document_id);
+    const foundDoc = await Document.findOne({ slug: req.params.slug });
     if (!foundDoc) {
       return res.redirect("/results/upvotes/1");
     }
@@ -265,7 +265,7 @@ const checkReportExistence = async (req, res, next) => {
     });
     if (foundReport) {
       req.flash("danger", "You have already reported this document!");
-      return res.redirect("/single_material/" + req.params.document_id);
+      return res.redirect("/single_material/" + req.params.slug);
     }
     next();
   } catch (error) {
@@ -278,7 +278,7 @@ const isUploader = async (req, res, next) => {
     req.flash("danger", "Please Log In First!");
     return res.redirect("/signup");
   }
-  const doc = await Document.findById(req.params.document_id);
+  const doc = await Document.findOne({ slug: req.params.slug });
   const user = await User.findById(req.user._id);
   if (!user.role === "teacher" && !doc.uploader.id.equals(req.user._id)) {
     req.flash("danger", "You do not have permission to do that!");
@@ -434,7 +434,7 @@ app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
 
 //============================================================
 
-app.get("/download/:document_id", isLoggedIn, async (req, res) => {
+app.get("/download/:slug", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (user.points < 20) {
@@ -444,9 +444,9 @@ app.get("/download/:document_id", isLoggedIn, async (req, res) => {
           (20 - user.points) +
           "  more points to download this document!"
       );
-      return res.redirect("/single_material/" + req.params.document_id);
+      return res.redirect("/single_material/" + req.params.slug);
     }
-    const doc = await Document.findById(req.params.document_id);
+    const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
@@ -553,7 +553,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     //creating the notification body
     let newNotification = {
       username: foundUser.username,
-      documentId: doc.id,
+      documentId: doc.slug,
       message: "uploaded a new document!",
     };
     //pushing the notification into each follower
@@ -991,10 +991,10 @@ app.get("/users/:user_id/stared", isLoggedIn, async (req, res) => {
   }
 });
 
-app.post("/results/:document_id/addstar", isLoggedIn, async (req, res) => {
+app.post("/results/:slug/addstar", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const foundDoc = await Document.findById(req.params.document_id);
+    const foundDoc = await Document.findOne({ slug: req.params.slug });
     user.stared.push(foundDoc);
     user.save();
     req.flash("success", "Document added to starred documents.");
@@ -1005,14 +1005,14 @@ app.post("/results/:document_id/addstar", isLoggedIn, async (req, res) => {
   }
 });
 
-app.post("/results/:document_id/removestar", isLoggedIn, async (req, res) => {
+app.post("/results/:slug/removestar", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
 
     //removing the stared document from the user.stared array
     let i = 0;
     while (i < user.stared.length) {
-      if (user.stared[i] == req.params.document_id) {
+      if (user.stared[i] == req.params.slug) {
         break;
       }
       i++;
@@ -1030,17 +1030,17 @@ app.post("/results/:document_id/removestar", isLoggedIn, async (req, res) => {
 });
 
 app.post(
-  "/single_material/:document_id/report",
+  "/single_material/:slug/report",
   isLoggedIn,
   checkReportExistence,
   async (req, res) => {
-    const foundDoc = await Document.findById(req.params.document_id);
+    const foundDoc = await Document.findOne({ slug: req.params.slug });
     const user = await User.findById(req.user._id);
     foundDoc.reporters.push(user);
     console.log(foundDoc.reporters.length);
     if (foundDoc.reporters.length < 5) {
       req.flash("danger", "Document has been reported!");
-      res.redirect("/single_material/" + req.params.document_id);
+      res.redirect("/single_material/" + req.params.slug);
     } else if (foundDoc.reporters.length >= 5) {
       foundDoc.isReported = true;
       req.flash(
@@ -1060,28 +1060,24 @@ app.post(
   }
 );
 
-app.post(
-  "/single_material/:document_id/unreport",
-  isLoggedIn,
-  async (req, res) => {
-    const foundDoc = await Document.findById(req.params.document_id);
-    foundDoc.reporters.length = 0;
-    foundDoc.isReported = false;
-    foundDoc.save();
-    let stat = await Stat.findOne({ id: 1 });
-    stat.totalReports -= 5;
-    stat.save();
-    req.flash("success", "Document unreported!");
-    res.redirect("back");
-  }
-);
+app.post("/single_material/:slug/unreport", isLoggedIn, async (req, res) => {
+  const foundDoc = await Document.findOne({ slug: req.params.slug });
+  foundDoc.reporters.length = 0;
+  foundDoc.isReported = false;
+  foundDoc.save();
+  let stat = await Stat.findOne({ id: 1 });
+  stat.totalReports -= 5;
+  stat.save();
+  req.flash("success", "Document unreported!");
+  res.redirect("back");
+});
 
-app.get("/taken-down/:document_id", (req, res) => {
+app.get("/taken-down/:slug", (req, res) => {
   res.render("taken-down.ejs");
 });
 
 app.post(
-  "/single_material/:document_id/reviews",
+  "/single_material/:slug/reviews",
   isLoggedIn,
   checkReviewExistence,
   async (req, res) => {
@@ -1092,7 +1088,7 @@ app.post(
       author: req.user._id,
     });
 
-    const foundDoc = await Document.findById(req.params.document_id);
+    const foundDoc = await Document.findOne({ slug: req.params.slug });
     const docOwner = await User.findById(foundDoc.uploader.id);
 
     if (review.upvote) {
@@ -1126,7 +1122,7 @@ app.post(
 
     console.log(review);
     req.flash("success", "Review submitted successfully. You earned 5 points!");
-    res.redirect("/single_material/" + req.params.document_id);
+    res.redirect("/single_material/" + req.params.slug);
   }
 );
 
@@ -1204,8 +1200,8 @@ app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
   res.send(user);
 });
 
-app.get("/single_material/:document_id", async function (req, res) {
-  const doc = await Document.findById(req.params.document_id)
+app.get("/single_material/:slug", async function (req, res) {
+  const doc = await Document.findOne({ slug: req.params.slug })
     .populate([
       {
         path: "reviews",
@@ -1222,7 +1218,6 @@ app.get("/single_material/:document_id", async function (req, res) {
       },
     });
 
-  console.log(doc.uploader);
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
     return res.redirect("back");
@@ -1243,11 +1238,11 @@ app.get("/single_material/:document_id", async function (req, res) {
 });
 
 app.delete(
-  "/single_material/:document_id",
+  "/single_material/:slug",
   isLoggedIn,
   isUploader,
   async (req, res) => {
-    const doc = await Document.findByIdAndDelete(req.params.document_id); //delete document from mongoDB
+    const doc = await Document.deleteOne({ slug: req.params.slug }); //delete document from mongoDB
     deleteFromDrive(doc.driveId); //delete document from drive
     await Review.deleteMany({ _id: { $in: doc.reviews } }); //delete all reviews of the document
 
@@ -1634,7 +1629,7 @@ app.get("/autocomplete", function (req, res, next) {
       if (data && data.length && data.length > 0) {
         data.forEach((doc) => {
           let obj = {
-            id: doc.id,
+            id: doc.slug,
             label:
               "Topic: " +
               doc.topic +
@@ -1697,7 +1692,7 @@ app.get("/autocompleteUniversity", function (req, res, next) {
       if (data && data.length && data.length > 0) {
         data.forEach((doc) => {
           let obj = {
-            id: doc.id,
+            id: doc.slug,
             label: doc.university,
           };
           result.push(obj);
@@ -1725,7 +1720,7 @@ app.get("/autocompleteCourse", function (req, res, next) {
       if (data && data.length && data.length > 0) {
         data.forEach((doc) => {
           let obj = {
-            id: doc.id,
+            id: doc.slug,
             label: doc.course,
           };
           result.push(obj);
@@ -1737,45 +1732,41 @@ app.get("/autocompleteCourse", function (req, res, next) {
   });
 });
 
-app.post(
-  "/single_material/:document_id/reply",
-  isLoggedIn,
-  async (req, res) => {
-    let newReply = {
-      reply: req.body.reply,
-      author_reply: req.user._id,
-    };
+app.post("/single_material/:slug/reply", isLoggedIn, async (req, res) => {
+  let newReply = {
+    reply: req.body.reply,
+    author_reply: req.user._id,
+  };
 
-    let reply = await Reply.create(newReply);
-    // console.log("a " + req.body.reply);
-    // console.log("b " + req.body.comment_id);
-    // console.log("c " + req.user._id);
-    const req_doc = await Document.findById(req.params.document_id);
-    console.log(req_doc);
-    const req_review = await Review.findById(req.body.comment_id);
-    console.log(req_review);
-    req_review.replies.push(reply);
-    await req_review.save();
-    let newNotification = {
-      username: req.user.username,
-      documentId: req.params.document_id,
-      message: "Replied on your comment",
-    };
+  let reply = await Reply.create(newReply);
+  // console.log("a " + req.body.reply);
+  // console.log("b " + req.body.comment_id);
+  // console.log("c " + req.user._id);
+  const req_doc = await Document.findOne({ slug: req.params.slug });
+  console.log(req_doc);
+  const req_review = await Review.findById(req.body.comment_id);
+  console.log(req_review);
+  req_review.replies.push(reply);
+  await req_review.save();
+  let newNotification = {
+    username: req.user.username,
+    documentId: req.params.slug,
+    message: "Replied on your comment",
+  };
 
-    let notification = await Notification.create(newNotification);
-    let comment_owner = await User.findById(req.body.comment_user_id);
-    comment_owner.notifications.push(notification);
-    await comment_owner.save();
-    // follower.notifications.push(notification);
-    // await follower.save();
-    console.log(notification);
-    console.log(comment_owner);
-    //console.log(req_doc);
-    //console.log(req_review);
-    req.flash("success", "Replied to a comment.");
-    res.redirect("/single_material/" + req.params.document_id);
-  }
-);
+  let notification = await Notification.create(newNotification);
+  let comment_owner = await User.findById(req.body.comment_user_id);
+  comment_owner.notifications.push(notification);
+  await comment_owner.save();
+  // follower.notifications.push(notification);
+  // await follower.save();
+  console.log(notification);
+  console.log(comment_owner);
+  //console.log(req_doc);
+  //console.log(req_review);
+  req.flash("success", "Replied to a comment.");
+  res.redirect("/single_material/" + req.params.slug);
+});
 
 const port = 3000;
 

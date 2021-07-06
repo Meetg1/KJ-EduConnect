@@ -54,7 +54,7 @@
                     <img src="/../images/thumbnail.jpg" alt="">
                   </div>
                   <div class="content">
-                    <a href="/single_material/<%=doc._id%>" id="title_link">
+                    <a href="/single_material/<%=doc.slug%>" id="title_link">
                       <%= doc.title %>
                     </a>
                     <span class="material_type">
@@ -114,11 +114,11 @@
                   </div>
                   <% if(currentUser && doc.uploader.id.equals(currentUser._id) || currentUser &&
                     currentUser.role==='teacher' ){ %>
-                    <form action='/single_material/<%=doc._id%>?_method=DELETE' method="POST" class="d-inline">
+                    <form action='/single_material/<%=doc.slug%>?_method=DELETE' method="POST" class="d-inline">
                       <button class="btn btn-xs btn-danger">Delete</button>
                     </form>
                     <% } %>
-                      <form action="/results/<%=doc._id%>/removestar" method="POST" class="d-inline"><button
+                      <form action="/results/<%=doc.slug%>/removestar" method="POST" class="d-inline"><button
                           type="submit" class="btn btn-xs btn-outline-success"><svg xmlns="http://www.w3.org/2000/svg"
                             width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                             <path

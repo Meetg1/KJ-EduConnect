@@ -117,7 +117,7 @@
           <li class="nav-item prettier">
             <a href="#" class="nav-link text-dark">
               <i class="fa fa-address-card text-primary fa-fw"></i>
-              <form action="/download/<%=doc._id%>" method="get">
+              <form action="/download/<%=doc.slug%>" method="get">
                 <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
                   Download
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -133,7 +133,7 @@
           <li class="nav-item prettier">
             <a href="#" class="nav-link text-dark">
               <i class="fa fa-address-card text-primary fa-fw"></i>
-              <form action="/single_material/<%=doc._id%>/report" method="POST">
+              <form action="/single_material/<%=doc.slug%>/report" method="POST">
                 <button type="submit" id="call" onclick="repdoc()" class="btn btn-danger btn-md">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-flag-fill" viewBox="0 0 16 16">
@@ -193,7 +193,7 @@
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                   </h4>
                   <div class="container mt-3">
-                    <form action="/single_material/<%=doc._id%>/reviews" method="POST">
+                    <form action="/single_material/<%=doc.slug%>/reviews" method="POST">
                       <div class="form-group">
                         <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
                       </div>
@@ -315,8 +315,8 @@
 
 
                     <div class="col-md-3 ml-4">
-                      <form action="/single_material/<%=doc._id%>/reply" method="POST">
-                        <input name="doc_id" value="<%=doc._id%>" type="hidden">
+                      <form action="/single_material/<%=doc.slug%>/reply" method="POST">
+                        <input name="doc_id" value="<%=doc.slug%>" type="hidden">
                         <input name="comment_user_id" value="<%=review.author._id%>" type="hidden">
                         <input name="comment_id" value="<%=review._id%>" type="hidden">
                         <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
@@ -329,14 +329,11 @@
                     </div>
                     <br>
                     <hr>
-                      <%})
-                      
-                      %>
-                    </div>
-                      <%}
-                      %>
-                    
-                
+                    <%}) %>
+                </div>
+                <%} %>
+
+
           </div>
 
 

@@ -69,7 +69,7 @@
                   </div>
                   <div class="content">
                     <div style="position: relative;">
-                      <a href="/single_material/<%=doc._id%>" id="title_link">
+                      <a href="/single_material/<%=doc.slug%>" id="title_link">
                         <%= doc.title %>
                       </a>
                       <span class="material_type">
@@ -128,10 +128,10 @@
                       </span>
                     </div>
                   </div>
-                  <form action='/single_material/<%=doc._id%>?_method=DELETE' method="POST" class="d-inline">
+                  <form action='/single_material/<%=doc.slug%>?_method=DELETE' method="POST" class="d-inline">
                     <button class="btn btn-xs btn-danger">Delete</button>
                   </form>
-                  <form action='/single_material/<%=doc._id%>/unreport' method="POST" class="d-inline"><button
+                  <form action='/single_material/<%=doc.slug%>/unreport' method="POST" class="d-inline"><button
                       type="submit" class="btn btn-xs btn-success"><svg style="position: relative; top: -3px"
                         xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-star-fill" viewBox="0 0 16 16">

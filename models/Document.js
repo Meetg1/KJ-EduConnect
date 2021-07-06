@@ -25,6 +25,10 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  slug: {
+    type: String,
+    unique: true,
+  },
   upvotes: {
     type: Number,
     default: 0,
@@ -78,4 +82,45 @@ const DocumentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Document", DocumentSchema);
+// add a slug before the item gets saved to the database
+DocumentSchema.pre("save", async function (next) {
+  try {
+    this.slug = await generateUniqueSlug(this._id, this.title);
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+const Document = mongoose.model("Document", DocumentSchema);
+module.exports = Document;
+
+async function generateUniqueSlug(docId, docTitle, slug) {
+  try {
+    if (!slug) {
+      slug = slugify(docTitle);
+    }
+    var doc = await Document.findOne({ slug: slug });
+    if (!doc || doc._id.equals(docId)) {
+      return slug;
+    }
+    var newSlug = slugify(docTitle);
+    return await generateUniqueSlug(docId, docTitle, newSlug);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function slugify(text) {
+  var slug = text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+    .replace(/\-\-+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, "") // Trim - from end of text
+    .substring(0, 75); // Trim at 75 characters
+
+  return slug + "-" + Math.floor(1000 + Math.random() * 9000);
+}

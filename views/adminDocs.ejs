@@ -69,7 +69,7 @@
                   </div>
                   <div class="content">
                     <div style="position: relative;">
-                      <a href="/single_material/<%=doc._id%>" id="title_link">
+                      <a href="/single_material/<%=doc.slug%>" id="title_link">
                         <%= doc.title %>
                       </a>
                       <span class="material_type">
@@ -128,7 +128,7 @@
                       </span>
                     </div>
                   </div>
-                  <form action='/single_material/<%=doc._id%>?_method=DELETE' method="POST" class="d-inline">
+                  <form action='/single_material/<%=doc.slug%>?_method=DELETE' method="POST" class="d-inline">
                     <button class="btn btn-xs btn-danger">Delete</button>
                   </form>
                 </div>
