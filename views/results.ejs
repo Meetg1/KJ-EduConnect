@@ -16,7 +16,7 @@
 
           <section class="filter_section mt-5">
 
-            <form action="/filter/1" method="POST">
+            <form action="/filter/upvotes/1" method="POST">
               <div class="row">
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="university">University filter</label>
@@ -79,16 +79,17 @@
                                   <% } %>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
                   <a class="dropdown-item <%= type === 'upvotes' ? 'active' : '' %>"
-                    href="/results/upvotes/1">Upvotes</a>
+                    href="/<%=page%>/upvotes/1">Upvotes</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item <%= type === 'downloads' ? 'active' : '' %>"
-                    href="/results/downloads/1">Downloads</a>
+                    href="/<%=page%>/downloads/1">Downloads</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item <%= type === 'trending' ? 'active' : '' %>"
-                    href="/results/trending/1">Trending</a>
+                    href="/<%=page%>/trending/1">Trending</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item <%= type === 'recent' ? 'active' : '' %>" href="/results/recent/1">Academic
+                  <a class="dropdown-item <%= type === 'recent' ? 'active' : '' %>" href="/<%=page%>/recent/1">Academic
                     Year</a>
                 </div>
               </span>

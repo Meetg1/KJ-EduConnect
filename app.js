@@ -628,6 +628,7 @@ app.get("/results/:sortBy/:page", async (req, res) => {
       current_page: page,
       redirect: "results",
       type: type,
+      page: "results",
     });
   } else {
     res.render("results.ejs", {
@@ -636,29 +637,69 @@ app.get("/results/:sortBy/:page", async (req, res) => {
       current_page: page,
       redirect: "results",
       type: type,
+      page: "results",
     });
   }
 });
 var keyword = "";
-app.post("/search/:page", async (req, res) => {
+app.post("/search/:sortBy/:page", async (req, res) => {
   keyword = req.body.keyword;
 
   var limit = 3;
   var page = req.params.page;
   var skip = (page - 1) * limit;
 
-  docs = await Document.find({
-    $or: [
-      { university: { $regex: new RegExp(keyword, "i") } },
-      { course: { $regex: new RegExp(keyword, "i") } },
-      { title: { $regex: new RegExp(keyword, "i") } },
-      { topic: { $regex: new RegExp(keyword, "i") } },
-    ],
-  });
+  let sort = req.params.sortBy;
+  var docs;
+  var type;
+  if (sort === "upvotes") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ upvotes: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "upvotes";
+  } else if (sort === "downloads") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ downloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "downloads";
+  } else if (sort === "trending") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ recentDownloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "trending";
+  } else if (sort === "recent") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ year: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "recent";
+  }
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
-  //console.log("xyz: " + num_of_docs + " " + number_of_pages);
 
   docs = docs.slice(skip, skip + limit);
 
@@ -672,6 +713,8 @@ app.post("/search/:page", async (req, res) => {
       stared: user.stared,
       number_of_pages: number_of_pages,
       current_page: page,
+      type: type,
+      page: "search",
       redirect: "search",
     });
   } else {
@@ -679,24 +722,66 @@ app.post("/search/:page", async (req, res) => {
       docs: docs,
       number_of_pages: number_of_pages,
       current_page: page,
+      type: type,
+      page: "search",
       redirect: "search",
     });
   }
 });
 
-app.get("/search/:page", async (req, res) => {
+app.get("/search/:sortBy/:page", async (req, res) => {
   var limit = 3;
   var page = req.params.page;
   var skip = (page - 1) * limit;
 
-  docs = await Document.find({
-    $or: [
-      { university: { $regex: new RegExp(keyword, "i") } },
-      { course: { $regex: new RegExp(keyword, "i") } },
-      { title: { $regex: new RegExp(keyword, "i") } },
-      { topic: { $regex: new RegExp(keyword, "i") } },
-    ],
-  });
+  let sort = req.params.sortBy;
+  var docs;
+  var type;
+  if (sort === "upvotes") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ upvotes: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "upvotes";
+  } else if (sort === "downloads") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ downloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "downloads";
+  } else if (sort === "trending") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ recentDownloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "trending";
+  } else if (sort === "recent") {
+    docs = await Document.find({
+      $or: [
+        { university: { $regex: new RegExp(keyword, "i") } },
+        { course: { $regex: new RegExp(keyword, "i") } },
+        { title: { $regex: new RegExp(keyword, "i") } },
+        { topic: { $regex: new RegExp(keyword, "i") } },
+      ],
+    }).sort({ year: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "recent";
+  }
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
@@ -713,6 +798,8 @@ app.get("/search/:page", async (req, res) => {
       stared: user.stared,
       number_of_pages: number_of_pages,
       current_page: page,
+      type: type,
+      page: "search",
       redirect: "search",
     });
   } else {
@@ -720,6 +807,8 @@ app.get("/search/:page", async (req, res) => {
       docs: docs,
       number_of_pages: number_of_pages,
       current_page: page,
+      type: type,
+      page: "search",
       redirect: "search",
     });
   }
@@ -729,7 +818,7 @@ var university = "";
 var course = "";
 var year = "";
 var category = "";
-app.post("/filter/:page", async (req, res) => {
+app.post("/filter/:sortBy/:page", async (req, res) => {
   university = req.body.university;
   course = req.body.course;
   year = req.body.year;
@@ -740,12 +829,46 @@ app.post("/filter/:page", async (req, res) => {
   var page = req.params.page;
   var skip = (page - 1) * limit;
 
-  docs = await Document.find({
-    university: { $regex: new RegExp(university, "i") },
-    course: { $regex: new RegExp(course, "i") },
-    year: { $regex: new RegExp(year, "i") },
-    category: { $regex: new RegExp(category, "i") },
-  });
+  let sort = req.params.sortBy;
+  var docs;
+  var type;
+  if (sort === "upvotes") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ upvotes: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "upvotes";
+  } else if (sort === "downloads") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ downloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "downloads";
+  } else if (sort === "trending") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ recentDownloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "trending";
+  } else if (sort === "recent") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ year: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "recent";
+  }
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
@@ -763,6 +886,8 @@ app.post("/filter/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "filter",
+      type: type,
+      page: "filter",
     });
   } else {
     res.render("results.ejs", {
@@ -770,23 +895,59 @@ app.post("/filter/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "filter",
+      type: type,
+      page: "filter",
     });
   }
 });
 
-app.get("/filter/:page", async (req, res) => {
+app.get("/filter/:sortBy/:page", async (req, res) => {
   console.log(university, course, year, category);
 
   var limit = 3;
   var page = req.params.page;
   var skip = (page - 1) * limit;
 
-  docs = await Document.find({
-    university: { $regex: new RegExp(university, "i") },
-    course: { $regex: new RegExp(course, "i") },
-    year: { $regex: new RegExp(year, "i") },
-    category: { $regex: new RegExp(category, "i") },
-  });
+  let sort = req.params.sortBy;
+  var docs;
+  var type;
+  if (sort === "upvotes") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ upvotes: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "upvotes";
+  } else if (sort === "downloads") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ downloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "downloads";
+  } else if (sort === "trending") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ recentDownloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "trending";
+  } else if (sort === "recent") {
+    docs = await Document.find({
+      university: { $regex: new RegExp(university, "i") },
+      course: { $regex: new RegExp(course, "i") },
+      year: { $regex: new RegExp(year, "i") },
+      category: { $regex: new RegExp(category, "i") },
+    }).sort({ year: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "recent";
+  }
 
   var num_of_docs = docs.length;
   var number_of_pages = Math.ceil(num_of_docs / limit);
@@ -804,6 +965,8 @@ app.get("/filter/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "filter",
+      type: type,
+      page: "filter",
     });
   } else {
     res.render("results.ejs", {
@@ -811,6 +974,8 @@ app.get("/filter/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "filter",
+      type: type,
+      page: "filter",
     });
   }
 });
