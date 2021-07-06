@@ -1,492 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduConnect</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="../stylesheets/single_material.css" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduConnect</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../stylesheets/single_material.css" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-  <body>
-    <%- include('partials/navbar')%> <%- messages('messages', locals) %>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <div class="modalContent" id="modal">
-      <img src="../images/arrow-download-icon.png" alt="download" />
-      <p>Your download will begin in 5 seconds.</p>
-      <button class="accept">Close</button>
-    </div>
+</head>
 
-    <br />
+<body>
+  <%- include('partials/navbar')%>
+    <%- messages('messages', locals) %>
 
-      <div
-        style="
+      <div class="modalContent" id="modal">
+        <img src="../images/arrow-download-icon.png" alt="download" />
+        <p>Your download will begin in 5 seconds.</p>
+        <button class="accept">Close</button>
+      </div>
+
+      <br />
+
+      <div style="
           width: 80px;
           height: 80px;
           position: absolute;
           opacity: 0;
           right: 0px;
           top: 0px;
-        "
-      >
+        ">
         &nbsp;
       </div>
       <br />
-    </h2>
-    <br />
+      </h2>
+      <br />
 
-<!--Vertical Navbar-->
+      <!--Vertical Navbar-->
 
-<div class="vertical-nav bg-white" id="sidebar">
-  <div class="py-4 px-3 mb-4 bg-dark">
-    <div class="media d-flex align-items-center">
-      <img loading="lazy" src="../profilePic/<%=doc.uploader.id.profilePic%>" width="140" height="140" alt="..." class="mr-4 rounded-circle shadow-sm">
-      <div class="media-body">
-        <h4 class="m-0 auth"><a href="/users/<%=doc.uploader.id._id%>">
-          <%= doc.uploader.username %>
-        </a></h4>
-        <p class="font-weight-normal mb-0 author">Author</p>
+      <div class="vertical-nav bg-white" id="sidebar">
+        <div class="py-4 px-3 mb-4 bg-dark">
+          <div class="media d-flex align-items-center">
+            <img loading="lazy" src="../profilePic/<%=doc.uploader.id.profilePic%>" width="140" height="140" alt="..."
+              class="mr-4 rounded-circle shadow-sm">
+            <div class="media-body">
+              <h4 class="m-0 auth"><a href="/users/<%=doc.uploader.id._id%>">
+                  <%= doc.uploader.username %>
+                </a></h4>
+              <p class="font-weight-normal mb-0 author">Author</p>
+            </div>
+          </div>
+        </div>
+
+
+        <p class="text-gray w3-xlarge px-3 large pb-4 mb-0">
+          <%= doc.title%>
+        </p>
+
+        <ul class="nav flex-column bg-white mb-0">
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark bg-light">
+              <i class="fa fa-th-large text-primary fa-fw"></i>
+              <span>Topic</span>
+              <p>
+                <%=doc.topic%>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <span>University</span>
+              <p>
+                <%= doc.university%>
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <span>Course</span>
+              <p>
+                <%= doc.course%>
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <span>Upvotes</span>
+              <p>
+                <%= doc.upvotes %>
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <span>Downvotes</span>
+              <p>
+                <%= doc.downvotes%>
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <form action="/download/<%=doc._id%>" method="get">
+                <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
+                  Download
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
+                  </svg></button><br />
+              </form>
+            </a>
+          </li>
+
+
+          <li class="nav-item prettier">
+            <a href="#" class="nav-link text-dark">
+              <i class="fa fa-address-card text-primary fa-fw"></i>
+              <form action="/single_material/<%=doc._id%>/report" method="POST">
+                <button type="submit" id="call" onclick="repdoc()" class="btn btn-danger btn-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-flag-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                  </svg>
+                  Report Document
+                </button>
+              </form>
+            </a>
+          </li>
+        </ul>
       </div>
-    </div>
-  </div>
-
-
-<p class="text-gray w3-xlarge px-3 large pb-4 mb-0"><%= doc.title%></p>
-
-<ul class="nav flex-column bg-white mb-0">
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark bg-light">
-       <i class="fa fa-th-large text-primary fa-fw"></i>
-      <span>Topic</span>
-      <p><%=doc.topic%></p>
-    </a>
-  </li>
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-        <span>University</span>
-        <p><%= doc.university%></p>
-    </a>
-  </li>
-
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-        <span>Course</span>
-        <p><%= doc.course%></p>
-    </a>
-  </li>
-  
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-        <span>Upvotes</span>
-        <p> <%= doc.upvotes %></p>
-    </a>
-  </li>
-
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-        <span>Downvotes</span>
-        <p><%= doc.downvotes%></p>
-    </a>
-  </li>
-
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-      <form action="/download/<%=doc._id%>" method="get">
-        <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
-          Download
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-cloud-arrow-down-fill"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"
-            />
-          </svg></button
-        ><br />
-      </form>
-    </a>
-  </li>
-
-  
-  <li class="nav-item prettier">
-    <a href="#" class="nav-link text-dark">
-      <i class="fa fa-address-card text-primary fa-fw"></i>
-      <form action="/single_material/<%=doc._id%>/report" method="POST">
-        <button
-          type="submit"
-          id="call"
-          onclick="repdoc()"
-          class="btn btn-danger btn-md"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-flag-fill"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001"
-            />
-          </svg>
-          Report Document
-        </button>
-      </form>    
-    </a>
-  </li>
-  </ul>
-</div>
 
 
 
 
 
-<!-- End vertical navbar-->
+      <!-- End vertical navbar-->
 
-<!-- Page Content Holder
+      <!-- Page Content Holder
 <div class="page-content p-5 id="content">
   <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
     <i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Show Details</small>
   </button>
 -->
 
-  <!--Preview Document-->
-     <div class="separator"></div>
-     <div class="row text-white">
-         <div class="col-sm-7">
-          <iframe
-          src="https://drive.google.com/file/d/<%=doc.driveId%>/preview"
-          width="100%"
-          height="895%"
-          frameborder="0"
-          scrolling="no"
-          seamless=""
-        ></iframe>  
-         </div>
-     </div>
-     <div class="container pb-5">
-      <div class="card review-card">
-        <!--Setting up the add new review button that is used for collapsing-->
-        <div class="card-header text-right text-light">
-          <a
-            class="btn btn-success"
-            role="button"
-            data-toggle="collapse"
-            data-target="#review-collapse"
-            aria-expanded="false"
-            aria-controls="collapsereview"
-          >
-            <i aria-hidden="true" class="fas fa-plus"></i> Add Your Review
-          </a>
-        </div>
-        <div class="card-body">
-          <h4 class="card-title text-info">
-            Reviews <i aria-hidden="true" class="fas fa-comment-alt"></i>
-          </h4>
-
-          <!--Collapsible Add a review form START-->
-          <div class="collapse" id="review-collapse">
-            <div class="card" style="border-left: 5px solid #00c851">
-              <!--If the user is logged in, show the new review form-->
-              <% if(currentUser) { %>
-              <h4 class="card-header">
-                Add your review
-                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-              </h4>
-              <div class="container mt-3">
-                <form
-                  action="/single_material/<%=doc._id%>/reviews"
-                  method="POST"
-                >
-                  <div class="form-group">
-                    <input
-                      class="form-control"
-                      type="text"
-                      disabled
-                      value="<%= currentUser.username %>"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <span>Was this document helpful?</span>
-                    <br />
-                    <p class="form__answer">
-                      <input
-                        type="radio"
-                        name="upDown"
-                        id="match_1"
-                        value="upvote"
-                        checked
-                      />
-                      <label for="match_1">
-                        <svg
-                          class="text-success"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          fill="currentColor"
-                          class="bi bi-hand-thumbs-up"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"
-                          />
-                        </svg>
-                      </label>
-                    </p>
-                    <p class="form__answer">
-                      <input
-                        type="radio"
-                        name="upDown"
-                        id="match_2"
-                        value="downvote"
-                      />
-                      <label for="match_2">
-                        <svg
-                          class="text-danger"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          fill="currentColor"
-                          class="bi bi-hand-thumbs-down"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z"
-                          />
-                        </svg>
-                      </label>
-                    </p>
-                    <div class="form-group">
-                      <input
-                        required
-                        name="text"
-                        rows="5"
-                        cols="70"
-                        class="form-control mt-3"
-                        placeholder="Write your review..."
-                        
-                      ></input>
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-success btn-sm">
-                        Submit
-                        <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <% } else { %>
-              <h5 class="card-header">
-                Please login to add a review.
-                <a class="text-success" href="/signup">Click here </a>to login.
-              </h5>
-              <% } %>
-            </div>
-          </div>
-          <!--Collapsible Add a review form END-->
-          <hr />
-
-          <% if(doc.reviews.length===0) { %>
-          <em style="color: grey">No reviews yet.</em>
-          <% } else { %>
-          <!-- looping through reviews and displaying them -->
-          <div>
-            <% doc.reviews.forEach(function(review){ %>
-            <div class="row">
-              <div class="col-md-3">
-                <div>
-                  Review by:
-                  <a href="/users/<%=review.author._id%>">
-                    <strong> <%= review.author.fullname %> </strong>
-                  </a>
-                </div>
-                <span><em> <%= review.updatedAt.toDateString() %> </em></span>
-                <% if (review.upvote) { %>
-                <div>
-                  <svg
-                    class="text-success"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    fill="currentColor"
-                    class="bi bi-hand-thumbs-up"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"
-                    />
-                  </svg>
-                </div>
-                <%}else{%>
-                <div>
-                  <svg
-                    class="text-danger ml-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    fill="currentColor"
-                    class="bi bi-hand-thumbs-down"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z"
-                    />
-                  </svg>
-                </div>
-                <%}%>
-              </div>
-              <div class="col-md-9">
-                <p style="text-align: justify" class="mt-3">
-                  <%= review.text %>
-                </p>
-              </div>
-            </div>
-            <br>
-
-            <div class="ml-4 pl-4">
-              <% review.replies.forEach(function(reply){ %>
-                <div class="row">
-                  <div class="col-md-3">
-                    <div>
-                      Replied by:
-                      <a href="/users/<%=reply.author_reply._id%>">
-                        <strong> <%= reply.author_reply.fullname %> </strong>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col-md-9">
-                    <p style="text-align: justify" class="">
-                      <%= reply.reply %>
-                    </p>
-                  </div>
-                </div>
-                <br>
-                <% }) %>
-            </div>
-            
-
-
-            <div class="col-md-3 ml-4">
-              <form action="/single_material/<%=doc._id%>/reply" method="POST">
-                <input name="doc_id" value="<%=doc._id%>" type="hidden"> 
-                <input name="comment_user_id" value="<%=review.author._id%>" type="hidden"> 
-                <input name="comment_id" value="<%=review._id%>" type="hidden" >
-                <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
-                <div class="form-group">
-                  <textarea class="form-control" name="reply" placeholder="Reply to this comment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-info btn-sm">Reply</button>
-              </form>
-            </div>
-            <hr />
-            
-            <% }) %>
-            
-          </div>
-          <%}%>
+      <!--Preview Document-->
+      <div class="separator"></div>
+      <div class="row text-white">
+        <div class="col-sm-7">
+          <iframe src="https://drive.google.com/file/d/<%=doc.driveId%>/preview" width="100%" height="895%"
+            frameborder="0" scrolling="no" seamless=""></iframe>
         </div>
       </div>
-    </div>
+      <div class="container pb-5">
+        <div class="card review-card">
+          <!--Setting up the add new review button that is used for collapsing-->
+          <div class="card-header text-right text-light">
+            <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#review-collapse"
+              aria-expanded="false" aria-controls="collapsereview">
+              <i aria-hidden="true" class="fas fa-plus"></i> Add Your Review
+            </a>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-info">
+              Reviews <i aria-hidden="true" class="fas fa-comment-alt"></i>
+            </h4>
+
+            <!--Collapsible Add a review form START-->
+            <div class="collapse" id="review-collapse">
+              <div class="card" style="border-left: 5px solid #00c851">
+                <!--If the user is logged in, show the new review form-->
+                <% if(currentUser) { %>
+                  <h4 class="card-header">
+                    Add your review
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                  </h4>
+                  <div class="container mt-3">
+                    <form action="/single_material/<%=doc._id%>/reviews" method="POST">
+                      <div class="form-group">
+                        <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
+                      </div>
+                      <div class="form-group">
+                        <span>Was this document helpful?</span>
+                        <br />
+                        <p class="form__answer">
+                          <input type="radio" name="upDown" id="match_1" value="upvote" checked />
+                          <label for="match_1">
+                            <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                              fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                              <path
+                                d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
+                            </svg>
+                          </label>
+                        </p>
+                        <p class="form__answer">
+                          <input type="radio" name="upDown" id="match_2" value="downvote" />
+                          <label for="match_2">
+                            <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                              fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
+                              <path
+                                d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z" />
+                            </svg>
+                          </label>
+                        </p>
+                        <div class="form-group">
+                          <input required name="text" rows="5" cols="70" class="form-control mt-3"
+                            placeholder="Write your review..." id="tag"></input>
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-success btn-sm">
+                            Submit
+                            <i aria-hidden="true" class="fas fa-comment-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <% } else { %>
+                    <h5 class="card-header">
+                      Please login to add a review.
+                      <a class="text-success" href="/signup">Click here </a>to login.
+                    </h5>
+                    <% } %>
+              </div>
+            </div>
+            <!--Collapsible Add a review form END-->
+            <hr />
+
+            <% if(doc.reviews.length===0) { %>
+              <em style="color: grey">No reviews yet.</em>
+              <% } else { %>
+                <!-- looping through reviews and displaying them -->
+                <div>
+                  <% doc.reviews.forEach(function(review){ %>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <div>
+                          Review by:
+                          <a href="/users/<%=review.author._id%>">
+                            <strong>
+                              <%= review.author.fullname %>
+                            </strong>
+                          </a>
+                        </div>
+                        <span><em>
+                            <%= review.updatedAt.toDateString() %>
+                          </em></span>
+                        <% if (review.upvote) { %>
+                          <div>
+                            <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                              fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                              <path
+                                d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
+                            </svg>
+                          </div>
+                          <%}else{%>
+                            <div>
+                              <svg class="text-danger ml-0" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
+                                <path
+                                  d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z" />
+                              </svg>
+                            </div>
+                            <%}%>
+                      </div>
+                      <div class="col-md-9">
+                        <p style="text-align: justify" class="mt-3">
+                          <%= review.text %>
+                        </p>
+                      </div>
+                    </div>
+                    <br>
+
+                    <div class="ml-4 pl-4">
+                      <% review.replies.forEach(function(reply){ %>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div>
+                              Replied by:
+                              <a href="/users/<%=reply.author_reply._id%>">
+                                <strong>
+                                  <%= reply.author_reply.fullname %>
+                                </strong>
+                              </a>
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <p style="text-align: justify" class="">
+                              <%= reply.reply %>
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <% }) %>
+                    </div>
 
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-      crossorigin="anonymous"
-    ></script>
+
+                    <div class="col-md-3 ml-4">
+                      <form action="/single_material/<%=doc._id%>/reply" method="POST">
+                        <input name="doc_id" value="<%=doc._id%>" type="hidden">
+                        <input name="comment_user_id" value="<%=review.author._id%>" type="hidden">
+                        <input name="comment_id" value="<%=review._id%>" type="hidden">
+                        <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
+                        <div class="form-group">
+                          <textarea class="form-control" name="reply" placeholder="Reply to this comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-sm">Reply</button>
+                      </form>
+                    </div>
+                    <hr />
+
+                    <% }) %>
+
+                </div>
+                <%}%>
+          </div>
+        </div>
+      </div>
 
 
-    <script>
-       // Get the modal
-       var modal = document.getElementById("modal");
-      // Get the button that opens the modal
-      var activeBtn = document.getElementById("downloadBtn");
-      // Get the <span> element that closes the modal
-      var span = document.querySelector(".accept");
-      // When the user clicks on the button, open the modal
-      activeBtn.onclick = function () {
-        modal.style.display = "block";
-      };
-      setTimeout(() => {
-        modal.style.display = "none";
-      }, 5000);
-       // When the user clicks on <span> (x), close the modal
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+
+      <script>
+        // Get the modal
+        var modal = document.getElementById("modal");
+        // Get the button that opens the modal
+        var activeBtn = document.getElementById("downloadBtn");
+        // Get the <span> element that closes the modal
+        var span = document.querySelector(".accept");
+        // When the user clicks on the button, open the modal
+        activeBtn.onclick = function () {
+          modal.style.display = "block";
+        };
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 5000);
+        // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
-        modal.style.display = "none";
-      };
+          modal.style.display = "none";
+        };
 
 
-// ==================TAGGING USER ====================
-      
-// function tag_user(prev_text, user_tag){
-//         var text_len = prev_text.length
-//         console.log("prev_text is "+prev_text)
-//         console.log("user_tag is "+ user_tag)
+        // ==================TAGGING USER ====================
 
-//         // console.log("4"+text_len);
-//         $('#searchName').autocomplete({
-//           source: function(req, res){
-//             // console.log("5  "+req['term'].substring(text_len+1));
-//             // var word=req['term'].substring(text_len);
-//             req['term']=user_tag;
-//             console.log("3 -   "+req);
-//             $.ajax({
-//               url:"../autocomplete/",
-//               dataType:"jsonp",
-//               type:"GET",
-//               data:req,
-//               success: function(data){
-          
-//                 res(data)
-//               }, 
-//               error: function(err){
-//                 console.log(err);
-//               }
-//             });
-//           },
-//           minlength: text_len,
-//           // select: function(event, ui){
-//           //   if(ui.item){
-//           //     $('#searchName').text("prev_text + ui.item.label");
-//           //   }
-//           // } 
-          
-//         });
-// }
-    
-//           function abc(full_text){
-//           var req_index = (full_text.indexOf('#'));
+        function tag_user(prev_text, user_tag) {
+          var text_len = prev_text.length
+          console.log("prev_text is " + prev_text)
+          console.log("user_tag is " + user_tag)
 
-//           var len = (full_text.length);
-//           if(req_index !=-1 &&  req_index < len - 1 ){
-//             console.log("yes tag");
-//             // let prev_text = full_text.substring(req_index+1);
-//             var prev_text = full_text.substring(0,req_index);
-//             var user_tag = full_text.substring(req_index+1);
-//             tag_user(prev_text, user_tag);
-//             // console.log("prevtext"+ prev_text)
-//           }
-//         }
+          // console.log("4"+text_len);
+          $('#tag').autocomplete({
+            source: function (req, res) {
+              // console.log("5  "+req['term'].substring(text_len+1));
+              // var word=req['term'].substring(text_len);
+              req['term'] = user_tag;
+              console.log("3 -   " + req);
+              $.ajax({
+                url: "../autocompleteTag/",
+                dataType: "jsonp",
+                type: "GET",
+                data: req,
+                success: function (data) {
+                  res(data)
+                },
+                error: function (err) {
+                  console.log(err);
+                }
+              });
+            },
+            minlength: text_len,
+            select: function (event, ui) {
+              if (ui.item) {
+                lol(prev_text, ui.item.label)
+              }
+            }
+          });
+        }
+
+        function lol(prev_text, user_tag) {
+          setTimeout(() => {
+            document.getElementById("tag").value = `${prev_text} #${user_tag}`
+          }, 50)
+
+        }
+
+        function abc(full_text) {
+          var req_index = (full_text.indexOf('#'));
+
+          var len = (full_text.length);
+          if (req_index != -1 && req_index < len - 1) {
+            console.log("yes tag");
+            // let prev_text = full_text.substring(req_index+1);
+            var prev_text = full_text.substring(0, req_index);
+            var user_tag = full_text.substring(req_index + 1);
+            tag_user(prev_text, user_tag);
+            // console.log("prevtext"+ prev_text)
+          }
+        }
 
         // function doReply(form){
         //   var formData= {
@@ -494,7 +425,7 @@
         //     comment_id : form.comment_id.value,
         //     name: form.reply_author.value,
         //     reply: form.reply.value,
-            
+
         //   };
         //   //console.log(form.doc_id.value);
         //   $.ajax({
@@ -506,58 +437,18 @@
         //     }
         //   });
         // }
-    
-    
-  
-            $("#searchName").on("input", function(){
-                // Print entered value in a div box
-                var text = ($(this).val());
-                abc(text);
-                // console.log("1"+text);
-                
-            });
-        
-  
 
-        
-    
-      
-    </script>
+        $(document).ready(function () {
+          $("#tag").on("input", function () {
+            // Print entered value in a div box
+            var text = ($(this).val());
+            abc(text);
+            console.log(text);
+
+          });
+        });
 
 
-
-    <!-- <script>
-
-  var slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      slideIndex = 1
-    }
-    if (n < 1) { slideIndex = slides.length } for (i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
-    for (i = 0; i < dots.length; i++) { dots[i].className = dots[i].className.replace(" active_dots", ""); }
-    slides[slideIndex - 1].style.display = "block"; dots[slideIndex - 1].className += " active_dots";
-  }
-
-  function repdoc() {
-    if (document.getElementById("call").innerHTML = "Document Report") {
-      document.getElementById("call").innerHTML = "Reported!";
-      document.getElementById("call").style.background = "darkgrey";
-    }
-  }
-</script> -->
+      </script>
 
 </html>
-

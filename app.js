@@ -1292,13 +1292,13 @@ app.get("/users/:userId/follow", isLoggedIn, async (req, res) => {
   user.followers.push(req.user._id);
   user.followerCount++;
   user.level_points = user.level_points + 5;
-    var prev_lvl = user.level;
-    var next_lvl = prev_lvl + 1;
-    if (user.level_points >= user.check_point + next_lvl * 100) {
-      user.check_point = user.check_point + next_lvl * 100;
-      user.level++;
-    }
-    
+  var prev_lvl = user.level;
+  var next_lvl = prev_lvl + 1;
+  if (user.level_points >= user.check_point + next_lvl * 100) {
+    user.check_point = user.check_point + next_lvl * 100;
+    user.level++;
+  }
+
   req.flash("success", "You started following " + user.fullname + ".");
   user.save();
 
@@ -1420,21 +1420,23 @@ app.get("/undefined", (req, res) => {
 // });
 
 app.get("/autocomplete", function (req, res, next) {
-  
   var regex = new RegExp(req.query["term"], "i");
 
   var DocFinder = Document.find({
     $or: [
-      { title: regex }, { title: 1 },
-      { university: regex }, { university: 1 },
-      { topic: regex }, { topic: 1 },
-      { course: regex }, { course: 1 },
+      { title: regex },
+      { title: 1 },
+      { university: regex },
+      { university: 1 },
+      { topic: regex },
+      { topic: 1 },
+      { course: regex },
+      { course: 1 },
     ],
-    
   })
-  .sort({ updated_at: -1 })
-  .sort({ created_at: -1 })
-  .limit(10);
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
 
   DocFinder.exec(function (err, data) {
     var result = [];
@@ -1443,14 +1445,48 @@ app.get("/autocomplete", function (req, res, next) {
         data.forEach((doc) => {
           let obj = {
             id: doc.id,
-            label:"Topic: "+ doc.topic +", Title: " + doc.title + ", University: " + doc.university+", Course: "+ doc.course,
-            value:doc.topic,
+            label:
+              "Topic: " +
+              doc.topic +
+              ", Title: " +
+              doc.title +
+              ", University: " +
+              doc.university +
+              ", Course: " +
+              doc.course,
+            value: doc.topic,
           };
           result.push(obj);
         });
       }
-      
-      res.jsonp(result);  
+
+      res.jsonp(result);
+    }
+  });
+});
+
+app.get("/autocompleteTag", function (req, res, next) {
+  var regex = new RegExp(req.query["term"], "i");
+
+  var UserFinder = User.find({ username: regex }, { username: 1 })
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
+
+  UserFinder.exec(function (err, data) {
+    var result = [];
+    if (!err) {
+      if (data && data.length && data.length > 0) {
+        data.forEach((user) => {
+          let obj = {
+            id: user.id,
+            label: user.username,
+          };
+          result.push(obj);
+        });
+      }
+      // console.log(result);
+      res.jsonp(result);
     }
   });
 });
