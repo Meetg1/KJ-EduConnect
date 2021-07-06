@@ -154,7 +154,7 @@
                       <div class="num ml-2 light">total</div>
                     </div>
                   </div>
-                  <div class="pointBox col-md-3 col-6"  data-toggle="modal" data-target="#exampleModal">
+                  <div class="pointBox col-md-3 col-6" data-toggle="modal" data-target="#exampleModal">
                     <h4 class="color">
                       Level <%= user.level %> - <%= user.tag %>
                           <!-- <svg class="star2" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -256,7 +256,8 @@
                                   <path
                                     d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                 </svg>
-                                <%= doc.date.getDate()%>/<%= doc.date.getMonth()%>/<%= doc.date.getFullYear()%>
+                                <%= doc.year %>
+                                  <!-- <%#= doc.date.getDate()%>/<%#= doc.date.getMonth()%>/<%#= doc.date.getFullYear()%> -->
                               </span>
                               <span class="mr-3">
                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -302,7 +303,8 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -313,18 +315,19 @@
                   </div>
                   <div class="modal-body" style="text-align: left;">
                     <b>
-                    1. Earn 40 points for every document you upload.
-                    <br><br>
-                    2. Earn 5 points for positive you get on your uploaded document.
-                    <br><br>
-                    3. Earn 5 points for every user who follows you.
-                    <br><br>
-                    Good luck guys! Earn points and level up your self.
-                    <br><br>
+                      1. Earn 40 points for every document you upload.
+                      <br><br>
+                      2. Earn 5 points for positive you get on your uploaded document.
+                      <br><br>
+                      3. Earn 5 points for every user who follows you.
+                      <br><br>
+                      Good luck guys! Earn points and level up your self.
+                      <br><br>
                     </b>
                   </div>
                   <div class="modal-footer" style="align-items: center;">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="margin-right: auto; margin-left: auto;">Thank you!</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                      style="margin-right: auto; margin-left: auto;">Thank you!</button>
                   </div>
                 </div>
               </div>

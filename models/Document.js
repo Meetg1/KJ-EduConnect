@@ -17,11 +17,10 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  year: {
+    type: String,
+    required: true,
   },
-  year: String,
   topic: {
     type: String,
     required: true,

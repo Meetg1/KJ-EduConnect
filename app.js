@@ -84,8 +84,6 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-//let docs = await Document.find().sort({ recentDownloads: -1 }).limit(15);
-
 async function resetTrendingDocuments() {
   let allDocs = await Document.find({});
   allDocs.forEach(async (doc) => {
@@ -235,7 +233,7 @@ const checkReviewExistence = (req, res, next) => {
     .exec(function (err, foundDoc) {
       if (!foundDoc || err) {
         console.log(err);
-        return res.redirect("/results/1");
+        return res.redirect("/results/upvotes/1");
       }
       const foundReview = foundDoc.reviews.some(function (review) {
         return review.author.equals(req.user._id);
@@ -260,7 +258,7 @@ const checkReportExistence = async (req, res, next) => {
   try {
     const foundDoc = await Document.findById(req.params.document_id);
     if (!foundDoc) {
-      return res.redirect("/results/1");
+      return res.redirect("/results/upvotes/1");
     }
     const foundReport = foundDoc.reporters.some(function (reporter) {
       return reporter.equals(req.user._id);
@@ -284,7 +282,7 @@ const isUploader = async (req, res, next) => {
   const user = await User.findById(req.user._id);
   if (!user.role === "teacher" && !doc.uploader.id.equals(req.user._id)) {
     req.flash("danger", "You do not have permission to do that!");
-    return res.redirect("/results/1");
+    return res.redirect("/results/upvotes/1");
   }
   next();
 };
@@ -477,7 +475,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       course,
       title,
       category,
-      date,
+      year,
       topic,
       num_pages,
       description,
@@ -487,7 +485,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     req.checkBody("course", "Course is required").notEmpty();
     req.checkBody("title", "Title is required").notEmpty();
     req.checkBody("category", "Category is required").notEmpty();
-    req.checkBody("date", "Date is required").notEmpty();
+    req.checkBody("year", "year is required").notEmpty();
     req.checkBody("topic", "Topic is required").notEmpty();
     req.checkBody("num_pages", "num_pages is required").notEmpty();
     req.checkBody("description", "description is required").notEmpty();
@@ -508,13 +506,11 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       id: req.user._id,
       username: req.user.username,
     };
-    let year = date.slice(0, 4);
     const doc = new Document({
       university: university,
       course: course,
       title: title,
       category: category,
-      date: date,
       year: year,
       topic: topic,
       num_pages: num_pages,
@@ -581,12 +577,12 @@ app.post("/upload", isLoggedIn, async (req, res) => {
 
     file = undefined;
   } catch (error) {
-    res.redirect("results/1");
+    res.redirect("results/upvotes/1");
     console.log(error);
   }
 });
 
-app.get("/results/:page", async (req, res) => {
+app.get("/results/:sortBy/:page", async (req, res) => {
   var limit = 3;
   var page = req.params.page;
 
@@ -599,9 +595,26 @@ app.get("/results/:page", async (req, res) => {
   //    number_of_pages = number_of_pages + 1;
   //  }
   // console.log("pages: "+number_of_pages);
-
-  docs = await Document.find().sort({ upvotes: -1 });
-  docs = docs.slice(skip, skip + limit);
+  let sort = req.params.sortBy;
+  var docs;
+  var type;
+  if (sort === "upvotes") {
+    docs = await Document.find().sort({ upvotes: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "upvotes";
+  } else if (sort === "downloads") {
+    docs = await Document.find().sort({ downloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "downloads";
+  } else if (sort === "trending") {
+    docs = await Document.find().sort({ recentDownloads: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "trending";
+  } else if (sort === "recent") {
+    docs = await Document.find().sort({ year: -1 });
+    docs = docs.slice(skip, skip + limit);
+    type = "recent";
+  }
 
   if (req.user) {
     const user = await User.findById(req.user._id);
@@ -614,6 +627,7 @@ app.get("/results/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "results",
+      type: type,
     });
   } else {
     res.render("results.ejs", {
@@ -621,6 +635,7 @@ app.get("/results/:page", async (req, res) => {
       number_of_pages: number_of_pages,
       current_page: page,
       redirect: "results",
+      type: type,
     });
   }
 });
@@ -821,7 +836,7 @@ app.post("/results/:document_id/addstar", isLoggedIn, async (req, res) => {
     return res.redirect("back");
   } catch (error) {
     console.error(error);
-    return redirect("/results/1");
+    return redirect("/results/upvotes/1");
   }
 });
 
@@ -845,7 +860,7 @@ app.post("/results/:document_id/removestar", isLoggedIn, async (req, res) => {
     return res.redirect("back");
   } catch (error) {
     console.error(error);
-    return redirect("/results/1");
+    return redirect("/results/upvotes/1");
   }
 });
 
@@ -957,7 +972,6 @@ app.get("/upload", isLoggedIn, (req, res) => {
 });
 
 app.get("/users/:user_id", async (req, res) => {
-  
   try {
     foundUser = await User.findById(req.params.user_id);
     console.log(foundUser);
@@ -1091,8 +1105,8 @@ app.delete(
 
     let user = await User.findById(doc.uploader.id);
     user.level_points = user.level_points - 40;
-    if(user.level_points<user.check_point){
-      user.check_point = user.check_point - (100*user.level);
+    if (user.level_points < user.check_point) {
+      user.check_point = user.check_point - 100 * user.level;
       user.level--;
     }
     user.uploads--;
@@ -1109,7 +1123,7 @@ app.delete(
     stat.totalDocuments--;
     stat.save();
     req.flash("success", "Successfully deleted Document.");
-    res.redirect("/results/1");
+    res.redirect("/results/upvotes/1");
   }
 );
 
@@ -1190,7 +1204,7 @@ app.get("/verify-email", async (req, res, next) => {
 app.post("/login", isVerified, isNotBanned, (req, res, next) => {
   passport.authenticate("local", {
     failureRedirect: "/signup",
-    successRedirect: "/results/1",
+    successRedirect: "/results/upvotes/1",
     failureFlash: true,
     successFlash: "Welcome to EduConnect " + req.body.username + "!",
   })(req, res, next);
@@ -1331,10 +1345,10 @@ app.get("/users/:userId/unfollow", isLoggedIn, async (req, res) => {
   }
   user.followerCount--;
   user.level_points = user.level_points - 5;
-    if(user.level_points<user.check_point){
-      user.check_point = user.check_point - (100*user.level);
-      user.level--;
-    }
+  if (user.level_points < user.check_point) {
+    user.check_point = user.check_point - 100 * user.level;
+    user.level--;
+  }
   user.save();
   req.flash("success", `You unfollowed ${user.fullname}.`);
   res.redirect("back");
@@ -1502,20 +1516,15 @@ app.get("/autocompleteTag", function (req, res, next) {
   });
 });
 
-
 app.get("/autocompleteUniversity", function (req, res, next) {
-  
   var regex = new RegExp(req.query["term"], "i");
 
   var DocFinder = Document.find({
-    $or: [
-      { university: regex }, { university: 1 },
-    ],
-    
+    $or: [{ university: regex }, { university: 1 }],
   })
-  .sort({ updated_at: -1 })
-  .sort({ created_at: -1 })
-  .limit(10);
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
 
   DocFinder.exec(function (err, data) {
     var result = [];
@@ -1529,25 +1538,21 @@ app.get("/autocompleteUniversity", function (req, res, next) {
           result.push(obj);
         });
       }
-      
-      res.jsonp(result);  
+
+      res.jsonp(result);
     }
   });
 });
 
 app.get("/autocompleteCourse", function (req, res, next) {
-  
   var regex = new RegExp(req.query["term"], "i");
 
   var DocFinder = Document.find({
-    $or: [
-      { course: regex }, { course: 1 },
-    ],
-    
+    $or: [{ course: regex }, { course: 1 }],
   })
-  .sort({ updated_at: -1 })
-  .sort({ created_at: -1 })
-  .limit(10);
+    .sort({ updated_at: -1 })
+    .sort({ created_at: -1 })
+    .limit(10);
 
   DocFinder.exec(function (err, data) {
     var result = [];
@@ -1561,13 +1566,11 @@ app.get("/autocompleteCourse", function (req, res, next) {
           result.push(obj);
         });
       }
-      
-      res.jsonp(result);  
+
+      res.jsonp(result);
     }
   });
 });
-
-
 
 app.post(
   "/single_material/:document_id/reply",

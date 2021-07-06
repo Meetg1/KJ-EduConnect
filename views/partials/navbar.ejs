@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand mr-5" href="/results/1">EduConnect</a>
+    <a class="navbar-brand mr-5" href="/results/upvotes/1">EduConnect</a>
 
     <form class="form-inline my-2 my-lg-0" method="POST" action="/search/1">
-      <input name="keyword" class="form-control searchbar" type="search" placeholder="Search for Courses, books or documents" id="searchName"
-        aria-label="Search">
+      <input name="keyword" class="form-control searchbar" type="search"
+        placeholder="Search for Courses, books or documents" id="searchName" aria-label="Search">
       <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
           viewBox="0 0 16 16">
@@ -22,39 +22,45 @@
       <ul class="navbar-nav ml-auto">
         <% if(currentUser){ %>
           <li class="nav-item dropdown mr-3 active">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notifications <span class="badge badge-primary mr-1"><%=notifications.length%></span></a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">Notifications <span class="badge badge-primary mr-1">
+                <%=notifications.length%>
+              </span></a>
             <ul class="dropdown-menu" style="min-width: 15rem; padding: 10px;">
-              <% if (notifications.length == 0) { %>
+              <% if (notifications.length==0) { %>
                 <li>No notifications.</li>
-              <% }else{ %>              
-                <% notifications.forEach(function(notification) { %>                          
-                  <li>
-                    <a href="/notification/<%= notification.id %>">
-                        <%= notification.username %> <span style="color: black;"> <%= notification.message %> </span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  
-                <% }); %>
-              <% } %>
-              
+                <% }else{ %>
+                  <% notifications.forEach(function(notification) { %>
+                    <li>
+                      <a href="/notification/<%= notification.id %>">
+                        <%= notification.username %> <span style="color: black;">
+                            <%= notification.message %>
+                          </span>
+                      </a>
+                      <div class="dropdown-divider"></div>
+                    </li>
+
+                    <% }); %>
+                      <% } %>
+
             </ul>
           </li>
           <li class="nav-item active mr-3">
-            <a class="nav-link login" href="/upload">Upload <svg class="upld" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-              fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
-              <path
-                d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
-            </svg></a>
-         </li>
+            <a class="nav-link login" href="/upload">Upload <svg class="upld" xmlns="http://www.w3.org/2000/svg"
+                width="20" height="20" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                <path
+                  d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
+              </svg></a>
+          </li>
           <li class="nav-item active">
-            <a class="nav-link login" href="/users/<%=currentUser._id%>"><%=currentUser.fullname%><span class="sr-only">(current)</span></a>
+            <a class="nav-link login" href="/users/<%=currentUser._id%>">
+              <%=currentUser.fullname%><span class="sr-only">(current)</span>
+            </a>
           </li>
           <li class="nav-item dropdown mr-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <img src="../../images/nav-profile-pic.png"
-                width="30" height="30" class="rounded-circle">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="../../images/nav-profile-pic.png" width="30" height="30" class="rounded-circle">
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared">View Stared</a>
@@ -63,11 +69,11 @@
               <a class="dropdown-item" href="/leaderboard">View Leaderboard</a>
             </div>
           </li>
-        <%}else{%>
-          <li class="nav-item">
-            <a class="btn btn-primary" href="/signup">Sign In</a>
-          </li>
-        <%}%>
+          <%}else{%>
+            <li class="nav-item">
+              <a class="btn btn-primary" href="/signup">Sign In</a>
+            </li>
+            <%}%>
       </ul>
 
     </div>
