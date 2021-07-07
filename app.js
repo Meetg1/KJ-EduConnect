@@ -4,12 +4,14 @@ require("dotenv").config();
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const courses = require("./courses");
+const subjects = require("./subjects");
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const Document = require("./models/Document.js");
 const Review = require("./models/Review.js");
 const Reply = require("./models/Reply.js");
 const Notification = require("./models/Notification");
+const Request = require("./models/Request");
 const Stat = require("./models/Stat");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -280,7 +282,7 @@ const isUploader = async (req, res, next) => {
   }
   const doc = await Document.findOne({ slug: req.params.slug });
   const user = await User.findById(req.user._id);
-  if (!user.role === "teacher" && !doc.uploader.id.equals(req.user._id)) {
+  if (!user.role === "admin" && !doc.uploader.id.equals(req.user._id)) {
     req.flash("danger", "You do not have permission to do that!");
     return res.redirect("/results/upvotes/1");
   }
@@ -312,14 +314,14 @@ const isVerified = async function (req, res, next) {
   }
 };
 
-const isTeacher = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
     return res.redirect("/signup");
   }
   try {
     const user = await User.findById(req.user._id);
-    if (!user.role === "teacher") {
+    if (!user.role === "admin") {
       req.flash("danger", "You are not an admin!");
       return res.redirect("back");
     }
@@ -437,17 +439,17 @@ app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
 app.get("/download/:slug", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    
+
     const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
-      
+
       user.save();
     }, 5000);
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDownloads++;
-    
+
     stat.save();
     doc.downloads++;
     doc.recentDownloads++;
@@ -520,7 +522,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       .populate("followers")
       .exec();
     foundUser.uploads = foundUser.uploads + 1;
-    
+
     foundUser.level_points = foundUser.level_points + 40;
     var prev_lvl = foundUser.level;
     var next_lvl = prev_lvl + 1;
@@ -609,7 +611,7 @@ app.get("/results/:sortBy/:page", async (req, res) => {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (user.role === "teacher") {
+    if (user.role === "admin") {
       return res.redirect("/admin/statistics");
     }
     res.render("results.ejs", {
@@ -696,7 +698,7 @@ app.post("/search/:sortBy/:page", async (req, res) => {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (user.role === "teacher") {
+    if (user.role === "admin") {
       return res.redirect("/admin/statistics");
     }
     res.render("results.ejs", {
@@ -781,7 +783,7 @@ app.get("/search/:sortBy/:page", async (req, res) => {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (user.role === "teacher") {
+    if (user.role === "admin") {
       return res.redirect("/admin/statistics");
     }
     res.render("results.ejs", {
@@ -868,7 +870,7 @@ app.post("/filter/:sortBy/:page", async (req, res) => {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (user.role === "teacher") {
+    if (user.role === "admin") {
       return res.redirect("/admin/statistics");
     }
     res.render("results.ejs", {
@@ -947,7 +949,7 @@ app.get("/filter/:sortBy/:page", async (req, res) => {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (user.role === "teacher") {
+    if (user.role === "admin") {
       return res.redirect("/admin/statistics");
     }
     res.render("results.ejs", {
@@ -1100,7 +1102,6 @@ app.post(
     foundDoc.reviews.push(review);
     foundDoc.save();
     const user = await User.findById(req.user._id);
-    
 
     await review.save();
     await foundDoc.save();
@@ -1215,7 +1216,7 @@ app.get("/single_material/:slug", async function (req, res) {
 
   if (req.user) {
     const user = await User.findById(req.user._id);
-    if (!user.role === "teacher" && doc.isReported) {
+    if (!user.role === "admin" && doc.isReported) {
       res.render("taken-down.ejs");
     } else {
       res.render("single_material.ejs", { doc });
@@ -1360,10 +1361,10 @@ app.post("/login", isVerified, isNotBanned, (req, res, next) => {
   })(req, res, next);
 });
 
-// User.findById("6090fc1304d9b41090f84eb9", function(err, user) {
-//   user.isAdmin = true
-//   user.save()
-// })
+// User.findById("60e586964d255030787aec55", function (err, user) {
+//   user.role = "admin";
+//   user.save();
+// });
 
 //Logout
 app.get("/logout", (req, res) => {
@@ -1528,27 +1529,33 @@ app.get("/notification/:notificationId", isLoggedIn, async (req, res) => {
 
 //  Stat.create({id:1})
 
-app.get("/admin/statistics", isTeacher, async (req, res) => {
+app.get("/admin/statistics", isAdmin, async (req, res) => {
   const stats = await Stat.findOne({ id: 1 });
   res.render("adminStats.ejs", { stats });
 });
 
-app.get("/admin/users", isTeacher, async (req, res) => {
+app.get("/admin/users", isAdmin, async (req, res) => {
   const users = await User.find({});
   res.render("adminUsers.ejs", { users });
 });
 
-app.get("/admin/allDocuments", isTeacher, async (req, res) => {
+app.get("/admin/allDocuments", isAdmin, async (req, res) => {
   const docs = await Document.find({});
   res.render("adminDocs.ejs", { docs });
 });
 
-app.get("/admin/reportedDocuments", isTeacher, async (req, res) => {
+app.get("/admin/reportedDocuments", isAdmin, async (req, res) => {
   const docs = await Document.find({ isReported: true });
   res.render("adminreportedDocs.ejs", { docs });
 });
 
-app.post("/users/:userId/ban", isTeacher, async (req, res) => {
+app.get("/admin/requests", isAdmin, async (req, res) => {
+  const requests = await Request.find().populate("requester", "fullname");
+  console.log(requests);
+  res.render("adminRequests.ejs", { requests });
+});
+
+app.post("/users/:userId/ban", isAdmin, async (req, res) => {
   const user = await User.findById(req.params.userId);
   if (user.isBanned) {
     user.isBanned = false;
@@ -1561,7 +1568,7 @@ app.post("/users/:userId/ban", isTeacher, async (req, res) => {
   res.redirect("/admin/Users");
 });
 
-app.post("/users/:userId/promote", isTeacher, async (req, res) => {
+app.post("/users/:userId/promote", isAdmin, async (req, res) => {
   const user = await User.findById(req.params.userId);
   if (user.role !== "moderator") {
     user.role = "moderator";
@@ -1758,7 +1765,54 @@ app.post("/single_material/:slug/reply", isLoggedIn, async (req, res) => {
   res.redirect("/single_material/" + req.params.slug);
 });
 
-// Error Page 404 
+app.get("/subject-expert", isLoggedIn, (req, res) => {
+  res.render("teacher-form.ejs", { subjects });
+});
+
+app.post("/subject-expert", isLoggedIn, async (req, res) => {
+  // console.log(req.body);
+  if (!req.body.subjects) {
+    req.flash("danger", "Please select atleast 1 subject!");
+    return res.redirect("back");
+  }
+  let request = new Request({
+    requester: req.user._id,
+    subjects: req.body.subjects,
+  });
+  request.save();
+  console.log(request);
+  req.flash("success", "Request has been sent to admin.");
+  res.redirect("back");
+});
+
+app.get(
+  "/subject-expert/:requestId/:requesterId/accept",
+  isAdmin,
+  async (req, res) => {
+    let request = await Request.findById(req.params.requestId);
+    await User.findOneAndUpdate(
+      { _id: req.params.requesterId },
+      {
+        $set: { subjects: request.subjects, role: "teacher" },
+      }
+    );
+    await Request.deleteOne({ _id: req.params.requestId });
+    req.flash("success", "Request Accepted.");
+    res.redirect("back");
+  }
+);
+
+app.get(
+  "/subject-expert/:requestId/:requesterId/reject",
+  isAdmin,
+  async (req, res) => {
+    await Request.deleteOne({ _id: req.params.requestId });
+    req.flash("danger", "Request Rejected.");
+    res.redirect("back");
+  }
+);
+
+// Error Page 404
 app.get("*", (req, res) => {
   res.render("404_page.ejs");
 });
