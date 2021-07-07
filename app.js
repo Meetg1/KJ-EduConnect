@@ -1768,6 +1768,11 @@ app.post("/single_material/:slug/reply", isLoggedIn, async (req, res) => {
   res.redirect("/single_material/" + req.params.slug);
 });
 
+// Error Page 404 
+app.get("*", (req, res) => {
+  res.render("404_page.ejs");
+});
+
 const port = 3000;
 
 app.listen(port, () => {
