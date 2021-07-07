@@ -437,25 +437,17 @@ app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
 app.get("/download/:slug", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    if (user.points < 20) {
-      req.flash(
-        "danger",
-        "Insufficient points! You need " +
-          (20 - user.points) +
-          "  more points to download this document!"
-      );
-      return res.redirect("/single_material/" + req.params.slug);
-    }
+    
     const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
-      user.points -= 20;
+      
       user.save();
     }, 5000);
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDownloads++;
-    stat.pointsSpent += 20;
+    
     stat.save();
     doc.downloads++;
     doc.recentDownloads++;
@@ -528,7 +520,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       .populate("followers")
       .exec();
     foundUser.uploads = foundUser.uploads + 1;
-    foundUser.points = foundUser.points + 60;
+    
     foundUser.level_points = foundUser.level_points + 40;
     var prev_lvl = foundUser.level;
     var next_lvl = prev_lvl + 1;
@@ -547,7 +539,6 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     // previewPicIds = [];
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDocuments++;
-    stat.pointsEarned += 60;
     stat.save();
 
     //creating the notification body
@@ -1109,7 +1100,7 @@ app.post(
     foundDoc.reviews.push(review);
     foundDoc.save();
     const user = await User.findById(req.user._id);
-    user.points += 5;
+    
 
     await review.save();
     await foundDoc.save();
@@ -1117,7 +1108,6 @@ app.post(
     await docOwner.save();
 
     let stat = await Stat.findOne({ id: 1 });
-    stat.pointsEarned += 5;
     stat.save();
 
     console.log(review);

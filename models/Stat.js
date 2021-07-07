@@ -18,14 +18,7 @@ const StatSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    pointsEarned: {
-        type: Number,
-        default: 0
-    },
-    pointsSpent: {
-        type: Number,
-        default: 0
-    }
+    
 });
 
 module.exports = mongoose.model("Stat", StatSchema);
