@@ -37,28 +37,6 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 
-passport.use(new GoogleStrategy({
-  clientID : process.env.GOOGLE_CLIENT_ID,
-  clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  passReqToCallback: true
-}, function(request, accessToken, refreshToken, profile, done) {
-  User.findOne({username: profile.email}).then((currentUser)=>{
-    if(currentUser){
-      done(null, currentUser);
-    } else{
-      new User ({
-        username: profile.email,
-        university: "KJSCE",
-        password: "abcd",
-        fullname: profile.displayName,
-      }).save().then((newUser) => {
-        done(null, newUser);
-      });
-    }
-  })
-  console.log(profile);
-}))
 
 //====================DATABASE CONNECTION==========================
 const db = process.env.MY_MONGODB_URI;
@@ -208,32 +186,36 @@ const JWT_SECRET = process.env.JWT_SECRET;
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  console.log(user);
-  /*
-  From the user take just the id (to minimize the cookie size) and just pass the id of the user
-  to the done callback
-  PS: You dont have to do it like this its just usually done like this
-  */
+
+// To Use Google Login System
+// passport.serializeUser(function(user, done) {
+//   console.log(user);
+//   /*
+//   From the user take just the id (to minimize the cookie size) and just pass the id of the user
+//   to the done callback
+//   PS: You dont have to do it like this its just usually done like this
+//   */
   
-  done(null, user);
-});
+//   done(null, user);
+// });
 
-passport.deserializeUser(function(user, done) {
-  /*
-  Instead of user this function usually recives the id 
-  then you use the id to select the user from the db and pass the user obj to the done callback
-  PS: You can later access this data in any routes in: req.user
-  */
+// passport.deserializeUser(function(user, done) {
+//   /*
+//   Instead of user this function usually recives the id 
+//   then you use the id to select the user from the db and pass the user obj to the done callback
+//   PS: You can later access this data in any routes in: req.user
+//   */
 
-  done(null, user);
+//   done(null, user);
   
-});
+// });
 
-// passport.use(new LocalStrategy(User.authenticate()));
 
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+// To Use Normal Login System
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 //===================================================================
 
 //Express Messages Middle ware
@@ -310,6 +292,44 @@ const checkReviewExistence = (req, res, next) => {
       }
     });
 };
+
+
+
+passport.use(new GoogleStrategy({
+  clientID : process.env.GOOGLE_CLIENT_ID,
+  clientSecret : process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  passReqToCallback: true
+}, function(request, accessToken, refreshToken, profile, done) {
+  
+  User.findOne({username: profile.email}).then((currentUser)=>{
+    if(currentUser){
+      currentUser.isVerified = true;
+      currentUser.save();
+      console.log(currentUser);
+      done(null, currentUser);
+      chk = 1;
+    } else{
+      // new User ({
+      //   username: profile.email,
+      //   university: "KJSCE",
+      //   password: "abcd",
+      //   fullname: profile.displayName,
+      // }).save().then((newUser) => {
+      //   done(null, newUser);
+      // });
+      request.flash("danger", "That email id is not registered!");
+      done(null, null);
+      
+      //return res.redirect("/landing ");
+
+    }
+  })
+  // if(chk==0){
+  //   request.flash("danger", "That email id is not registered!");
+  // }
+  console.log(profile);
+}))
 
 const checkReportExistence = async (req, res, next) => {
   if (!req.isAuthenticated()) {
