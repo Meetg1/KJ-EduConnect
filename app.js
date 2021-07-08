@@ -1221,19 +1221,21 @@ app.get("/signup", (req, res) => {
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
   console.log("hi inside lead");
-  const logged_in_user = await User.find(id = req.user._id);
+  console.log(User);
+  
+  const logged_in_user = await User.findById(req.user._id);
   const users = await User.find().sort({ level_points: -1 }).limit(20);
 
   function checkAdult(user) {
     console.log(user.username);
-    return user.username === logged_in_user[0].username;
+    return user.username === logged_in_user.username;
   }
 
   const logged_in_rank = users.findIndex(checkAdult);
 
   res.render("leaderboard.ejs", {
     users: users,
-    logged_in_user: logged_in_user[0],
+    logged_in_user: logged_in_user,
     logged_in_rank: logged_in_rank,
   });
   // allUsers = User.find({}, function (err, users) {
