@@ -33,6 +33,9 @@ const fs = require("fs");
 const crypto = require("crypto");
 const schedule = require("node-schedule");
 
+const cookieSession = require("cookie-session");
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
+
 //====================DATABASE CONNECTION==========================
 const dbUrl = "mongodb://localhost:27017/edu";
 
@@ -173,6 +176,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
+// To Use Google Login System
+// passport.serializeUser(function(user, done) {
+//   console.log(user);
+//   /*
+//   From the user take just the id (to minimize the cookie size) and just pass the id of the user
+//   to the done callback
+//   PS: You dont have to do it like this its just usually done like this
+//   */
+
+//   done(null, user);
+// });
+
+// passport.deserializeUser(function(user, done) {
+//   /*
+//   Instead of user this function usually recives the id
+//   then you use the id to select the user from the db and pass the user obj to the done callback
+//   PS: You can later access this data in any routes in: req.user
+//   */
+
+//   done(null, user);
+
+// });
+
+// To Use Normal Login System
+passport.use(new LocalStrategy(User.authenticate()));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 //===================================================================
@@ -251,6 +280,45 @@ const checkReviewExistence = (req, res, next) => {
       }
     });
 };
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      passReqToCallback: true,
+    },
+    function (request, accessToken, refreshToken, profile, done) {
+      User.findOne({ username: profile.email }).then((currentUser) => {
+        if (currentUser) {
+          currentUser.isVerified = true;
+          currentUser.save();
+          console.log(currentUser);
+          done(null, currentUser);
+          chk = 1;
+        } else {
+          // new User ({
+          //   username: profile.email,
+          //   university: "KJSCE",
+          //   password: "abcd",
+          //   fullname: profile.displayName,
+          // }).save().then((newUser) => {
+          //   done(null, newUser);
+          // });
+          request.flash("danger", "That email id is not registered!");
+          done(null, null);
+
+          //return res.redirect("/landing ");
+        }
+      });
+      // if(chk==0){
+      //   request.flash("danger", "That email id is not registered!");
+      // }
+      console.log(profile);
+    }
+  )
+);
 
 const checkReportExistence = async (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -1207,19 +1275,22 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
-  const logged_in_user = await User.find((id = req.user._id));
+  console.log("hi inside lead");
+  console.log(User);
+
+  const logged_in_user = await User.findById(req.user._id);
   const users = await User.find().sort({ level_points: -1 }).limit(20);
 
   function checkAdult(user) {
     console.log(user.username);
-    return user.username === logged_in_user[0].username;
+    return user.username === logged_in_user.username;
   }
 
   const logged_in_rank = users.findIndex(checkAdult);
 
   res.render("leaderboard.ejs", {
     users: users,
-    logged_in_user: logged_in_user[0],
+    logged_in_user: logged_in_user,
     logged_in_rank: logged_in_rank,
   });
   // allUsers = User.find({}, function (err, users) {
