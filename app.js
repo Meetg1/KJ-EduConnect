@@ -33,39 +33,12 @@ const fs = require("fs");
 const crypto = require("crypto");
 const schedule = require("node-schedule");
 
-const cookieSession = require("cookie-session");
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
-
-
-passport.use(new GoogleStrategy({
-  clientID : process.env.GOOGLE_CLIENT_ID,
-  clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  passReqToCallback: true
-}, function(request, accessToken, refreshToken, profile, done) {
-  User.findOne({username: profile.email}).then((currentUser)=>{
-    if(currentUser){
-      done(null, currentUser);
-    } else{
-      new User ({
-        username: profile.email,
-        university: "KJSCE",
-        password: "abcd",
-        fullname: profile.displayName,
-      }).save().then((newUser) => {
-        done(null, newUser);
-      });
-    }
-  })
-  console.log(profile);
-}))
-
 //====================DATABASE CONNECTION==========================
-const db = process.env.MY_MONGODB_URI;
+const dbUrl = "mongodb://localhost:27017/edu";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
+    await mongoose.connect(dbUrl, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useFindAndModify: false,
@@ -93,21 +66,12 @@ app.use(
 app.use(methodOverride("_method"));
 app.use(flash());
 
-// app.use(
-//   session({
-//     secret: "#sms#",
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// );
-
 app.use(
   session({
-    cookieKey : "abcdd",
     secret: "#sms#",
-     resave: true,
-     saveUninitialized: true,
-  })  
+    resave: true,
+    saveUninitialized: true,
+  })
 );
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -207,33 +171,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 //========================PASSPORT SETUP=============================
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(function(user, done) {
-  console.log(user);
-  /*
-  From the user take just the id (to minimize the cookie size) and just pass the id of the user
-  to the done callback
-  PS: You dont have to do it like this its just usually done like this
-  */
-  
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  /*
-  Instead of user this function usually recives the id 
-  then you use the id to select the user from the db and pass the user obj to the done callback
-  PS: You can later access this data in any routes in: req.user
-  */
-
-  done(null, user);
-  
-});
-
-// passport.use(new LocalStrategy(User.authenticate()));
-
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 //===================================================================
 
 //Express Messages Middle ware
@@ -1034,9 +975,7 @@ app.get("/filter/:sortBy/:page", async (req, res) => {
 
 app.get("/users/:user_id/stared", isLoggedIn, async (req, res) => {
   try {
-    //console.log();
     const user = await User.findById(req.user._id).populate("stared");
-    console.log(user._id);
     res.render("stared.ejs", {
       docs: user.stared,
     });
@@ -1178,6 +1117,54 @@ app.post(
   }
 );
 
+app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
+  const suggestion = new Review({
+    text: req.body.text,
+    author: req.user._id,
+  });
+
+  await suggestion.save();
+
+  if (req.body.subExpert && req.body.subExpert == "on") {
+    //send notifications to the respective subject experts
+
+    const foundDoc = await Document.findOne({ slug: req.params.slug });
+
+    let topic = foundDoc.topic;
+    let stat = await Stat.findOne({ id: 1 }).populate({
+      path: "subjects",
+      populate: {
+        path: "experts",
+      },
+    });
+
+    const foundUser = await User.findById(req.user._id);
+
+    const index = stat.subjects.findIndex((sub) => {
+      return topic == sub.subjectName;
+    });
+
+    if (index != -1) {
+      stat.subjects[index].experts.forEach(async (expert) => {
+        let newNotification = {
+          username: foundUser.username,
+          documentId: foundDoc.slug,
+          message: "has asked you to review a suggestion",
+        };
+        let notification = await Notification.create(newNotification);
+        expert.notifications.push(notification);
+        await expert.save();
+      });
+    }
+  }
+
+  foundDoc.suggestions.push(suggestion);
+  await foundDoc.save();
+
+  req.flash("success", "Suggestion submitted successfully!");
+  res.redirect("/single_material/" + req.params.slug);
+});
+
 app.get("/upload", isLoggedIn, (req, res) => {
   res.render("upload.ejs", {
     courses,
@@ -1220,8 +1207,7 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
-  console.log("hi inside lead");
-  const logged_in_user = await User.find(id = req.user._id);
+  const logged_in_user = await User.find((id = req.user._id));
   const users = await User.find().sort({ level_points: -1 }).limit(20);
 
   function checkAdult(user) {
@@ -1264,6 +1250,15 @@ app.get("/single_material/:slug", async function (req, res) {
         ],
       },
     ])
+    .populate([
+      {
+        path: "suggestions",
+        populate: [
+          { path: "author" },
+          { path: "replies", populate: [{ path: "author_reply" }] },
+        ],
+      },
+    ])
     .populate({
       path: "uploader",
       populate: {
@@ -1273,7 +1268,7 @@ app.get("/single_material/:slug", async function (req, res) {
 
   if (!doc) {
     req.flash("danger", "Cannot find that document!");
-    return res.redirect("back");
+    return res.redirect("/results/upvotes/1");
   }
 
   if (req.user) {
@@ -1295,7 +1290,7 @@ app.delete(
   isLoggedIn,
   isUploader,
   async (req, res) => {
-    const doc = await Document.deleteOne({ slug: req.params.slug }); //delete document from mongoDB
+    const doc = await Document.findOneAndDelete({ slug: req.params.slug }); //delete document from mongoDB
     deleteFromDrive(doc.driveId); //delete document from drive
     await Review.deleteMany({ _id: { $in: doc.reviews } }); //delete all reviews of the document
 
@@ -1832,7 +1827,6 @@ app.get("/subject-expert", isLoggedIn, (req, res) => {
 });
 
 app.post("/subject-expert", isLoggedIn, async (req, res) => {
-  // console.log(req.body);
   if (!req.body.subjects) {
     req.flash("danger", "Please select atleast 1 subject!");
     return res.redirect("back");
@@ -1847,22 +1841,38 @@ app.post("/subject-expert", isLoggedIn, async (req, res) => {
   res.redirect("back");
 });
 
-app.get(
-  "/subject-expert/:requestId/:requesterId/accept",
-  isAdmin,
-  async (req, res) => {
-    let request = await Request.findById(req.params.requestId);
-    await User.findOneAndUpdate(
-      { _id: req.params.requesterId },
-      {
-        $set: { subjects: request.subjects, role: "teacher" },
-      }
-    );
-    await Request.deleteOne({ _id: req.params.requestId });
-    req.flash("success", "Request Accepted.");
-    res.redirect("back");
-  }
-);
+app.get("/subject-expert/:requestId/:requesterId/accept", async (req, res) => {
+  let request = await Request.findById(req.params.requestId);
+  await User.findOneAndUpdate(
+    { _id: req.params.requesterId },
+    {
+      $set: { subjects: request.subjects, role: "teacher" },
+    }
+  );
+
+  //add approved expert id to respective subjects in stat model
+  let stat = await Stat.findOne({ id: 1 });
+  request.subjects.forEach((sub) => {
+    console.log(sub);
+    const index = stat.subjects.findIndex((subject) => {
+      return subject.subjectName == sub;
+    });
+    console.log(index);
+    if (index != -1) {
+      stat.subjects[index].experts.push(req.params.requesterId);
+    } else {
+      stat.subjects.push({
+        subjectName: sub,
+        experts: [req.params.requesterId],
+      });
+    }
+  });
+  await stat.save();
+
+  await Request.deleteOne({ _id: req.params.requestId });
+  req.flash("success", "Request Accepted.");
+  res.redirect("back");
+});
 
 app.get(
   "/subject-expert/:requestId/:requesterId/reject",
@@ -1873,12 +1883,6 @@ app.get(
     res.redirect("back");
   }
 );
-
-app.get('/google', passport.authenticate('google',{scope:['profile', 'email']}));
-
-app.get('/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}), function(req, res)  {
-  res.redirect('/results/upvotes/1');
-});
 
 // Error Page 404
 app.get("*", (req, res) => {

@@ -72,6 +72,12 @@ const DocumentSchema = new mongoose.Schema({
       ref: "Review",
     },
   ],
+  suggestions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
   downloads: {
     type: Number,
     default: 0,
@@ -85,7 +91,9 @@ const DocumentSchema = new mongoose.Schema({
 // add a slug before the item gets saved to the database
 DocumentSchema.pre("save", async function (next) {
   try {
-    this.slug = await generateUniqueSlug(this._id, this.title);
+    if (this.isNew || this.isModified("title")) {
+      this.slug = await generateUniqueSlug(this._id, this.title);
+    }
     next();
   } catch (err) {
     console.log(err);
