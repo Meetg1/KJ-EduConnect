@@ -1955,6 +1955,13 @@ app.get(
   }
 );
 
+
+app.get('/google', passport.authenticate('google',{scope:['profile', 'email']}));
+
+app.get('/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}), function(req, res)  {
+  res.redirect('/results/upvotes/1');
+});
+
 // Error Page 404
 app.get("*", (req, res) => {
   res.render("404_page.ejs");
