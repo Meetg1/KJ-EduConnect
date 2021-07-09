@@ -4,6 +4,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/results.css">
+
+
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   </head>
 
@@ -16,7 +18,7 @@
 
           <section class="filter_section mt-5">
 
-            <form action="/filter/upvotes/1" method="POST">
+            <form action="/filter/upvotes/1" method="POST" class="filter-form">
               <div class="row">
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="university">University filter</label>
@@ -44,8 +46,15 @@
 
                 </div>
               </div>
-              <button type="submit" class="btn btn-outline-primary">Add filters
-              </button>
+              <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn submit-filter-btn" style="">Add filters
+                  </button>
+                </div>
+                <div class="col-md-5"></div>
+              </div>
+              
             </form>
 
           </section>
@@ -55,7 +64,7 @@
           <section class="results mt-4">
             <div class="top">
               <h4 class="mb-0 d-inline">
-                <% if (type==="upvotes" ) { %>
+                <!-- <% if (type==="upvotes" ) { %>
                   <%= "Highest Rated Documents" %>
                     <% } else if (type==="downloads" ) { %>
                       <%= "Most Downloaded Documents" %>
@@ -63,10 +72,10 @@
                           <%= "Trending Documents (last 7 days)" %>
                             <% } else if (type==="recent" ) { %>
                               <%= "Most Recent Documents" %>
-                                <% } %>
+                                <% } %> -->
               </h4>
               <span class="dropdown float-right">
-                <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Sort By: <% if (type==="upvotes" ) { %>
                     <%= "Upvotes" %>
@@ -202,6 +211,7 @@
           </div>
           <br>
         </div>
+
 
 
         <script>

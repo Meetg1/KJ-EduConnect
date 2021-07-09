@@ -37,7 +37,10 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 //====================DATABASE CONNECTION==========================
-const dbUrl = process.env.MY_MONGODB_URI;
+
+const dbUrl =  "mongodb://localhost:27017/edu";
+//const dbUrl = process.env.MY_MONGODB_URI;
+
 
 const connectDB = async () => {
   try {
@@ -1450,10 +1453,11 @@ app.post("/register", async (req, res) => {
       );
       console.log(link);
       // sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
-      res.redirect("/results/upvotes/1");
       let stat = await Stat.findOne({ id: 1 });
       stat.totalUsers++;
       stat.save();
+      res.redirect("/results/upvotes/1");
+      
     }
   } catch (error) {
     console.log(error);

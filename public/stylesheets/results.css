@@ -89,3 +89,24 @@ html {
     margin-bottom: -3px;
   }
 }
+
+.filter-form{
+  background-color: #E7E8E9;
+  padding: 15px;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.submit-filter-btn{
+  border-color: black; 
+  font-weight: bold;
+  width: 100%;
+}
+
+.submit-filter-btn:hover{
+  border-color: black;
+  fill: #B7202E;
+  cursor: grab;
+}
