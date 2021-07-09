@@ -29,7 +29,7 @@
                     placeholder="Filter by course" id="courseName">
                 </div>
                 <div class="filterBox col-lg-3 mb-3">
-                  <label class="d-block" for="topic">Year filter</label>
+                  <label class="d-block" for="subject">Year filter</label>
                   <input type="text" class="form-control" name="year" style="width: inherit;"
                     placeholder="Filter by year">
                 </div>
@@ -66,7 +66,7 @@
                                 <% } %>
               </h4>
               <span class="dropdown float-right">
-                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Sort By: <% if (type==="upvotes" ) { %>
                     <%= "Upvotes" %>
@@ -113,7 +113,7 @@
                       </span>
                     </div>
                     <h5 class="pt-2">
-                      <%= doc.topic %>
+                      <%= doc.subject %>
                     </h5>
                     <h5 class="pt-2">
                       <%= doc.university %>
@@ -157,8 +157,7 @@
                       <button class="btn btn-xs btn-danger">Delete</button>
                     </form>
                     <% } %>
-                      <% if (typeof(stared) !="undefined" && stared.some(function(star) { return doc.slug.equals(star)
-                        })){ %>
+                      <% if (typeof(stared) !="undefined" && stared.some(function(star) { return doc.slug==star })){ %>
                         <form action="/results/<%=doc.slug%>/removestar" method="POST" class="d-inline"><button
                             type="submit" class="btn btn-xs btn-outline-success"><svg
                               style="position: relative; top: -3px" xmlns="http://www.w3.org/2000/svg" width="16"

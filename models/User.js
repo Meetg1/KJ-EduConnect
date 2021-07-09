@@ -72,8 +72,8 @@ const UserSchema = new mongoose.Schema({
   },
   stared: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Document",
+      type: String,
+      unique: true,
     },
   ],
   reports: {

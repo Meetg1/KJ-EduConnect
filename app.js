@@ -37,7 +37,7 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 //====================DATABASE CONNECTION==========================
-const dbUrl = "mongodb://localhost:27017/edu";
+const dbUrl = process.env.MY_MONGODB_URI;
 
 const connectDB = async () => {
   try {
@@ -530,7 +530,7 @@ app.get("/download/:slug", isLoggedIn, async (req, res) => {
 //============================================================
 
 app.post("/upload", isLoggedIn, async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   try {
     const {
       university,
@@ -538,7 +538,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       title,
       category,
       year,
-      topic,
+      subject,
       num_pages,
       description,
     } = req.body;
@@ -548,7 +548,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
     req.checkBody("title", "Title is required").notEmpty();
     req.checkBody("category", "Category is required").notEmpty();
     req.checkBody("year", "year is required").notEmpty();
-    req.checkBody("topic", "Topic is required").notEmpty();
+    req.checkBody("subject", "Subject is required").notEmpty();
     req.checkBody("num_pages", "num_pages is required").notEmpty();
     req.checkBody("description", "description is required").notEmpty();
 
@@ -574,7 +574,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       title: title,
       category: category,
       year: year,
-      topic: topic,
+      subject: subject,
       num_pages: num_pages,
       description: description,
       uploader: uploader,
@@ -719,7 +719,7 @@ app.post("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ upvotes: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -730,7 +730,7 @@ app.post("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ downloads: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -741,7 +741,7 @@ app.post("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ recentDownloads: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -752,7 +752,7 @@ app.post("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ year: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -804,7 +804,7 @@ app.get("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ upvotes: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -815,7 +815,7 @@ app.get("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ downloads: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -826,7 +826,7 @@ app.get("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ recentDownloads: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -837,7 +837,7 @@ app.get("/search/:sortBy/:page", async (req, res) => {
         { university: { $regex: new RegExp(keyword, "i") } },
         { course: { $regex: new RegExp(keyword, "i") } },
         { title: { $regex: new RegExp(keyword, "i") } },
-        { topic: { $regex: new RegExp(keyword, "i") } },
+        { subject: { $regex: new RegExp(keyword, "i") } },
       ],
     }).sort({ year: -1 });
     docs = docs.slice(skip, skip + limit);
@@ -1043,9 +1043,11 @@ app.get("/filter/:sortBy/:page", async (req, res) => {
 
 app.get("/users/:user_id/stared", isLoggedIn, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).populate("stared");
+    const user = await User.findById(req.user._id);
+    let stared = user.stared;
+    let docs = await Document.find({ slug: { $in: [...stared] } });
     res.render("stared.ejs", {
-      docs: user.stared,
+      docs: docs,
     });
   } catch (error) {
     console.log(error);
@@ -1055,8 +1057,8 @@ app.get("/users/:user_id/stared", isLoggedIn, async (req, res) => {
 app.post("/results/:slug/addstar", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const foundDoc = await Document.findOne({ slug: req.params.slug });
-    user.stared.push(foundDoc);
+    // const foundDoc = await Document.findOne({ slug: req.params.slug });
+    user.stared.push(req.params.slug);
     user.save();
     req.flash("success", "Document added to starred documents.");
     return res.redirect("back");
@@ -1198,7 +1200,7 @@ app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
 
     const foundDoc = await Document.findOne({ slug: req.params.slug });
 
-    let topic = foundDoc.topic;
+    let subject = foundDoc.subject;
     let stat = await Stat.findOne({ id: 1 }).populate({
       path: "subjects",
       populate: {
@@ -1209,7 +1211,7 @@ app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
     const foundUser = await User.findById(req.user._id);
 
     const index = stat.subjects.findIndex((sub) => {
-      return topic == sub.subjectName;
+      return subject == sub.subjectName;
     });
 
     if (index != -1) {
@@ -1236,6 +1238,7 @@ app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
 app.get("/upload", isLoggedIn, (req, res) => {
   res.render("upload.ejs", {
     courses,
+    subjects,
   });
 });
 
@@ -1655,7 +1658,7 @@ app.get("/notification/:notificationId", isLoggedIn, async (req, res) => {
   }
 });
 
-//  Stat.create({id:1})
+// Stat.create({ id: 1 });
 
 app.get("/admin/statistics", isAdmin, async (req, res) => {
   const stats = await Stat.findOne({ id: 1 });
@@ -1725,7 +1728,7 @@ app.get("/undefined", (req, res) => {
 //     { university: { $regex: new RegExp(keyword, "i") } },
 //     { course: { $regex: new RegExp(keyword, "i") } },
 //     { title: { $regex: new RegExp(keyword, "i") } },
-//     { topic: { $regex: new RegExp(keyword, "i") } },
+//     { subject: { $regex: new RegExp(keyword, "i") } },
 //   ],
 // });
 
@@ -1738,8 +1741,8 @@ app.get("/autocomplete", function (req, res, next) {
       { title: 1 },
       { university: regex },
       { university: 1 },
-      { topic: regex },
-      { topic: 1 },
+      { subject: regex },
+      { subject: 1 },
       { course: regex },
       { course: 1 },
     ],
@@ -1756,15 +1759,15 @@ app.get("/autocomplete", function (req, res, next) {
           let obj = {
             id: doc.slug,
             label:
-              "Topic: " +
-              doc.topic +
+              "subject: " +
+              doc.subject +
               ", Title: " +
               doc.title +
               ", University: " +
               doc.university +
               ", Course: " +
               doc.course,
-            value: doc.topic,
+            value: doc.subject,
           };
           result.push(obj);
         });
@@ -1955,12 +1958,18 @@ app.get(
   }
 );
 
+app.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-app.get('/google', passport.authenticate('google',{scope:['profile', 'email']}));
-
-app.get('/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}), function(req, res)  {
-  res.redirect('/results/upvotes/1');
-});
+app.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/signup" }),
+  function (req, res) {
+    res.redirect("/results/upvotes/1");
+  }
+);
 
 // Error Page 404
 app.get("*", (req, res) => {

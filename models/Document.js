@@ -21,7 +21,7 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  topic: {
+  subject: {
     type: String,
     required: true,
   },
