@@ -70,12 +70,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  stared: [
-    {
-      type: String,
-      unique: true,
-    },
-  ],
+  stared: [String],
   reports: {
     type: Number,
     default: 0,
