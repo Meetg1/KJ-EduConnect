@@ -38,8 +38,8 @@ const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 //====================DATABASE CONNECTION==========================
 
-const dbUrl =  "mongodb://localhost:27017/edu";
-//const dbUrl = process.env.MY_MONGODB_URI;
+//const dbUrl =  "mongodb://localhost:27017/edu";
+const dbUrl = process.env.MY_MONGODB_URI;
 
 
 const connectDB = async () => {
