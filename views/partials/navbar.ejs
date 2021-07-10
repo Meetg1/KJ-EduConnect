@@ -1,94 +1,172 @@
-<nav class="navbar navbar-expand-lg " style="background-color: #B7202E;">
-  <div class="container" style="border-radius: 5px;">
-    <div style="padding: 5px 10px; background-color: white; ">
-      <a class="navbar-brand " href="/results/upvotes/1"
-        style="color: #B7202E; margin-right: 0px;"><b>EduConnect</b></a>
-    </div>
+<nav
+  class="navbar navbar-expand-lg"
+  style="background-color: #E7E8E9; padding-top: 20px; padding-bottom: 30px; border-color: black;"
+>
+  <div class="container" style="border-radius: 0px; padding: 0px;">
+      <a
+        class="navbar-brand float-left"
+        href="/results/upvotes/1"
+        style="color: #b7202e; margin-right: 15px; width: 17%;"
 
+      >
+        <!-- <b>EduConnect</b> -->
+        <img
+          src="https://www.somaiya.edu/assets/university/img/homepage/university-logo.svg"
+          alt=""
+          style="width: 100%"
+        />
+      </a>
 
-    <form class="form-inline my-2 mx-2 my-lg-0" method="POST" action="/search/upvotes/1">
-      <input name="keyword" class="form-control searchbar" type="search"
-        placeholder="Search for Courses, books or documents" id="searchName" aria-label="Search"
-        style="border-color: black;">
-      <button class="btn  my-2 my-sm-0" type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search"
-          style="color: black;" viewBox="0 0 16 16">
+    <form
+      class="form-inline my-2 mx-2 my-lg-0"
+      method="POST"
+      action="/search/upvotes/1"
+    >
+      <input
+        name="keyword"
+        class="form-control searchbar"
+        type="search"
+        placeholder="Search for Courses, books or documents"
+        id="searchName"
+        aria-label="Search"
+        style="border-color: black"
+      />
+      <button class="btn my-2 my-sm-0" type="submit" style="border: 1px solid black; margin-left: 2px;">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="black"
+          class="bi bi-search"
+          style="color: black;"
+          viewBox="0 0 16 16"
+        >
           <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+          />
         </svg>
       </button>
     </form>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"> </span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: fit-content;">
       <ul class="navbar-nav ml-auto">
         <% if(currentUser){ %>
-          <li class="nav-item dropdown mr-3 active">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-              aria-expanded="false" style="color: white;">Notifications <span class="badge mr-1"
-                style="color: black; background-color: white;">
-                <%=notifications.length%>
-              </span></a>
-            <ul class="dropdown-menu" style="min-width: 15rem; padding: 10px;">
-              <% if (notifications.length==0) { %>
-                <li>No notifications.</li>
-                <% }else{ %>
-                  <% notifications.forEach(function(notification) { %>
-                    <li>
-                      <a href="/notification/<%= notification.id %>">
-                        <%= notification.username %> <span style="color: black;">
-                            <%= notification.message %>
-                          </span>
-                      </a>
-                      <div class="dropdown-divider"></div>
-                    </li>
-
-                    <% }); %>
-                      <% } %>
-
-            </ul>
-          </li>
-          <li class="nav-item active mr-3">
-            <a class="nav-link login" href="/upload" style="color: white;">Upload <svg class="upld"
-                xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
-                <path
-                  d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
-              </svg></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link login" href="/users/<%=currentUser._id%>" style="color: white;">
-              <%=currentUser.fullname%><span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item dropdown mr-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-              <img src="../../images/nav-profile-pic.png" width="30" height="30" class="rounded-circle">
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared">View Stared</a>
-              <hr style="margin: 2px;">
-              <a class="dropdown-item" href="/logout">Logout</a>
-              <hr style="margin: 2px;">
-              <a class="dropdown-item" href="/users/<%=currentUser._id%>">View Profile</a>
-              <hr style="margin: 2px;">
-              <a class="dropdown-item" href="/leaderboard">View Leaderboard</a>
-              <hr style="margin: 2px;">
-              <a class="dropdown-item" href="/subject-expert">Become a Subject-Expert</a>
-            </div>
-          </li>
-          <%}else{%>
-            <li class="nav-item" style="margin:2px;">
-              <a class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Sign In</a>
+        <li class="nav-item dropdown mr-3 active">
+          <a
+            href="#"
+            class="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            style="color: black"
+            >Notifications
+            <span
+              class="badge mr-1"
+              style="color: white; background-color: black"
+            >
+              <%=notifications.length%>
+            </span></a
+          >
+          <ul class="dropdown-menu" style="min-width: 15rem; padding: 10px">
+            <% if (notifications.length==0) { %>
+            <li>No notifications.</li>
+            <% }else{ %> <% notifications.forEach(function(notification) { %>
+            <li>
+              <a href="/notification/<%= notification.id %>">
+                <%= notification.username %>
+                <span style="color: black"> <%= notification.message %> </span>
+              </a>
+              <div class="dropdown-divider"></div>
             </li>
-            <%}%>
-      </ul>
 
+            <% }); %> <% } %>
+          </ul>
+        </li>
+        <li class="nav-item active mr-3">
+          <a class="nav-link login" href="/upload" style="color: black"
+            >Upload
+            <svg
+              class="upld"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-cloud-arrow-up-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"
+              /></svg
+          ></a>
+        </li>
+        <li class="nav-item active">
+          <a
+            class="nav-link login"
+            href="/users/<%=currentUser._id%>"
+            style="color: black"
+          >
+            <%=currentUser.fullname%><span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown mr-3">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            style="color: white"
+          >
+            <img
+              src="../../images/nav-profile-pic.png"
+              width="30"
+              height="30"
+              class="rounded-circle"
+            />
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared"
+              >View Stared</a
+            >
+            <hr style="margin: 2px" />
+            <a class="dropdown-item" href="/logout">Logout</a>
+            <hr style="margin: 2px" />
+            <a class="dropdown-item" href="/users/<%=currentUser._id%>"
+              >View Profile</a
+            >
+            <hr style="margin: 2px" />
+            <a class="dropdown-item" href="/leaderboard">View Leaderboard</a>
+            <hr style="margin: 2px" />
+            <a class="dropdown-item" href="/subject-expert"
+              >Become a Subject-Expert</a
+            >
+          </div>
+        </li>
+        <%}else{%>
+        <li class="nav-item" style="margin: 2px">
+          <a
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#loginModal"
+            >Sign In</a
+          >
+        </li>
+        <%}%>
+      </ul>
     </div>
   </div>
-
 </nav>

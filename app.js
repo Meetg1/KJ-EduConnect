@@ -1982,6 +1982,16 @@ app.get(
   }
 );
 
+app.post('/uploadAvatar', isLoggedIn, async (req, res)=>{
+  console.log("Hiiii");
+  req_user = await User.findById(req.user._id);
+  var img_src = req.body.avatarsrc;
+  req_user.profilePic = img_src;
+  req_user.save();
+  console.log(img_src);
+  res.redirect("back");
+});
+
 // Error Page 404
 // app.get("*", (req, res) => {
 //   res.render("404_page.ejs");

@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/stylesheets/results.css">
 
 
+
   <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
   </head>
 
@@ -61,9 +62,9 @@
           <hr>
 
 
-          <section class="results mt-4">
+          <section class="results mt-4 ">
             <div class="top">
-              <h4 class="mb-0 d-inline">
+              <!-- <h4 class="mb-0 d-inline">
                 <% if (type==="upvotes" ) { %>
                   <%= "Highest Rated Documents" %>
                     <% } else if (type==="downloads" ) { %>
@@ -73,7 +74,7 @@
                             <% } else if (type==="recent" ) { %>
                               <%= "Most Recent Documents" %>
                                 <% } %>
-              </h4>
+              </h4> -->
               <span class="dropdown float-right">
                 <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -103,8 +104,8 @@
                 </div>
               </span>
             </div>
-
-
+            
+            <br>
 
             <% if(typeof(docs) !="undefined" ) { %>
               <% docs.forEach((doc)=> { %>
@@ -121,10 +122,10 @@
                         <%= doc.category %>
                       </span>
                     </div>
-                    <h5 class="pt-2">
+                    <h5 class="pt-2" style="">
                       <%= doc.subject %>
                     </h5>
-                    <h5 class="pt-2">
+                    <h5 class="pt-2" style="">
                       <%= doc.university %>
                     </h5>
                     <div class="date mb-4">
