@@ -92,8 +92,7 @@ html {
 }
 
 #form_pic {
-  margin-top: -120px;
-  margin-left: 600px;
+  
 }
 
 .bi-star-fill {
@@ -173,13 +172,7 @@ html {
   margin-right: 150px;
 } */
 
-.image--cover {
-  width: 13rem;
-  height: 13rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center right;
-}
+
 
 .format {
   color: #4e657e;
@@ -389,4 +382,115 @@ html {
     margin-left: 10px;
     margin-bottom: 30px;
   }
+}
+
+.img-container {
+  position: relative;
+  width: 15%;
+}
+
+.image--cover {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center right;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.img-container:hover .image--cover {
+  opacity: 0.3;
+}
+
+.img-container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  
+  color: white;
+  font-size: 16px;
+  padding: 0px 0px;
+}
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+[type="file"] + label {
+  background: #f15d22;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Rubik', sans-serif;
+  font-size: inherit;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 1rem 30px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+[type="file"] + label:hover {
+  background-color: #d3460d;
+}
+[type="file"] + label.btn-2 {
+  background-color: #99c793;
+  border-radius: 50px;
+  overflow: hidden;
+}
+[type="file"] + label.btn-2::before {
+  color: #fff;
+  font-size: 100%;
+  height: 100%;
+  right: 130%;
+  line-height: 3.3;
+  position: absolute;
+  top: 0px;
+}
+[type="file"] + label.btn-2:hover {
+  background-color: #497f42;
+}
+[type="file"] + label.btn-2:hover::before {
+  right: 75%;
+}
+
+.image-submit{
+  background-color: #99c793;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Rubik', sans-serif;
+  font-size: inherit;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 15px 25px 15px 25px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+.image-submit:hover{
+  background-color: #497f42;
+  color: white;
+  
 }

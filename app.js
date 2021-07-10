@@ -37,7 +37,10 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 //====================DATABASE CONNECTION==========================
-const dbUrl = process.env.MY_MONGODB_URI;
+
+const dbUrl =  "mongodb://localhost:27017/edu";
+//const dbUrl = process.env.MY_MONGODB_URI;
+
 
 const connectDB = async () => {
   try {
@@ -249,7 +252,7 @@ app.use(
 const isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   }
   next();
 };
@@ -257,7 +260,7 @@ const isLoggedIn = (req, res, next) => {
 const checkReviewExistence = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   }
   Document.findOne({ slug: req.params.slug })
     .populate("reviews")
@@ -295,6 +298,7 @@ passport.use(
           currentUser.isVerified = true;
           currentUser.save();
           console.log(currentUser);
+          request.flash("success", "Welcome to EduConnect " + currentUser.username + "!");
           done(null, currentUser);
           chk = 1;
         } else {
@@ -323,7 +327,7 @@ passport.use(
 const checkReportExistence = async (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   }
   try {
     const foundDoc = await Document.findOne({ slug: req.params.slug });
@@ -346,7 +350,7 @@ const checkReportExistence = async (req, res, next) => {
 const isUploader = async (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   }
   const doc = await Document.findOne({ slug: req.params.slug });
   const user = await User.findById(req.user._id);
@@ -362,7 +366,7 @@ const isVerified = async function (req, res, next) {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
       req.flash("danger", "No account with that email exists.");
-      return res.redirect("/signup");
+      return res.redirect("/results/upvotes/1");
     }
     if (user.isVerified) {
       return next();
@@ -371,21 +375,21 @@ const isVerified = async function (req, res, next) {
       "danger",
       "Your account has not been verified! Please check your email to verify your account."
     );
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   } catch (error) {
     console.log(error);
     req.flash(
       "danger",
       "Something went wrong! Please contact us for assistance"
     );
-    res.redirect("/signup");
+    res.redirect("/results/upvotes/1");
   }
 };
 
 const isAdmin = async (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/signup");
+    return res.redirect("/results/upvotes/1");
   }
   try {
     const user = await User.findById(req.user._id);
@@ -407,7 +411,7 @@ const isNotBanned = async (req, res, next) => {
         "danger",
         "You have been banned! Contact us for more information."
       );
-      return res.redirect("/signup");
+      return res.redirect("/results/upvotes/1");
     }
     next();
   } catch (error) {
@@ -1273,9 +1277,9 @@ app.get("/landing", (req, res) => {
   res.render("landing.ejs");
 });
 
-app.get("/signup", (req, res) => {
-  res.render("signup.ejs");
-});
+// app.get("/signup", (req, res) => {
+//   res.render("signup.ejs");
+// });
 
 app.get("/leaderboard", isLoggedIn, async (req, res) => {
   console.log("hi inside lead");
@@ -1420,12 +1424,12 @@ app.post("/register", async (req, res) => {
     //   .checkBody("password", "password must be of minimum 6 characters")
     //   .isLength({ min: 6 });
     req.checkBody("cpwd", "Passwords do not match").equals(req.body.password);
+   console.log(fullname,university, username, password);
 
     let errors = req.validationErrors();
     if (errors) {
-      res.render("signup.ejs", {
-        errors,
-      });
+      req.flash("danger",errors[0].msg);
+      res.redirect("back");
     } else {
       const user = new User({
         username: username,
@@ -1449,14 +1453,16 @@ app.post("/register", async (req, res) => {
       );
       console.log(link);
       // sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
-      res.redirect("/signup");
       let stat = await Stat.findOne({ id: 1 });
       stat.totalUsers++;
       stat.save();
+      res.redirect("/results/upvotes/1");
+      
     }
   } catch (error) {
+    console.log(error);
     req.flash("danger", "Email is already registered!");
-    res.redirect("/signup");
+    res.redirect("back");
   }
 });
 
@@ -1469,24 +1475,24 @@ app.get("/verify-email", async (req, res, next) => {
         "danger",
         "Token is invalid! Please contact us for assistance."
       );
-      return res.redirect("/signup");
+      return res.redirect("/results/upvotes/1");
     }
     user.usernameToken = null;
     user.isVerified = true;
     await user.save();
     req.flash("success", "Email verified successfully!");
-    res.redirect("/signup");
+    res.redirect("/results/upvotes/1");
   } catch (error) {
     console.log(error);
     req.flash("danger", "Token is invalid! Please contact us for assistance.");
-    res.redirect("/signup");
+    res.redirect("/results/upvotes/1");
   }
 });
 
 app.post("/login", isVerified, isNotBanned, (req, res, next) => {
   passport.authenticate("local", {
-    failureRedirect: "/signup",
-    successRedirect: "/results/upvotes/1",
+    failureRedirect: "back",
+    successRedirect: "back",
     failureFlash: true,
     successFlash: "Welcome to EduConnect " + req.body.username + "!",
   })(req, res, next);
@@ -1501,7 +1507,7 @@ app.post("/login", isVerified, isNotBanned, (req, res, next) => {
 app.get("/logout", (req, res) => {
   req.logout();
   req.flash("success", "Logged Out Successfully.");
-  res.redirect("/signup");
+  res.redirect("/results/upvotes/1");
 });
 
 //forgot and reset password
@@ -1526,10 +1532,10 @@ app.post("/forgot-password", (req, res) => {
         sendMail(email, link).then((result) =>
           console.log("Email sent....", result)
         );
-        res.redirect("/signup");
+        res.redirect("/results/upvotes/1");
       } else {
         req.flash("danger", "That email id is not registered!");
-        return res.redirect("/signup");
+        return res.redirect("/results/upvotes/1");
       }
     } catch (error) {
       console.log(error);
@@ -1545,7 +1551,7 @@ app.get("/reset-password/:token", async (req, res) => {
     const foundUser = await User.findOne({ username: payload.email });
     if (!foundUser) {
       req.flash("danger", "User not found!");
-      return res.redirect("/signup");
+      return res.redirect("/results/upvotes/1");
     }
     res.render("reset-password.ejs", { token });
   } catch (error) {
@@ -1563,7 +1569,7 @@ app.post("/reset-password/:token", (req, res) => {
       const foundUser = await User.findOne({ username: payload.email });
       if (!foundUser) {
         req.flash("danger", "User not found!");
-        return res.redirect("/signup");
+        return res.redirect("/results/upvotes/1");
       }
 
       const { new_password, confirm_password } = req.body;
@@ -1571,7 +1577,7 @@ app.post("/reset-password/:token", (req, res) => {
         await foundUser.setPassword(new_password);
         await foundUser.save();
         req.flash("success", "Password has been reset successfully!");
-        res.redirect("/signup");
+        res.redirect("/results/upvotes/1");
       } else {
         req.flash("danger", "Oops! Passwords do not match!");
         return res.redirect("back");
@@ -1965,16 +1971,16 @@ app.get(
 
 app.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/signup" }),
+  passport.authenticate("google", { failureRedirect: "/results/upvotes/1" }),
   function (req, res) {
     res.redirect("/results/upvotes/1");
   }
 );
 
 // Error Page 404
-app.get("*", (req, res) => {
-  res.render("404_page.ejs");
-});
+// app.get("*", (req, res) => {
+//   res.render("404_page.ejs");
+// });
 
 const port = 3000;
 
