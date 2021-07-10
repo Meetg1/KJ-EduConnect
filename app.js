@@ -38,9 +38,8 @@ const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 //====================DATABASE CONNECTION==========================
 
-//const dbUrl =  "mongodb://localhost:27017/edu";
+// const dbUrl = "mongodb://localhost:27017/edu";
 const dbUrl = process.env.MY_MONGODB_URI;
-
 
 const connectDB = async () => {
   try {
@@ -252,7 +251,7 @@ app.use(
 const isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash("danger", "Please Log In First!");
-    return res.redirect("/results/upvotes/1");
+    return res.redirect("back");
   }
   next();
 };
@@ -298,7 +297,10 @@ passport.use(
           currentUser.isVerified = true;
           currentUser.save();
           console.log(currentUser);
-          request.flash("success", "Welcome to EduConnect " + currentUser.username + "!");
+          request.flash(
+            "success",
+            "Welcome to EduConnect " + currentUser.fullname + "!"
+          );
           done(null, currentUser);
           chk = 1;
         } else {
@@ -487,6 +489,10 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
 
 //   res.send(file);
 // });
+
+app.get("/", (req, res) => {
+  res.redirect("/results/upvotes/1");
+});
 
 app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
   //profilePicIds.push(req.file.filename);
@@ -1199,10 +1205,10 @@ app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
 
   await suggestion.save();
 
+  const foundDoc = await Document.findOne({ slug: req.params.slug });
+
   if (req.body.subExpert && req.body.subExpert == "on") {
     //send notifications to the respective subject experts
-
-    const foundDoc = await Document.findOne({ slug: req.params.slug });
 
     let subject = foundDoc.subject;
     let stat = await Stat.findOne({ id: 1 }).populate({
@@ -1424,11 +1430,11 @@ app.post("/register", async (req, res) => {
     //   .checkBody("password", "password must be of minimum 6 characters")
     //   .isLength({ min: 6 });
     req.checkBody("cpwd", "Passwords do not match").equals(req.body.password);
-   console.log(fullname,university, username, password);
+    console.log(fullname, university, username, password);
 
     let errors = req.validationErrors();
     if (errors) {
-      req.flash("danger",errors[0].msg);
+      req.flash("danger", errors[0].msg);
       res.redirect("back");
     } else {
       const user = new User({
@@ -1457,7 +1463,6 @@ app.post("/register", async (req, res) => {
       stat.totalUsers++;
       stat.save();
       res.redirect("/results/upvotes/1");
-      
     }
   } catch (error) {
     console.log(error);
@@ -1976,6 +1981,16 @@ app.get(
     res.redirect("/results/upvotes/1");
   }
 );
+
+app.post('/uploadAvatar', isLoggedIn, async (req, res)=>{
+  console.log("Hiiii");
+  req_user = await User.findById(req.user._id);
+  var img_src = req.body.avatarsrc;
+  req_user.profilePic = img_src;
+  req_user.save();
+  console.log(img_src);
+  res.redirect("back");
+});
 
 // Error Page 404
 // app.get("*", (req, res) => {

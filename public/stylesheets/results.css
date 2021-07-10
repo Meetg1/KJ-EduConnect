@@ -2,6 +2,8 @@ html {
   font-size: 100%;
 }
 
+
+
 .searchbar {
   width: 25rem !important;
 }
@@ -38,10 +40,10 @@ html {
 }
 
 .material_type {
-  color: rgb(86, 86, 86);
+  color: black;
   font-size: 0.75rem;
-  padding: 3px;
-  border: rgb(224, 224, 224) 2px solid;
+  padding: 5px;
+  border: #005BAA 2px solid;
   border-radius: 14px;
   position: absolute;
   top: 5px;
@@ -110,3 +112,4 @@ html {
   fill: #B7202E;
   cursor: grab;
 }
+
