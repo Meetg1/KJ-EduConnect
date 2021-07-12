@@ -270,3 +270,11 @@ li p {
 .mr-4 {
   border: 4px solid whitesmoke;
 }
+
+.review-img{
+  height: 110%;
+  width: 110%;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
