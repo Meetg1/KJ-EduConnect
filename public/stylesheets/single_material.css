@@ -271,6 +271,7 @@ li p {
   border: 4px solid whitesmoke;
 }
 
+<<<<<<< HEAD
 .share-btn-icon {
   font-family: "share-buttons";
   font-style: normal;
@@ -343,3 +344,12 @@ li p {
   text-decoration: none;
   transition: all 0.2s ease;
 }
+=======
+.review-img{
+  height: 110%;
+  width: 110%;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
+>>>>>>> 888130aefd799abc2fb8105bc1ecaa20ca22270d
