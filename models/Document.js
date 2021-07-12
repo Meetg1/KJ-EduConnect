@@ -51,7 +51,7 @@ const DocumentSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  isReported: {
+  isHidden: {
     type: Boolean,
     default: false,
   },

@@ -1102,6 +1102,105 @@ app.post("/results/:slug/removestar", isLoggedIn, async (req, res) => {
   }
 });
 
+app.get("/single_material/:slug", async function (req, res) {
+  const doc = await Document.findOne({ slug: req.params.slug })
+    .populate([
+      {
+        path: "reviews",
+        populate: [
+          { path: "author" },
+          { path: "replies", populate: [{ path: "author_reply" }] },
+        ],
+      },
+    ])
+    .populate([
+      {
+        path: "suggestions",
+        populate: [
+          { path: "author" },
+          { path: "replies", populate: [{ path: "author_reply" }] },
+        ],
+      },
+    ])
+    .populate({
+      path: "uploader",
+      populate: {
+        path: "id",
+      },
+    });
+
+  if (!doc) {
+    req.flash("danger", "Cannot find that document!");
+    return res.redirect("/results/upvotes/1");
+  }
+
+  if (!doc.isHidden) {
+    return res.render("single_material.ejs", { doc });
+  }
+
+  if (req.user) {
+    const user = await User.findById(req.user._id);
+
+    if (user.role == "moderator" || user.role == "admin") {
+      return res.render("single_material.ejs", { doc });
+    } else {
+      res.render("taken-down.ejs");
+    }
+  } else {
+    res.render("taken-down.ejs");
+  }
+});
+
+app.delete(
+  "/single_material/:slug",
+  isLoggedIn,
+  isUploader,
+  async (req, res) => {
+    const doc = await Document.findOneAndDelete({ slug: req.params.slug }); //delete document from mongoDB
+    deleteFromDrive(doc.driveId); //delete document from drive
+    await Review.deleteMany({ _id: { $in: doc.reviews } }); //delete all reviews of the document
+
+    //deleting file's previewPics
+    // for (let i = 0; i < doc.previewPics.length; i++) {
+    //   const pathToFile = path.join(
+    //     __dirname,
+    //     "public/previewPics",
+    //     doc.previewPics[i]
+    //   );
+    //   console.log("path : " + pathToFile);
+    //   fs.unlink(pathToFile, function (err) {
+    //     if (err) {
+    //       throw err;
+    //     } else {
+    //       console.log("Successfully deleted the file : " + pathToFile);
+    //     }
+    //   });
+    // }
+
+    let user = await User.findById(doc.uploader.id);
+    user.level_points = user.level_points - 40;
+    if (user.level_points < user.check_point) {
+      user.check_point = user.check_point - 100 * user.level;
+      user.level--;
+    }
+    user.uploads--;
+    if (doc.category == "Lecture Notes") {
+      user.notes_uploads--;
+    } else if (doc.category == "Assignment") {
+      user.assignments_uploads--;
+    } else if (doc.category == "Question Paper") {
+      user.papers_uploads--;
+    }
+    user.save();
+
+    let stat = await Stat.findOne({ id: 1 });
+    stat.totalDocuments--;
+    stat.save();
+    req.flash("success", "Successfully deleted Document.");
+    res.redirect("/results/upvotes/1");
+  }
+);
+
 app.post(
   "/single_material/:slug/report",
   isLoggedIn,
@@ -1110,17 +1209,14 @@ app.post(
     const foundDoc = await Document.findOne({ slug: req.params.slug });
     const user = await User.findById(req.user._id);
     foundDoc.reporters.push(user);
-    console.log(foundDoc.reporters.length);
-    if (foundDoc.reporters.length < 5) {
+    // console.log(foundDoc.reporters.length);
+    if (foundDoc.reporters.length >= 5 || user.role == "moderator") {
+      foundDoc.isHidden = true;
+      req.flash("danger", "Document has been taken down!");
+      res.redirect("back");
+    } else if (foundDoc.reporters.length < 5) {
       req.flash("danger", "Document has been reported!");
       res.redirect("/single_material/" + req.params.slug);
-    } else if (foundDoc.reporters.length >= 5) {
-      foundDoc.isReported = true;
-      req.flash(
-        "danger",
-        "Document has extended the report limit! Permanently taken down!"
-      );
-      res.redirect("back");
     }
     foundDoc.save();
     let stat = await Stat.findOne({ id: 1 });
@@ -1136,7 +1232,7 @@ app.post(
 app.post("/single_material/:slug/unreport", isLoggedIn, async (req, res) => {
   const foundDoc = await Document.findOne({ slug: req.params.slug });
   foundDoc.reporters.length = 0;
-  foundDoc.isReported = false;
+  foundDoc.isHidden = false;
   foundDoc.save();
   let stat = await Stat.findOne({ id: 1 });
   stat.totalReports -= 5;
@@ -1315,109 +1411,14 @@ app.get("/leaderboard", isLoggedIn, async (req, res) => {
   // });
 });
 
-app.get("/:userId/getFollowers", isLoggedIn, async (req, res) => {
+app.get("/:userId/getFollowers", async (req, res) => {
+  console.log("hi");
   const user = await User.findById(req.params.userId, "followers").populate(
     "followers",
     ["profilePic", "fullname"]
   );
   res.send(user);
 });
-
-app.get("/single_material/:slug", async function (req, res) {
-  const doc = await Document.findOne({ slug: req.params.slug })
-    .populate([
-      {
-        path: "reviews",
-        populate: [
-          { path: "author" },
-          { path: "replies", populate: [{ path: "author_reply" }] },
-        ],
-      },
-    ])
-    .populate([
-      {
-        path: "suggestions",
-        populate: [
-          { path: "author" },
-          { path: "replies", populate: [{ path: "author_reply" }] },
-        ],
-      },
-    ])
-    .populate({
-      path: "uploader",
-      populate: {
-        path: "id",
-      },
-    });
-
-  if (!doc) {
-    req.flash("danger", "Cannot find that document!");
-    return res.redirect("/results/upvotes/1");
-  }
-
-  if (req.user) {
-    const user = await User.findById(req.user._id);
-    if (!user.role === "admin" && doc.isReported) {
-      res.render("taken-down.ejs");
-    } else {
-      res.render("single_material.ejs", { doc });
-    }
-  } else {
-    doc.isReported
-      ? res.render("taken-down.ejs")
-      : res.render("single_material.ejs", { doc });
-  }
-});
-
-app.delete(
-  "/single_material/:slug",
-  isLoggedIn,
-  isUploader,
-  async (req, res) => {
-    const doc = await Document.findOneAndDelete({ slug: req.params.slug }); //delete document from mongoDB
-    deleteFromDrive(doc.driveId); //delete document from drive
-    await Review.deleteMany({ _id: { $in: doc.reviews } }); //delete all reviews of the document
-
-    //deleting file's previewPics
-    // for (let i = 0; i < doc.previewPics.length; i++) {
-    //   const pathToFile = path.join(
-    //     __dirname,
-    //     "public/previewPics",
-    //     doc.previewPics[i]
-    //   );
-    //   console.log("path : " + pathToFile);
-    //   fs.unlink(pathToFile, function (err) {
-    //     if (err) {
-    //       throw err;
-    //     } else {
-    //       console.log("Successfully deleted the file : " + pathToFile);
-    //     }
-    //   });
-    // }
-
-    let user = await User.findById(doc.uploader.id);
-    user.level_points = user.level_points - 40;
-    if (user.level_points < user.check_point) {
-      user.check_point = user.check_point - 100 * user.level;
-      user.level--;
-    }
-    user.uploads--;
-    if (doc.category == "Lecture Notes") {
-      user.notes_uploads--;
-    } else if (doc.category == "Assignment") {
-      user.assignments_uploads--;
-    } else if (doc.category == "Question Paper") {
-      user.papers_uploads--;
-    }
-    user.save();
-
-    let stat = await Stat.findOne({ id: 1 });
-    stat.totalDocuments--;
-    stat.save();
-    req.flash("success", "Successfully deleted Document.");
-    res.redirect("/results/upvotes/1");
-  }
-);
 
 app.post("/register", async (req, res) => {
   try {
@@ -1687,7 +1688,7 @@ app.get("/admin/allDocuments", isAdmin, async (req, res) => {
 });
 
 app.get("/admin/reportedDocuments", isAdmin, async (req, res) => {
-  const docs = await Document.find({ isReported: true });
+  const docs = await Document.find({ isHidden: true });
   res.render("adminreportedDocs.ejs", { docs });
 });
 
@@ -1982,7 +1983,7 @@ app.get(
   }
 );
 
-app.post('/uploadAvatar', isLoggedIn, async (req, res)=>{
+app.post("/uploadAvatar", isLoggedIn, async (req, res) => {
   console.log("Hiiii");
   req_user = await User.findById(req.user._id);
   var img_src = req.body.avatarsrc;

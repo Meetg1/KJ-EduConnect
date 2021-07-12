@@ -92,7 +92,6 @@ html {
 }
 
 #form_pic {
-  
 }
 
 .bi-star-fill {
@@ -172,8 +171,6 @@ html {
   margin-right: 150px;
 } */
 
-
-
 .format {
   color: #4e657e;
   font-size: 20px;
@@ -243,10 +240,10 @@ html {
   margin-top: -2px;
   color: darkgoldenrod;
 }
-
+/* 
 .file {
   height: 25vh;
-}
+} */
 
 .img {
   height: 10rem;
@@ -303,9 +300,9 @@ html {
   margin-right: 30px;
 }
 
-.file {
+/* .file {
   height: 25vh;
-}
+} */
 
 .content {
   margin-left: 30px;
@@ -394,14 +391,14 @@ html {
   display: block;
   width: 100%;
   height: 100%;
-  transition: .5s ease;
+  transition: 0.5s ease;
   backface-visibility: hidden;
   border-radius: 50%;
   object-position: center right;
 }
 
 .middle {
-  transition: .5s ease;
+  transition: 0.5s ease;
   opacity: 0;
   position: absolute;
   top: 50%;
@@ -420,7 +417,6 @@ html {
 }
 
 .text {
-  
   color: white;
   font-size: 16px;
   padding: 0px 0px;
@@ -437,7 +433,7 @@ html {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: inherit;
   font-weight: 500;
   margin-bottom: 1rem;
@@ -471,14 +467,14 @@ html {
   right: 75%;
 }
 
-.image-submit{
+.image-submit {
   background-color: #99c793;
   border: none;
   border-radius: 25px;
   color: white;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: inherit;
   font-weight: 500;
   margin-bottom: 1rem;
@@ -488,19 +484,18 @@ html {
   transition: all 0.3s;
   vertical-align: middle;
 }
-.image-submit:hover{
+.image-submit:hover {
   background-color: #497f42;
   color: white;
-  
 }
 
-.avatar-img{
+.avatar-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
 }
 
-.avatar-btn{
+.avatar-btn {
   background-color: transparent;
   border: none;
 }
