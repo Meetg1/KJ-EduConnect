@@ -1,145 +1,115 @@
 <% layout('layouts/boilerplate') %>
 
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-  integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-  crossorigin="anonymous"
-/>
-<link rel="stylesheet" href="../stylesheets/profile.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../stylesheets/profile.css" />
 
-<body>
-  <div class="modalContent" id="modal">
-    <!-- <img src="../images/arrow-download-icon.png" alt="download" /> -->
-    <h3 class="mb-5 d-inline-block">Followers</h3>
-    <span class="accept">X</span>
-    <ul class="follower-list"></ul>
-  </div>
+  <body>
+    <div class="modalContent" id="modal">
+      <!-- <img src="../images/arrow-download-icon.png" alt="download" /> -->
+      <h3 class="mb-5 d-inline-block">Followers</h3>
+      <span class="accept">X</span>
+      <ul class="follower-list"></ul>
+    </div>
 
-  <%- include('partials/navbar')%> <%- messages('messages', locals) %>
-  <br />
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container top">
-      <div class="row">
-        <div
-          class="order-2 order-md-1 container-top-stat"
-          style="text-align: left"
-        >
-          <h1 class="profile-user-name"><%= user.fullname %></h1>
+    <%- include('partials/navbar')%>
+      <%- messages('messages', locals) %>
+        <br />
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container top">
+            <div class="row">
+              <div class="order-2 order-md-1 container-top-stat" style="text-align: left">
+                <h1 class="profile-user-name">
+                  <%= user.fullname %>
+                </h1>
 
-          <%if(currentUser && !user._id.equals(currentUser._id)) {%>
-          <%if(user.followers.some(function(follower) { return
-          currentUser._id.equals(follower) })){ %>
-          <a
-            href="/users/<%=user._id%>/unfollow"
-            class="btn btn-outline-primary followBtn"
-            >Unfollow</a
-          >
-          <%}else{%>
-          <a
-            href="/users/<%=user._id%>/follow"
-            class="btn btn-outline-primary followBtn"
-            >Follow</a
-          >
-          <%}%> <%}%>
+                <%if(currentUser && !user._id.equals(currentUser._id)) { %>
+                  <% if (user.followers.some(function(follower) { return currentUser._id.equals(follower) })){ %>
+                    <a href="/users/<%=user._id%>/unfollow" class="btn btn-outline-primary followBtn">Unfollow</a>
+                    <%}else{%>
+                      <a href="/users/<%=user._id%>/follow" class="btn btn-outline-primary followBtn">Follow</a>
+                      <%}%>
+                        <% } %>
 
-          <div>
-            <% if (user.role==="moderator" ) { %>
-            <div class="badge badge-primary univ" href="#">Moderator</div>
-            <% }else if(user.role==="teacher" ) {%>
-            <div class="badge badge-primary univ" href="#">Teacher</div>
-            <% } %>
-          </div>
-          <div class="text-primary univ mt-2" href="#">
-            <%= user.university %>
-          </div>
-          <div class="text-primary univ mt-2" href="#">
-            <%= user.username %>
-          </div>
-          <div class="profile-stats">
-            <ul class="pl-0">
-              <br />
-              <!-- <li>
+                          <div>
+                            <% if (user.role==="moderator" ) { %>
+                              <div class="badge badge-primary univ" href="#">Moderator</div>
+                              <% }else if(user.role==="teacher" ) {%>
+                                <div class="badge badge-primary univ" href="#">Teacher</div>
+                                <% } %>
+                          </div>
+                          <div class="text-primary univ mt-2" href="#">
+                            <%= user.university %>
+                          </div>
+                          <div class="text-primary univ mt-2" href="#">
+                            <%= user.username %>
+                          </div>
+                          <div class="profile-stats">
+                            <ul class="pl-0">
+                              <br />
+                              <!-- <li>
                 <span class="profile-stat-count" href="#uploads"
                   ><strong> <%= user.uploads %> </strong></span
                 >
                 Uploads
               </li> -->
-              <li id="followBtn">
-                <span class="profile-stat-count"
-                  ><strong> <%= user.followerCount %> </strong></span
-                >
-                followers
-              </li>
-            </ul>
-          </div>
-        </div>
+                              <li id="followBtn">
+                                <span class="profile-stat-count"><strong>
+                                    <%= user.followerCount %>
+                                  </strong></span>
+                                followers
+                              </li>
+                            </ul>
+                          </div>
+              </div>
 
-        <div class="order-1 order-md-2 img-container">
-          <img
-            src="/profilePic/<%=user.profilePic %>"
-            alt=""
-            class="image--cover"
-            data-toggle="modal"
-            data-target="#Avatar"
-          />
-        </div>
-        <div class="order-md-3">
-          <%if(currentUser && user._id.equals(currentUser._id)) { %>
-          <!-- <form id="form_pic" action="/uploadprofile" method="POST" enctype="multipart/form-data">
-              <input type="file" name="file" value="edit profile" style="margin-right: 10px;" />
-              <br>
-              <button type="submit" class="next-step btn btn-primary">Reset Pic</button>
-              <br />
-            </form> -->
-          <%}%>
-        </div>
-      </div>
-    </div>
-  </div>
+              <div class="order-1 order-md-2 img-container">
+                <%if(currentUser && user._id.equals(currentUser._id)) { %>
+                  <img src="/profilePic/<%=user.profilePic %>" alt="" class="image--cover" data-toggle="modal"
+                    data-target="#Avatar" />
+                  <%}else{%>
+                    <img src="/profilePic/<%=user.profilePic %>" alt="" class="image--cover" />
+                    <%}%>
+              </div>
 
-  <div class="container">
-    <section class="statFigures mt-5">
-      <h1 class="format">Stats & Figures</h1>
-      <div class="statBox row mt-4">
-        <div
-          class="pointBox col-md-3 col-sm-12"
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          <h4 class="color">
-            Level <%= user.level %> - <%= user.tag %>
-            <!-- <svg class="star2" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                     fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-                     <path
-                       d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z" />
-                   </svg> -->
-          </h4>
-          <hr />
-          <div class="numBox">
-            <div class="num">
-              <span
-                ><strong>
-                  <progress
-                    id=""
-                    value="<%=user.level_points%>"
-                    max="<%= user.check_point + (user.level+1)*100 %>"
-                    style="height: 55%; width: 100%"
-                  ></progress>
-                  <h6>
-                    <%= user.check_point + (user.level+1)*100 -
-                    user.level_points %> more points for next level
-                  </h6>
-                </strong></span
-              >
+
+
             </div>
           </div>
         </div>
 
-        <div class="uploadBox col-md-4 col-11">
-          <h4 class="color">
-            General Stats
-            <!-- <svg
+        <div class="container">
+          <section class="statFigures mt-5">
+            <h1 class="format">Stats & Figures</h1>
+            <div class="statBox row mt-4">
+              <div class="pointBox col-md-3 col-sm-12" data-toggle="modal" data-target="#exampleModal">
+                <h4 class="color">
+                  Level <%= user.level %> - <%= user.tag %>
+                      <!-- <svg class="star2" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+                     <path
+                       d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z" />
+                   </svg> -->
+                </h4>
+                <hr />
+                <div class="numBox">
+                  <div class="num">
+                    <span><strong>
+                        <progress id="" value="<%=user.level_points%>"
+                          max="<%= user.check_point + (user.level+1)*100 %>"
+                          style="height: 55%; width: 100%"></progress>
+                        <h6>
+                          <%= user.check_point + (user.level+1)*100 - user.level_points %> more points for next level
+                        </h6>
+                      </strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="uploadBox col-md-4 col-11">
+                <h4 class="color">
+                  General Stats
+                  <!-- <svg
               class="star1"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -152,138 +122,110 @@
                 d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"
               />
             </svg> -->
-          </h4>
-          <hr />
-          <div class="numBox">
-            <div class="num">
-              <h3>
-                <span
-                  ><strong>
-                    <%= user.upvotes %>
-                    <svg
-                      class="star2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      class="bi bi-hand-thumbs-up-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z"
-                      />
-                    </svg> </strong
-                ></span>
-              </h3>
-            </div>
-            <div class="num">
-              <h3>
-                <span
-                  ><strong>
-                    <%= user.level_points %>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      class="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                      />
-                    </svg> </strong
-                ></span>
-              </h3>
-            </div>
-            <div class="num">
-              <h3>
-                <span
-                  ><strong>
-                    <%= user.uploads %>
-                    <svg
-                      class="upld"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      class="bi bi-cloud-arrow-up-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"
-                      />
-                    </svg> </strong
-                ></span>
-              </h3>
-            </div>
-          </div>
-          <div class="numBox">
-            <h2>
-              <div class="num ml-1 light">Upvotes</div>
-            </h2>
-            <h2>
-              <div class="num ml-3 light">Points</div>
-            </h2>
-            <h1>
-              <div class="num ml-3 light">Uploads</div>
-            </h1>
-          </div>
-        </div>
+                </h4>
+                <hr />
+                <div class="numBox">
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.upvotes %>
+                            <svg class="star2" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                              fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+                              <path
+                                d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z" />
+                            </svg>
+                        </strong></span>
+                    </h3>
+                  </div>
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.level_points %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                              class="bi bi-star-fill" viewBox="0 0 16 16">
+                              <path
+                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                        </strong></span>
+                    </h3>
+                  </div>
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.uploads %>
+                            <svg class="upld" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                              fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                              <path
+                                d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
+                            </svg>
+                        </strong></span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="numBox">
+                  <h2>
+                    <div class="num ml-1 light">Upvotes</div>
+                  </h2>
+                  <h2>
+                    <div class="num ml-3 light">Points</div>
+                  </h2>
+                  <h1>
+                    <div class="num ml-3 light">Uploads</div>
+                  </h1>
+                </div>
+              </div>
 
-        <div class="uploadBox col-md-4 col-11">
-          <h4 class="color">
-            Uploads<svg
-              class="star1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-file-earmark-arrow-up-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z"
-              />
-            </svg>
-          </h4>
-          <hr />
-          <div class="numBox">
-            <div class="num">
-              <h3>
-                <span><strong> <%= user.notes_uploads %> </strong></span>
-              </h3>
-            </div>
-            <div class="num">
-              <h3>
-                <span><strong> <%= user.papers_uploads %> </strong></span>
-              </h3>
-            </div>
-            <div class="num">
-              <h3>
-                <span><strong> <%= user.assignments_uploads %> </strong></span>
-              </h3>
-            </div>
-          </div>
-          <div class="numBox">
-            <h2>
-              <div class="num ml-4 light">
-                Lecture <br />
-                &nbsp;Notes
+              <div class="uploadBox col-md-4 col-11">
+                <h4 class="color">
+                  Uploads<svg class="star1" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-file-earmark-arrow-up-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.354 9.854a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 8.707V12.5a.5.5 0 0 1-1 0V8.707L6.354 9.854z" />
+                  </svg>
+                </h4>
+                <hr />
+                <div class="numBox">
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.notes_uploads %>
+                        </strong></span>
+                    </h3>
+                  </div>
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.papers_uploads %>
+                        </strong></span>
+                    </h3>
+                  </div>
+                  <div class="num">
+                    <h3>
+                      <span><strong>
+                          <%= user.assignments_uploads %>
+                        </strong></span>
+                    </h3>
+                  </div>
+                </div>
+                <div class="numBox">
+                  <h2>
+                    <div class="num ml-4 light">
+                      Lecture <br />
+                      &nbsp;Notes
+                    </div>
+                  </h2>
+                  <h2>
+                    <div class="num ml-5 light">
+                      Question <br />
+                      &nbsp;Papers
+                    </div>
+                  </h2>
+                  <h1>
+                    <div class="num ml-3 light">Assignments</div>
+                  </h1>
+                </div>
               </div>
-            </h2>
-            <h2>
-              <div class="num ml-5 light">
-                Question <br />
-                &nbsp;Papers
-              </div>
-            </h2>
-            <h1>
-              <div class="num ml-3 light">Assignments</div>
-            </h1>
-          </div>
-        </div>
-        <!-- 
+              <!-- 
                  <div class="pointBox col-md-2 col-6">
                    <h4 class="color clr">Points <svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                        fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
@@ -300,26 +242,18 @@
                    </div>
                  </div>
                   -->
-      </div>
+            </div>
 
-      <h1 class="mb-3 format" id="uploads">
-        My Uploads
-        <svg
-          class="upld"
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="currentColor"
-          class="bi bi-cloud-arrow-up-fill"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"
-          />
-        </svg>
-      </h1>
+            <h1 class="mb-3 format" id="uploads">
+              My Uploads
+              <svg class="upld" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                <path
+                  d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
+              </svg>
+            </h1>
 
-      <!-- <section class="results mt-4">
+            <!-- <section class="results mt-4">
       <% if(typeof(docs) !="undefined" ) { %> <% if (docs.length==0) { %>
       <p class="tip">No uploads. Start uploading to earn points!</p>
       <br>
@@ -438,238 +372,173 @@
       <%})%> <%}%> <%}%>
     </section> -->
 
-      <section class="results mt-4">
-        <% if(typeof(docs) !="undefined" ) { %> <% if (docs.length==0) { %>
-        <p class="tip">No uploads. Start uploading to earn points!</p>
-        <br />
-        <br />
-        <% }else { %>
-        <ul class="timeline">
-          <% docs.forEach((doc)=> { %>
+            <section class="results mt-4">
+              <% if(typeof(docs) !="undefined" ) { %>
+                <% if (docs.length==0) { %>
+                  <p class="tip">No uploads. Start uploading to earn points!</p>
+                  <br />
+                  <br />
+                  <% }else { %>
+                    <ul class="timeline">
+                      <% docs.forEach((doc)=> { %>
 
-          <li class="event">
-            <a href="/single_material/<%=doc._id%>" id="">
-              <h3><%= doc.title %></h3>
-              <br />
-            </a>
-            <p>Subject: &nbsp; <%= doc.subject %></p>
-            <p>Course: &nbsp; <%= doc.course %></p>
-            <p>Category: &nbsp; <%= doc.category %></p>
-          </li>
+                        <li class="event">
+                          <a href="/single_material/<%=doc._id%>" id="">
+                            <h3>
+                              <%= doc.title %>
+                            </h3>
+                            <br />
+                          </a>
+                          <p>Subject: &nbsp; <%= doc.subject %>
+                          </p>
+                          <p>Course: &nbsp; <%= doc.course %>
+                          </p>
+                          <p>Category: &nbsp; <%= doc.category %>
+                          </p>
+                        </li>
 
-          <%})%>
-        </ul>
-        <%}%> <%}%>
+                        <%})%>
+                    </ul>
+                    <%}%>
+                      <%}%>
 
-        <br /><br />
-      </section>
-    </section>
-  </div>
-
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            How to earn more points?
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+                        <br /><br />
+            </section>
+          </section>
         </div>
-        <div class="modal-body" style="text-align: left">
-          <b>
-            1. Earn 40 points for every document you upload.
-            <br /><br />
-            2. Earn 5 points for positive you get on your uploaded document.
-            <br /><br />
-            3. Earn 5 points for every user who follows you.
-            <br /><br />
-            Good luck guys! Earn points and level up your self.
-            <br /><br />
-          </b>
-        </div>
-        <div class="modal-footer" style="align-items: center">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-dismiss="modal"
-            style="margin-right: auto; margin-left: auto"
-          >
-            Thank you!
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div
-    class="modal fade"
-    id="Avatar"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="Avatar"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="Avatar">Choose a profic picture</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A1.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A1.jpeg" class="avatar-img" />
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  How to earn more points?
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
                 </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A2.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A2.jpeg" class="avatar-img" />
+              </div>
+              <div class="modal-body" style="text-align: left">
+                <b>
+                  1. Earn 40 points for every document you upload.
+                  <br /><br />
+                  2. Earn 5 points for positive you get on your uploaded document.
+                  <br /><br />
+                  3. Earn 5 points for every user who follows you.
+                  <br /><br />
+                  Good luck guys! Earn points and level up your self.
+                  <br /><br />
+                </b>
+              </div>
+              <div class="modal-footer" style="align-items: center">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  style="margin-right: auto; margin-left: auto">
+                  Thank you!
                 </button>
-              </form>
+              </div>
             </div>
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-            <div class="avatar-div">
-              <form method="POST" action="/uploadAvatar" class="avatar-form">
-                <input
-                  name="avatarsrc"
-                  value="Avatars/A3.jpeg"
-                  type="text"
-                  hidden
-                />
-                <button type="submit" class="avatar-btn">
-                  <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
-                </button>
-              </form>
-            </div>
-
-
-
           </div>
-
-          <br />
-          <hr />
-          <form
-            id="form_pic"
-            action="/uploadprofile"
-            method="POST"
-            enctype="multipart/form-data"
-          >
-            <input type="file" id="file" name="file" />
-            <label for="file" class="btn-2">Select From Device</label>
-
-            <button type="submit" class="btn image-submit ml-1">Reset</button>
-            <br />
-          </form>
         </div>
-        <!-- <div class="modal-footer" style="align-items: center">
+
+        <div class="modal fade" id="Avatar" tabindex="-1" role="dialog" aria-labelledby="Avatar" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="Avatar">Choose a profic picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A1.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A1.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A2.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A2.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="avatar-div">
+                    <form method="POST" action="/uploadAvatar" class="avatar-form">
+                      <input name="avatarsrc" value="Avatars/A3.jpeg" type="text" hidden />
+                      <button type="submit" class="avatar-btn">
+                        <img src="/profilePic/Avatars/A3.jpeg" class="avatar-img" />
+                      </button>
+                    </form>
+                  </div>
+
+
+
+                </div>
+
+                <br />
+                <hr />
+                <form id="form_pic" action="/uploadprofile" method="POST" enctype="multipart/form-data">
+                  <input type="file" id="file" name="file" />
+                  <label for="file" class="btn-2">Select From Device</label>
+
+                  <button type="submit" class="btn image-submit ml-1">Reset</button>
+                  <br />
+                </form>
+              </div>
+              <!-- <div class="modal-footer" style="align-items: center">
           <button
             type="button"
             class="btn btn-primary"
@@ -679,62 +548,62 @@
             Thank you!
           </button>
         </div> -->
-      </div>
-    </div>
-  </div>
+            </div>
+          </div>
+        </div>
 
-  <script>
-    var modal = document.getElementById("modal");
-    var activeBtn = document.getElementById("followBtn");
-    var span = document.querySelector(".accept");
+        <script>
+          var modal = document.getElementById("modal");
+          var activeBtn = document.getElementById("followBtn");
+          var span = document.querySelector(".accept");
 
-    activeBtn.onclick = function () {
-      getFollowers();
-      modal.style.display = "block";
-      console.log("herer");
-    };
+          activeBtn.onclick = function () {
+            getFollowers();
+            modal.style.display = "block";
+            console.log("herer");
+          };
 
-    span.onclick = function () {
-      modal.style.display = "none";
-    };
+          span.onclick = function () {
+            modal.style.display = "none";
+          };
 
-    document.addEventListener(
-      "click",
-      function (event) {
-        console.log(event.target.id);
-        // close only if user doesnt either click on followers btn or on modal
-        if (event.target.id != "followBtn" && event.target.id != "modal") {
-          closeModal();
-        }
-      },
-      false
-    );
+          document.addEventListener(
+            "click",
+            function (event) {
+              console.log(event.target.id);
+              // close only if user doesnt either click on followers btn or on modal
+              if (event.target.id != "followBtn" && event.target.id != "modal") {
+                closeModal();
+              }
+            },
+            false
+          );
 
-    function closeModal() {
-      modal.style.display = "none";
-    }
-
-    function getFollowers() {
-      let loader = `<div id="loading"></div>`;
-      document.querySelector(".follower-list").innerHTML = loader;
-      fetch("http://localhost:3000/<%=user._id%>/getFollowers")
-        .then((res) => {
-          if (!res.ok) {
-            throw Error("error");
+          function closeModal() {
+            modal.style.display = "none";
           }
-          return res.json();
-        })
-        .then((data) => {
-          const html = data.followers
-            .map((follower) => {
-              return `<li id=follower> <img src="../profilePic/${follower.profilePic}" alt="profilepic"> <a href="/users/${follower._id}"> ${follower.fullname} </a>
+
+          function getFollowers() {
+            let loader = `<div id="loading"></div>`;
+            document.querySelector(".follower-list").innerHTML = loader;
+            fetch("http://localhost:3000/<%=user._id%>/getFollowers")
+              .then((res) => {
+                if (!res.ok) {
+                  throw Error("error");
+                }
+                return res.json();
+              })
+              .then((data) => {
+                const html = data.followers
+                  .map((follower) => {
+                    return `<li id=follower> <img src="../profilePic/${follower.profilePic}" alt="profilepic"> <a href="/users/${follower._id}"> ${follower.fullname} </a>
                           <hr>
                         </li>`;
-            })
-            .join("");
-          document.querySelector(".follower-list").innerHTML = html;
-        })
-        .catch((err) => console.log(err));
-    }
-  </script>
-</body>
+                  })
+                  .join("");
+                document.querySelector(".follower-list").innerHTML = html;
+              })
+              .catch((err) => console.log(err));
+          }
+        </script>
+  </body>
