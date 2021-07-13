@@ -1,0 +1,31 @@
+.cont {
+  margin: 0 auto;
+  margin-top: 50px;
+  border: 2px solid #ccc;
+  width: 370px;
+  height: 250px;
+  padding-left: 40px;
+  overflow-y: scroll;
+}
+
+.list-group {
+  width: 270px;
+  padding-top: 35px;
+}
+
+.group-item {
+  font-size: 18px;
+  color: #4e657e;
+  border-bottom: 1px solid #e6e9ec;
+  margin-top: 20px;
+}
+
+.btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 100px;
+  text-align: center;
+}

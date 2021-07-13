@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate') %>
 
-
+     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="/stylesheets/results.css">
+    <link rel="stylesheet" href="/stylesheets/teacher-form.css">
     <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 
 
@@ -15,17 +15,25 @@
         <%- include('partials/navbar')%>
             <%- messages('messages', locals) %>
 
-                <div class="container">
+                <h2 style="color:#696969">Become A Subject Expert</h2>
+
+                <div class="cont">
                     <form action="/subject-expert" method="POST">
                         <ul class="list-group">
+                            <h5 style="color:#696969">Choose Subject :</h5>
                             <% for( let i=0; i < subjects.length; i++ ) { %>
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="checkbox" value="<%=subjects[i]%>"
-                                        aria-label="..." name=subjects>
+                
+                                <div class="group-item">
+                                    <label>
+                                    <input type="radio" value="<%=subjects[i]%>"
+                                    aria-label="..." name=subjects>
                                     <%=subjects[i]%>
-                                </li>
-                                <% } %>
+                                    </label>
+                                </div>
+                                <% } %>   
                         </ul>
-                        <input type="submit" value="submit">
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
+
+         
