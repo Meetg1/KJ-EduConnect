@@ -2,13 +2,7 @@ html {
   font-size: 100%;
 }
 
-.searchbar {
-  width: 25rem !important;
-}
 
-.searchbar::placeholder {
-  font-weight: 400;
-}
 
 .result-img1 {
   height: 10rem;
