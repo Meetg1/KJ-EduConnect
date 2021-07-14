@@ -1,16 +1,10 @@
-.cont {
+.container1 {
   margin: 0 auto;
   margin-top: 50px;
   border: 2px solid #ccc;
-  width: 370px;
+  max-width: 30rem;
   height: 250px;
-  padding-left: 40px;
-  overflow-y: scroll;
-}
-
-.list-group {
-  width: 270px;
-  padding-top: 35px;
+  overflow-y: auto;
 }
 
 .group-item {
@@ -18,11 +12,7 @@
   color: #4e657e;
   border-bottom: 1px solid #e6e9ec;
   margin-top: 20px;
-}
-
-.btn {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  list-style-type: none;
 }
 
 h2 {
