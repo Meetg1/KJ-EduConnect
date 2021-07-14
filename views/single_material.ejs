@@ -51,116 +51,155 @@
                     <%= doc.description%>
                   </p>
               </p>
-              </a>
-              </li>
 
-              <li class="nav-item prettier">
-                <a href="#" class="nav-link text-dark">
-                  <i class="fa fa-address-card text-primary fa-fw"></i>
-                  <span>Downvotes</span>
-                  <p>
-                    <%= doc.downvotes%>
-                  </p>
-                </a>
-              </li>
 
-              <li class="nav-item prettier">
-                <a href="#" class="nav-link text-dark">
-                  <i class="fa fa-address-card text-primary fa-fw"></i>
-                  <form action="/download/<%=doc.slug%>" method="get">
-                    <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
-                      Download
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+              <ul class="nav flex-column bg-white mb-0">
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark bg-light">
+                    <i class="fa fa-th-large text-primary fa-fw"></i>
+                    <span>subject</span>
+                    <p>
+                      <%=doc.subject%>
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <span>University</span>
+                    <p>
+                      <%= doc.university%>
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <span>Course</span>
+                    <p>
+                      <%= doc.course%>
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <span>Upvotes</span>
+                    <p>
+                      <%= doc.upvotes %>
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <span>Downvotes</span>
+                    <p>
+                      <%= doc.downvotes%>
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <form action="/download/<%=doc.slug%>" method="get">
+                      <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn">
+                        Download
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                          <path
+                            d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
+                        </svg></button>
+                    </form>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <a href="#" class="nav-link text-dark">
+                    <i class="fa fa-address-card text-primary fa-fw"></i>
+                    <form action="/single_material/<%=doc.slug%>/report" method="POST">
+                      <button type="submit" id="call" onclick="repdoc()" class="btn btn-danger btn-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-flag-fill" viewBox="0 0 16 16">
+                          <path
+                            d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                        </svg>
+                        Report Document
+                      </button>
+                    </form>
+                  </a>
+                </li>
+
+                <li class="nav-item prettier">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" style="margin: 7.5px 15px;" type="button"
+                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Share <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-share-fill" viewBox="0 0 16 16">
                         <path
-                          d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z" />
-                      </svg></button>
-                  </form>
-                </a>
-              </li>
-
-              <li class="nav-item prettier">
-                <a href="#" class="nav-link text-dark">
-                  <i class="fa fa-address-card text-primary fa-fw"></i>
-                  <form action="/single_material/<%=doc.slug%>/report" method="POST">
-                    <button type="submit" id="call" onclick="repdoc()" class="btn btn-danger btn-md">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-flag-fill" viewBox="0 0 16 16">
-                        <path
-                          d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                          d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
                       </svg>
-                      Report Document
                     </button>
-                  </form>
-                </a>
-              </li>
-
-              <li class="nav-item prettier">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" style="margin: 7.5px 15px;" type="button"
-                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Share <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-share-fill" viewBox="0 0 16 16">
-                      <path
-                        d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
-                    </svg>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="share-btn share-btn-email" href="mailto:?subject=<%= doc.title%>&body=[sub]"
-                      onclick="this.href = this.href.replace('[sub]',window.location)""
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="share-btn share-btn-email" href="mailto:?subject=<%= doc.title%>&body=[sub]"
+                        onclick="this.href = this.href.replace('[sub]',window.location)""
                 title=" Share via Email">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path
-                          d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
-                      </svg>
-                    </a>
-                    <a class="share-btn share-btn-branded share-btn-linkedin"
-                      href="https://www.linkedin.com/shareArticle?mini=true&url=[sub]"
-                      onclick="this.href = this.href.replace('[sub]',window.location)""
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-envelope" viewBox="0 0 16 16">
+                          <path
+                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+                        </svg>
+                      </a>
+                      <a class="share-btn share-btn-branded share-btn-linkedin"
+                        href="https://www.linkedin.com/shareArticle?mini=true&url=[sub]"
+                        onclick="this.href = this.href.replace('[sub]',window.location)""
              title=" Share on LinkedIn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-linkedin" viewBox="0 0 16 16">
-                        <path
-                          d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
-                      </svg>
-                    </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-linkedin" viewBox="0 0 16 16">
+                          <path
+                            d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                        </svg>
+                      </a>
 
-                    <a class="share-btn share-btn-branded share-btn-facebook"
-                      href="https://www.facebook.com/sharer/sharer.php?u=[sub]"
-                      onclick="this.href = this.href.replace('[sub]',window.location)""
+                      <a class="share-btn share-btn-branded share-btn-facebook"
+                        href="https://www.facebook.com/sharer/sharer.php?u=[sub]"
+                        onclick="this.href = this.href.replace('[sub]',window.location)""
               title=" Share on Facebook">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-facebook" viewBox="0 0 16 16">
-                        <path
-                          d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                      </svg>
-                    </a>
-                    <a class="share-btn share-btn-branded share-btn-reddit"
-                      href="http://www.reddit.com/submit?url=[sub]"
-                      onclick="this.href = this.href.replace('[sub]',window.location)""
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-facebook" viewBox="0 0 16 16">
+                          <path
+                            d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                        </svg>
+                      </a>
+                      <a class="share-btn share-btn-branded share-btn-reddit"
+                        href="http://www.reddit.com/submit?url=[sub]"
+                        onclick="this.href = this.href.replace('[sub]',window.location)""
            title=" Share on Reddit+">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-reddit" viewBox="0 0 16 16">
-                        <path
-                          d="M6.167 8a.831.831 0 0 0-.83.83c0 .459.372.84.83.831a.831.831 0 0 0 0-1.661zm1.843 3.647c.315 0 1.403-.038 1.976-.611a.232.232 0 0 0 0-.306.213.213 0 0 0-.306 0c-.353.363-1.126.487-1.67.487-.545 0-1.308-.124-1.671-.487a.213.213 0 0 0-.306 0 .213.213 0 0 0 0 .306c.564.563 1.652.61 1.977.61zm.992-2.807c0 .458.373.83.831.83.458 0 .83-.381.83-.83a.831.831 0 0 0-1.66 0z" />
-                        <path
-                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.828-1.165c-.315 0-.602.124-.812.325-.801-.573-1.9-.945-3.121-.993l.534-2.501 1.738.372a.83.83 0 1 0 .83-.869.83.83 0 0 0-.744.468l-1.938-.41a.203.203 0 0 0-.153.028.186.186 0 0 0-.086.134l-.592 2.788c-1.24.038-2.358.41-3.17.992-.21-.2-.496-.324-.81-.324a1.163 1.163 0 0 0-.478 2.224c-.02.115-.029.23-.029.353 0 1.795 2.091 3.256 4.669 3.256 2.577 0 4.668-1.451 4.668-3.256 0-.114-.01-.238-.029-.353.401-.181.688-.592.688-1.069 0-.65-.525-1.165-1.165-1.165z" />
-                      </svg>
-                    </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-reddit" viewBox="0 0 16 16">
+                          <path
+                            d="M6.167 8a.831.831 0 0 0-.83.83c0 .459.372.84.83.831a.831.831 0 0 0 0-1.661zm1.843 3.647c.315 0 1.403-.038 1.976-.611a.232.232 0 0 0 0-.306.213.213 0 0 0-.306 0c-.353.363-1.126.487-1.67.487-.545 0-1.308-.124-1.671-.487a.213.213 0 0 0-.306 0 .213.213 0 0 0 0 .306c.564.563 1.652.61 1.977.61zm.992-2.807c0 .458.373.83.831.83.458 0 .83-.381.83-.83a.831.831 0 0 0-1.66 0z" />
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.828-1.165c-.315 0-.602.124-.812.325-.801-.573-1.9-.945-3.121-.993l.534-2.501 1.738.372a.83.83 0 1 0 .83-.869.83.83 0 0 0-.744.468l-1.938-.41a.203.203 0 0 0-.153.028.186.186 0 0 0-.086.134l-.592 2.788c-1.24.038-2.358.41-3.17.992-.21-.2-.496-.324-.81-.324a1.163 1.163 0 0 0-.478 2.224c-.02.115-.029.23-.029.353 0 1.795 2.091 3.256 4.669 3.256 2.577 0 4.668-1.451 4.668-3.256 0-.114-.01-.238-.029-.353.401-.181.688-.592.688-1.069 0-.65-.525-1.165-1.165-1.165z" />
+                        </svg>
+                      </a>
 
-                    <a class="share-bt clipboard" title="Copy Link">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-link" viewBox="0 0 16 16">
-                        <path
-                          d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z" />
-                        <path
-                          d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z" />
-                      </svg>
-                    </a>
+                      <a class="share-bt clipboard" title="Copy Link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-link" viewBox="0 0 16 16">
+                          <path
+                            d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z" />
+                          <path
+                            d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z" />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
               </ul>
 
 
@@ -242,549 +281,396 @@
                             </div>
                           </div>
                         </form>
-                        </a>
-                        </li>
-
-
-
-
-
-                        <li class="nav-item prettier">
-                          <a href="#" class="nav-link text-dark">
-                            <i class="fa fa-address-card text-primary fa-fw"></i>
-                            <form action="/single_material/<%=doc.slug%>/report" method="POST">
-                              <button type="submit" id="call" onclick="repdoc()" class="btn btn-danger btn-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                  class="bi bi-flag-fill" viewBox="0 0 16 16">
-                                  <path
-                                    d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
-                                </svg>
-                                Report Document
-                              </button>
-                            </form>
-                          </a>
-                        </li>
-                        </ul>
                       </div>
-                      <div class="card-header text-right text-light">
-                        <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#reviews"
-                          aria-expanded="false" aria-controls="collapsereview" style="width: 100%;">
-                          <i aria-hidden="true" class="fas fa-plus"></i> View Reviews
-                        </a>
-                      </div>
-                      <div class="card-header text-right text-light">
-                        <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#suggestions"
-                          aria-expanded="false" aria-controls="collapsereview" style="width: 100%;">
-                          <i aria-hidden="true" class="fas fa-plus"></i> View Suggestions
-                        </a>
-                      </div>
+                      <% } else { %>
+                        <h5 class="card-header">
+                          Please login to add a review.
+                          <a class="text-success" data-toggle="modal" data-target="#loginModal">Click here </a>to login.
+                        </h5>
+                        <% } %>
+                  </div>
+                </div>
+                <!--Collapsible Add a review form END-->
+                <hr />
+                <% if(doc.reviews.length===0) { %>
+                  <em style="color: grey">No reviews yet.</em>
+                  <% } else { %>
+                    <!-- looping through reviews and displaying them -->
+                    <div>
+                      <% doc.reviews.forEach(function(review){ %>
+                        <div class="row" style="">
+                          <div class="review-author" style="">
+                            <div style="width: 100%;">
+                              <img src="/profilePic/<%=review.author.profilePic %>" class="review-img" />
 
-                      <div class="card review-card collapse" id="reviews">
-                        <!--Setting up the add new review button that is used for collapsing-->
-                        <div class="card-header text-left text-light">
-                          <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#review-collapse"
-                            aria-expanded="false" aria-controls="collapsereview" style="background-color: black;">
-                            <i aria-hidden="true" class="fas fa-plus"></i> Add Your Review
-                          </a>
-                        </div>
-                        <div class="card-body">
-                          <h4 class="card-title text-info">
-                            Reviews <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                          </h4>
-
-                          <!--Collapsible Add a review form START-->
-                          <div class="collapse" id="review-collapse">
-                            <div class="card" style="border-left: 5px solid #00c851">
-                              <!--If the user is logged in, show the new review form-->
-                              <% if(currentUser) { %>
-                                <h4 class="card-header">
-                                  Add your review
-                                  <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                </h4>
-                                <div class="container mt-3">
-                                  <form action="/single_material/<%=doc.slug%>/reviews" method="POST">
-                                    <div class="form-group">
-                                      <input class="form-control" type="text" disabled
-                                        value="<%= currentUser.username %>" />
-                                    </div>
-                                    <div class="form-group">
-                                      <span>Was this document helpful?</span>
-                                      <br />
-                                      <p class="form__answer">
-                                        <input type="radio" name="upDown" id="match_1" value="upvote" checked />
-                                        <label for="match_1">
-                                          <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25"
-                                            height="25" fill="currentColor" class="bi bi-hand-thumbs-up"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                              d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
-                                          </svg>
-                                        </label>
-                                      </p>
-                                      <p class="form__answer">
-                                        <input type="radio" name="upDown" id="match_2" value="downvote" />
-                                        <label for="match_2">
-                                          <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="25"
-                                            height="25" fill="currentColor" class="bi bi-hand-thumbs-down"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                              d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z" />
-                                          </svg>
-                                        </label>
-                                      </p>
-                                      <div class="form-group">
-                                        <input required name="text" rows="5" cols="70" class="form-control mt-3"
-                                          placeholder="Write your review..." id="tag"></input>
-                                      </div>
-                                      <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                          Submit
-                                          <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
-                                </div>
-                                <% } else { %>
-                                  <h5 class="card-header">
-                                    Please login to add a review.
-                                    <a class="text-success" data-toggle="modal" data-target="#loginModal">Click here
-                                    </a>to login.
-                                  </h5>
-                                  <% } %>
                             </div>
-                          </div>
-                          <!--Collapsible Add a review form END-->
-                          <hr />
-
-                          <% if(doc.reviews.length===0) { %>
-                            <em style="color: grey">No reviews yet.</em>
-                            <% } else { %>
-                              <!-- looping through reviews and displaying them -->
-                              <div>
-                                <% doc.reviews.forEach(function(review){ %>
-                                  <div class="row" style="">
-                                    <div class="review-author" style="">
-                                      <div style="width: 100%;">
-                                        <img src="/profilePic/<%=review.author.profilePic %>" class="review-img" />
-
-                                      </div>
-                                      <span>
-                                        <!-- <em>
+                            <span>
+                              <!-- <em>
                             <%= review.updatedAt.toDateString() %>
                           </em> -->
-                                      </span>
-                                      <% if (review.upvote) { %>
-                                        <div>
-                                          <svg class="text-success ml-3" xmlns="http://www.w3.org/2000/svg" width="25"
-                                            height="25" fill="currentColor" class="bi bi-hand-thumbs-up"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                              d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
-                                          </svg>
-                                        </div>
-                                        <%}else{%>
-                                          <div>
-                                            <svg class="text-danger ml-3" xmlns="http://www.w3.org/2000/svg" width="25"
-                                              height="25" fill="currentColor" class="bi bi-hand-thumbs-down"
-                                              viewBox="0 0 16 16">
-                                              <path
-                                                d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z" />
-                                            </svg>
-                                          </div>
-                                          <%}%>
-                                    </div>
-                                    <div class="review-content">
-                                      <a href="/users/<%=review.author._id%>">
-                                        <strong>
-                                          <%= review.author.fullname %>
-                                        </strong> - <small>
-                                          <em>
-                                            <%= review.updatedAt.toDateString() %>
-                                          </em>
-                                        </small>
-                                      </a> <br>
-                                      <% if (review.author.role==="moderator" ) { %>
-                                        <span class="badge badge-primary univ" href="#">Moderator</span>
-                                        <% }else if(review.author.role==="teacher" ) {%>
-                                          <span class="badge badge-primary univ" href="#">Teacher</span>
-                                          <% } %>
-                                            <p style="text-align: justify" class="mt-3">
-                                              <%= review.text %>
-                                            </p>
-                                    </div>
-                                    <div class="view-replies float-right" role="button" data-toggle="collapse"
-                                      data-target="#reply<%= review._id %>" aria-expanded="false"
-                                      aria-controls="collapsereview" style="">
-                                      <i aria-hidden="true" class="fas fa-plus"></i> <small>
-
-                                        <% if(review.replies.length===0){ %> No replies <% } %>
-                                            <% if(review.replies.length===1){ %> View 1 reply <% } %>
-                                                <% if(review.replies.length>1){
-                                                  %> view <%= review.replies.length %> replies<% } %>
-
-                                      </small>
-                                    </div>
-                                  </div>
-
-                                  <br>
-                                  <div id="reply<%= review._id %>" class="collapse">
-                                    <% review.replies.forEach(function(reply){ %>
-                                      <div class="row">
-
-                                        <div class="reply-author">
-                                          <div style="width: 100%;">
-                                            <img src="/profilePic/<%=reply.author_reply.profilePic %>"
-                                              class="reply-img" />
-
-                                          </div>
-                                        </div>
-                                        <div class="reply-content">
-                                          <a href="/users/<%=reply.author_reply.id%>">
-                                            <strong>
-                                              <%= reply.author_reply.fullname %>
-                                            </strong> - <small>
-                                              <em>
-                                                <%= reply.updatedAt.toDateString() %>
-                                              </em>
-                                            </small>
-                                          </a>
-                                          <p style="text-align: justify" class="">
-                                            <%= reply.reply %>
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <br>
-                                      <% }) %>
-                                  </div>
-
-
-
-
-                                  <% if (currentUser) { %>
-                                    <div class="reply-form">
-                                      <form action="/single_material/<%=doc.slug%>/reply" method="POST">
-                                        <input name="doc_id" value="<%=doc.slug%>" type="hidden">
-                                        <input name="comment_user_id" value="<%=review.author._id%>" type="hidden">
-                                        <input name="comment_id" value="<%=review._id%>" type="hidden">
-                                        <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
-                                        <div class="form-group">
-                                          <textarea class="form-control" name="reply"
-                                            placeholder="Reply to this comment" class="reply-textbox"
-                                            style="width: 150px;"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-info btn-sm">Reply</button>
-                                      </form>
-                                    </div>
-                                    <%} %>
-                                      <br>
-                                      <hr>
-                                      <%}) %>
+                            </span>
+                            <% if (review.upvote) { %>
+                              <div>
+                                <svg class="text-success ml-3" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                  fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                                  <path
+                                    d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
+                                </svg>
                               </div>
-                              <%} %>
-
-
-                        </div>
-                      </div>
-
-                      <div class="card review-card collapse" id="suggestions">
-                        <!--Setting up the add new review button that is used for collapsing-->
-                        <div class="card-header text-right text-light">
-                          <a class="btn btn-success" role="button" data-toggle="collapse"
-                            data-target="#suggestion-collapse" aria-expanded="false" aria-controls="collapsereview">
-                            <i aria-hidden="true" class="fas fa-plus"></i> Add A Suggestion
-                          </a>
-                        </div>
-                        <div class="card-body">
-                          <h4 class="card-title text-info">
-                            Suggestions <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                          </h4>
-
-                          <!--Collapsible Add a review form START-->
-                          <div class="collapse" id="suggestion-collapse">
-                            <div class="card" style="border-left: 5px solid #00c851">
-                              <!--If the user is logged in, show the new review form-->
-                              <% if(currentUser) { %>
-                                <h4 class="card-header">
-                                  Add your suggestion
-                                  <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                </h4>
-                                <div class="container mt-3">
-                                  <form action="/single_material/<%=doc.slug%>/suggestions" method="POST">
-                                    <div class="form-group">
-                                      <input class="form-control" type="text" disabled
-                                        value="<%= currentUser.username %>" />
-                                    </div>
-                                    <div>
-                                      <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1"
-                                          name="subExpert">
-                                        <label class="custom-control-label" for="customCheck1" style="opacity: 1;">Ask a
-                                          subject-expert to
-                                          review suggestion</label>
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <div class="form-group">
-                                        <input required name="text" rows="5" cols="70" class="form-control mt-3"
-                                          placeholder="Write your suggestion..." id=""></input>
-                                      </div>
-                                      <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                          Submit
-                                          <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
+                              <%}else{%>
+                                <div>
+                                  <svg class="text-danger ml-3" xmlns="http://www.w3.org/2000/svg" width="25"
+                                    height="25" fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
+                                    <path
+                                      d="M8.864 15.674c-.956.24-1.843-.484-1.908-1.42-.072-1.05-.23-2.015-.428-2.59-.125-.36-.479-1.012-1.04-1.638-.557-.624-1.282-1.179-2.131-1.41C2.685 8.432 2 7.85 2 7V3c0-.845.682-1.464 1.448-1.546 1.07-.113 1.564-.415 2.068-.723l.048-.029c.272-.166.578-.349.97-.484C6.931.08 7.395 0 8 0h3.5c.937 0 1.599.478 1.934 1.064.164.287.254.607.254.913 0 .152-.023.312-.077.464.201.262.38.577.488.9.11.33.172.762.004 1.15.069.13.12.268.159.403.077.27.113.567.113.856 0 .289-.036.586-.113.856-.035.12-.08.244-.138.363.394.571.418 1.2.234 1.733-.206.592-.682 1.1-1.2 1.272-.847.283-1.803.276-2.516.211a9.877 9.877 0 0 1-.443-.05 9.364 9.364 0 0 1-.062 4.51c-.138.508-.55.848-1.012.964l-.261.065zM11.5 1H8c-.51 0-.863.068-1.14.163-.281.097-.506.229-.776.393l-.04.025c-.555.338-1.198.73-2.49.868-.333.035-.554.29-.554.55V7c0 .255.226.543.62.65 1.095.3 1.977.997 2.614 1.709.635.71 1.064 1.475 1.238 1.977.243.7.407 1.768.482 2.85.025.362.36.595.667.518l.262-.065c.16-.04.258-.144.288-.255a8.34 8.34 0 0 0-.145-4.726.5.5 0 0 1 .595-.643h.003l.014.004.058.013a8.912 8.912 0 0 0 1.036.157c.663.06 1.457.054 2.11-.163.175-.059.45-.301.57-.651.107-.308.087-.67-.266-1.021L12.793 7l.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315l-.353-.354.353-.354c.047-.047.109-.176.005-.488a2.224 2.224 0 0 0-.505-.804l-.353-.354.353-.354c.006-.005.041-.05.041-.17a.866.866 0 0 0-.121-.415C12.4 1.272 12.063 1 11.5 1z" />
+                                  </svg>
                                 </div>
-                                <% } else { %>
-                                  <h5 class="card-header">
-                                    Please login to add a suggestion.
-                                    <a class="text-success" data-toggle="modal" data-target="#loginModal">Click here
-                                    </a>to login.
-                                  </h5>
-                                  <% } %>
+                                <%}%>
+                          </div>
+                          <div class="review-content">
+                            <a href="/users/<%=review.author._id%>">
+                              <strong>
+                                <%= review.author.fullname %>
+                              </strong> - <small>
+                                <em>
+                                  <%= review.updatedAt.toDateString() %>
+                                </em>
+                              </small>
+                            </a><br>
+                            <% if (review.author.role==="moderator" ) { %>
+                              <span class="badge badge-primary univ" href="#">Moderator</span>
+                              <% }else if(review.author.role==="teacher" ) {%>
+                                <span class="badge badge-primary univ" href="#">Teacher</span>
+                                <% } %>
+                                  <p style="text-align: justify" class="mt-3">
+                                    <%= review.text %>
+                                  </p>
+                          </div>
+                          <div class="view-replies float-right" role="button" data-toggle="collapse"
+                            data-target="#reply<%= review._id %>" aria-expanded="false" aria-controls="collapsereview"
+                            style="">
+                            <i aria-hidden="true" class="fas fa-plus"></i> <small>
+
+                              <% if(review.replies.length===0){ %> No replies <% } %>
+                                  <% if(review.replies.length===1){ %> View 1 reply <% } %>
+                                      <% if(review.replies.length>1){
+                                        %> view <%= review.replies.length %> replies<% } %>
+
+                            </small>
+                          </div>
+                        </div>
+
+                        <br>
+                        <div id="reply<%= review._id %>" class="collapse">
+                          <% review.replies.forEach(function(reply){ %>
+                            <div class="row">
+
+                              <div class="reply-author">
+                                <div style="width: 100%;">
+                                  <img src="/profilePic/<%=reply.author_reply.profilePic %>" class="reply-img" />
+
+                                </div>
+                              </div>
+                              <div class="reply-content">
+                                <a href="/users/<%=reply.author_reply.id%>">
+                                  <strong>
+                                    <%= reply.author_reply.fullname %>
+                                  </strong> - <small>
+                                    <em>
+                                      <%= reply.updatedAt.toDateString() %>
+                                    </em>
+                                  </small>
+                                </a>
+                                <p style="text-align: justify" class="">
+                                  <%= reply.reply %>
+                                </p>
+                              </div>
+                            </div>
+                            <br>
+                            <% }) %>
+                        </div>
+
+
+                        <% if (currentUser) { %>
+                          <div class="reply-form">
+                            <form action="/single_material/<%=doc.slug%>/reply" method="POST">
+                              <input name="doc_id" value="<%=doc.slug%>" type="hidden">
+                              <input name="comment_user_id" value="<%=review.author._id%>" type="hidden">
+                              <input name="comment_id" value="<%=review._id%>" type="hidden">
+                              <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
+                              <div class="form-group">
+                                <textarea class="form-control" name="reply" placeholder="Reply to this comment"
+                                  class="reply-textbox" style="width: 150px;"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-info btn-sm">Reply</button>
+                            </form>
+                          </div>
+                          <%} %>
+                            <br>
+                            <hr>
+                            <%}) %>
+                    </div>
+                    <%} %>
+              </div>
+            </div>
+            <div class="card review-card collapse" id="suggestions">
+              <!--Setting up the add new review button that is used for collapsing-->
+              <div class="card-header text-right text-light">
+                <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#suggestion-collapse"
+                  aria-expanded="false" aria-controls="collapsereview">
+                  <i aria-hidden="true" class="fas fa-plus"></i> Add A Suggestion
+                </a>
+              </div>
+              <div class="card-body">
+                <h4 class="card-title text-info">
+                  Suggestions <i aria-hidden="true" class="fas fa-comment-alt"></i>
+                </h4>
+                <!--Collapsible Add a review form START-->
+                <div class="collapse" id="suggestion-collapse">
+                  <div class="card" style="border-left: 5px solid #00c851">
+                    <!--If the user is logged in, show the new review form-->
+                    <% if(currentUser) { %>
+                      <h4 class="card-header">
+                        Add your suggestion
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                      </h4>
+                      <div class="container mt-3">
+                        <form action="/single_material/<%=doc.slug%>/suggestions" method="POST">
+                          <div class="form-group">
+                            <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
+                          </div>
+                          <div>
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="customCheck1" name="subExpert">
+                              <label class="custom-control-label" for="customCheck1" style="opacity: 1;">Ask a
+                                subject-expert to
+                                review suggestion</label>
                             </div>
                           </div>
-                          <!--Collapsible Add a review form END-->
-                          <hr />
-
-                          <% if(doc.suggestions.length===0) { %>
-                            <em style="color: grey">No suggestions yet.</em>
-                            <% } else { %>
-                              <!-- looping through reviews and displaying them -->
-                              <div>
-                                <% doc.suggestions.forEach(function(suggestion){ %>
-                                  <div class="row">
-                                    <div class="col-md-3">
-                                      <div>
-                                        Suggestion by:
-                                        <a href="/users/<%=suggestion.author._id%>">
-                                          <strong>
-                                            <%= suggestion.author.fullname %>
-                                          </strong>
-                                        </a>
-                                      </div>
-                                      <span><em>
-                                          <%= suggestion.updatedAt.toDateString() %>
-                                        </em></span>
-                                    </div>
-                                    <div class="col-md-9">
-                                      <p style="text-align: justify" class="mt-3">
-                                        <%= suggestion.text %>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <br>
-
-                                  <div class="ml-4 pl-4">
-                                    <% suggestion.replies.forEach(function(reply){ %>
-                                      <div class="row">
-                                        <div class="col-md-3">
-                                          <div>
-                                            Replied by:
-                                            <a href="/users/<%=reply.author_reply._id%>">
-                                              <strong>
-                                                <%= reply.author_reply.fullname %>
-                                              </strong>
-                                            </a>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                          <p style="text-align: justify" class="">
-                                            <%= reply.reply %>
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <br>
-                                      <% }) %>
-                                  </div>
-
-                                  <% if (currentUser && currentUser.role=="teacher" ) { %>
-                                    <div class="col-md-3 ml-4">
-                                      <form action="/single_material/<%=doc.slug%>/reply" method="POST">
-                                        <input name="doc_id" value="<%=doc.slug%>" type="hidden">
-                                        <input name="comment_user_id" value="<%=suggestion.author._id%>" type="hidden">
-                                        <input name="comment_id" value="<%=suggestion._id%>" type="hidden">
-                                        <input name="reply_author" value="<%= suggestion.author.fullname %>"
-                                          type="hidden">
-                                        <div class="form-group">
-                                          <textarea class="form-control" name="reply"
-                                            placeholder="Reply to this comment" style="width: 200%;"></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-info btn-sm">Reply</button>
-                                      </form>
-                                    </div>
-                                    <% } %>
-
-
-                                      <br>
-                                      <hr>
-                                      <%}) %>
-                              </div>
-                              <%} %>
-                        </div>
+                          <div class="form-group">
+                            <div class="form-group">
+                              <input required name="text" rows="5" cols="70" class="form-control mt-3"
+                                placeholder="Write your suggestion..." id=""></input>
+                            </div>
+                            <div class="form-group">
+                              <button type="submit" class="btn btn-success btn-sm">
+                                Submit
+                                <i aria-hidden="true" class="fas fa-comment-alt"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </form>
                       </div>
-
-
+                      <% } else { %>
+                        <h5 class="card-header">
+                          Please login to add a suggestion.
+                          <a class="text-success" data-toggle="modal" data-target="#loginModal">Click here </a>to login.
+                        </h5>
+                        <% } %>
                   </div>
-
-
-                  <div class="col-md-8">
-                    <div class="preview">
-                      <iframe src="https://drive.google.com/file/d/<%=doc.driveId%>/preview" width="100%" height="895%"
-                        frameborder="0" scrolling="no" seamless=""></iframe>
-                      <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">
-                        &nbsp;</div>
-                    </div>
-                  </div>
-
                 </div>
+                <!--Collapsible Add a review form END-->
+                <hr />
+                <% if(doc.suggestions.length===0) { %>
+                  <em style="color: grey">No suggestions yet.</em>
+                  <% } else { %>
+                    <!-- looping through reviews and displaying them -->
+                    <div>
+                      <% doc.suggestions.forEach(function(suggestion){ %>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div>
+                              Suggestion by:
+                              <a href="/users/<%=suggestion.author._id%>">
+                                <strong>
+                                  <%= suggestion.author.fullname %>
+                                </strong>
+                              </a>
+                            </div>
+                            <span><em>
+                                <%= suggestion.updatedAt.toDateString() %>
+                              </em></span>
+                          </div>
+                          <div class="col-md-9">
+                            <p style="text-align: justify" class="mt-3">
+                              <%= suggestion.text %>
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="ml-4 pl-4">
+                          <% suggestion.replies.forEach(function(reply){ %>
+                            <div class="row">
+                              <div class="col-md-3">
+                                <div>
+                                  Replied by:
+                                  <a href="/users/<%=reply.author_reply._id%>">
+                                    <strong>
+                                      <%= reply.author_reply.fullname %>
+                                    </strong>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="col-md-9">
+                                <p style="text-align: justify" class="">
+                                  <%= reply.reply %>
+                                </p>
+                              </div>
+                            </div>
+                            <br>
+                            <% }) %>
+                        </div>
+                        <% if (currentUser && currentUser.role=="teacher" ) { %>
+                          <div class="col-md-3 ml-4">
+                            <form action="/single_material/<%=doc.slug%>/reply" method="POST">
+                              <input name="doc_id" value="<%=doc.slug%>" type="hidden">
+                              <input name="comment_user_id" value="<%=suggestion.author._id%>" type="hidden">
+                              <input name="comment_id" value="<%=suggestion._id%>" type="hidden">
+                              <input name="reply_author" value="<%= suggestion.author.fullname %>" type="hidden">
+                              <div class="form-group">
+                                <textarea class="form-control" name="reply" placeholder="Reply to this comment"
+                                  style="width: 200%;"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-info btn-sm">Reply</button>
+                            </form>
+                          </div>
+                          <% } %>
+                            <br>
+                            <hr>
+                            <%}) %>
+                    </div>
+                    <%} %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="preview">
+              <iframe src="https://drive.google.com/file/d/<%=doc.driveId%>/preview" width="100%" height="895%"
+                frameborder="0" scrolling="no" seamless=""></iframe>
+              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+            </div>
+          </div>
+        </div>
 
 
-
-
-
-
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-                  integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-                  crossorigin="anonymous"></script>
-
-
-                <script>
-                  // Get the modal
-                  var modal = document.getElementById("modal");
-                  // Get the button that opens the modal
-                  var activeBtn = document.getElementById("downloadBtn");
-                  // Get the <span> element that closes the modal
-                  var span = document.querySelector(".accept");
-                  // When the user clicks on the button, open the modal
-                  activeBtn.onclick = function () {
-                    modal.style.display = "block";
-                  };
-                  setTimeout(() => {
-                    modal.style.display = "none";
-                  }, 5000);
-                  // When the user clicks on <span> (x), close the modal
-                  span.onclick = function () {
-                    modal.style.display = "none";
-                  };
-
-
-                  // ==================TAGGING USER ====================
-
-                  function tag_user(prev_text, user_tag) {
-                    var text_len = prev_text.length
-                    console.log("prev_text is " + prev_text)
-                    console.log("user_tag is " + user_tag)
-
-                    // console.log("4"+text_len);
-                    $('#tag').autocomplete({
-                      source: function (req, res) {
-                        // console.log("5  "+req['term'].substring(text_len+1));
-                        // var word=req['term'].substring(text_len);
-                        req['term'] = user_tag;
-                        console.log("3 -   " + req);
-                        $.ajax({
-                          url: "../autocompleteTag/",
-                          dataType: "jsonp",
-                          type: "GET",
-                          data: req,
-                          success: function (data) {
-                            res(data)
-                          },
-                          error: function (err) {
-                            console.log(err);
-                          }
-                        });
-                      },
-                      minlength: text_len,
-                      select: function (event, ui) {
-                        if (ui.item) {
-                          lol(prev_text, ui.item.label)
-                        }
-                      }
-                    });
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+          crossorigin="anonymous"></script>
+        <script>
+          // Get the modal
+          var modal = document.getElementById("modal");
+          // Get the button that opens the modal
+          var activeBtn = document.getElementById("downloadBtn");
+          // Get the <span> element that closes the modal
+          var span = document.querySelector(".accept");
+          // When the user clicks on the button, open the modal
+          activeBtn.onclick = function () {
+            modal.style.display = "block";
+          };
+          setTimeout(() => {
+            modal.style.display = "none";
+          }, 5000);
+          // When the user clicks on <span> (x), close the modal
+          span.onclick = function () {
+            modal.style.display = "none";
+          };
+          // ==================TAGGING USER ====================
+          function tag_user(prev_text, user_tag) {
+            var text_len = prev_text.length
+            console.log("prev_text is " + prev_text)
+            console.log("user_tag is " + user_tag)
+            // console.log("4"+text_len);
+            $('#tag').autocomplete({
+              source: function (req, res) {
+                // console.log("5  "+req['term'].substring(text_len+1));
+                // var word=req['term'].substring(text_len);
+                req['term'] = user_tag;
+                console.log("3 -   " + req);
+                $.ajax({
+                  url: "../autocompleteTag/",
+                  dataType: "jsonp",
+                  type: "GET",
+                  data: req,
+                  success: function (data) {
+                    res(data)
+                  },
+                  error: function (err) {
+                    console.log(err);
                   }
+                });
+              },
+              minlength: text_len,
+              select: function (event, ui) {
+                if (ui.item) {
+                  lol(prev_text, ui.item.label)
+                }
+              }
+            });
+          }
+          function lol(prev_text, user_tag) {
+            setTimeout(() => {
+              document.getElementById("tag").value = `${prev_text} #${user_tag}`
+            }, 50)
+          }
+          function abc(full_text) {
+            var req_index = (full_text.indexOf('#'));
+            var len = (full_text.length);
+            if (req_index != -1 && req_index < len - 1) {
+              console.log("yes tag");
+              // let prev_text = full_text.substring(req_index+1);
+              var prev_text = full_text.substring(0, req_index);
+              var user_tag = full_text.substring(req_index + 1);
+              tag_user(prev_text, user_tag);
+              // console.log("prevtext"+ prev_text)
+            }
+          }
+          // function doReply(form){
+          //   var formData= {
+          //     doc_id : form.doc_id.value,
+          //     comment_id : form.comment_id.value,
+          //     name: form.reply_author.value,
+          //     reply: form.reply.value,
+          //   };
+          //   //console.log(form.doc_id.value);
+          //   $.ajax({
+          //     url: "/reply",
+          //     method: "POST",
+          //     data: formData,
+          //     success: function(response){
+          //       console.log(response);
+          //     }
+          //   });
+          // }
+          $(document).ready(function () {
+            $("#tag").on("input", function () {
+              // Print entered value in a div box
+              var text = ($(this).val());
+              abc(text);
+              console.log(text);
+            });
+          });
 
-                  function lol(prev_text, user_tag) {
-                    setTimeout(() => {
-                      document.getElementById("tag").value = `${prev_text} #${user_tag}`
-                    }, 50)
+          (function () {
+            var shareButtons = document.querySelectorAll(".share-btn");
+            if (shareButtons) {
+              [].forEach.call(shareButtons, function (button) {
+                button.addEventListener("click", function (event) {
+                  var width = 650,
+                    height = 450;
+                  event.preventDefault();
+                  window.open(this.href, 'Share Dialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=' + width + ',height=' + height + ',top=' + (screen.height / 2 - height / 2) + ',left=' + (screen.width / 2 - width / 2));
+                });
+              });
+            }
+          })();
+          var $temp = $("<input>");
+          var $url = $(location).attr('href');
+          $('.clipboard').on('click', function () {
+            $("body").append($temp);
+            $temp.val($url).select();
+            document.execCommand("copy");
+            $temp.remove();
+          })
+        </script>
 
-                  }
-
-                  function abc(full_text) {
-                    var req_index = (full_text.indexOf('#'));
-
-                    var len = (full_text.length);
-                    if (req_index != -1 && req_index < len - 1) {
-                      console.log("yes tag");
-                      // let prev_text = full_text.substring(req_index+1);
-                      var prev_text = full_text.substring(0, req_index);
-                      var user_tag = full_text.substring(req_index + 1);
-                      tag_user(prev_text, user_tag);
-                      // console.log("prevtext"+ prev_text)
-                    }
-                  }
-
-                  // function doReply(form){
-                  //   var formData= {
-                  //     doc_id : form.doc_id.value,
-                  //     comment_id : form.comment_id.value,
-                  //     name: form.reply_author.value,
-                  //     reply: form.reply.value,
-
-                  //   };
-                  //   //console.log(form.doc_id.value);
-                  //   $.ajax({
-                  //     url: "/reply",
-                  //     method: "POST",
-                  //     data: formData,
-                  //     success: function(response){
-                  //       console.log(response);
-                  //     }
-                  //   });
-                  // }
-
-                  $(document).ready(function () {
-                    $("#tag").on("input", function () {
-                      // Print entered value in a div box
-                      var text = ($(this).val());
-                      abc(text);
-                      console.log(text);
-
-                    });
-                  });
-
-
-                  (function () {
-                    var shareButtons = document.querySelectorAll(".share-btn");
-                    if (shareButtons) {
-                      [].forEach.call(shareButtons, function (button) {
-                        button.addEventListener("click", function (event) {
-                          var width = 650,
-                            height = 450;
-
-                          event.preventDefault();
-
-                          window.open(this.href, 'Share Dialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=' + width + ',height=' + height + ',top=' + (screen.height / 2 - height / 2) + ',left=' + (screen.width / 2 - width / 2));
-                        });
-                      });
-                    }
-
-                  })();
-
-                  var $temp = $("<input>");
-                  var $url = $(location).attr('href');
-                  $('.clipboard').on('click', function () {
-                    $("body").append($temp);
-                    $temp.val($url).select();
-                    document.execCommand("copy");
-                    $temp.remove();
-                  })
-
-                </script>
-
-                </html>
+        </html>
