@@ -519,22 +519,29 @@ app.post("/uploadprofile", upload3.single("file"), async (req, res, next) => {
 app.get("/download/:slug", isLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-
     const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
+    var watermark=require("image-watermark");
+    var options={
+        'text':'Somaiya EduConnect',
+        'color':'rgb(154,50,46)',
+        'align':'dia1',
+    }
+    
+    watermark.embedWatermark(`${__dirname}/downloads/${doc.fileName}`,options);
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
-
       user.save();
     }, 5000);
     let stat = await Stat.findOne({ id: 1 });
     stat.totalDownloads++;
-
     stat.save();
     doc.downloads++;
     doc.recentDownloads++;
     doc.save();
+
   } catch (error) {
+    console.log(error);
     res.status(400).send("Error while downloading file. Try again later.");
   }
 });
