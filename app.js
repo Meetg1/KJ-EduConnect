@@ -37,7 +37,6 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 
-
 //====================DATABASE CONNECTION==========================
 
 // const dbUrl = "mongodb://localhost:27017/edu";
@@ -521,14 +520,6 @@ app.get("/download/:slug", isLoggedIn, async (req, res) => {
     const user = await User.findById(req.user._id);
     const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
-    var watermark=require("image-watermark");
-    var options={
-        'text':'Somaiya EduConnect',
-        'color':'rgb(154,50,46)',
-        'align':'dia1',
-    }
-    
-    watermark.embedWatermark(`${__dirname}/downloads/${doc.fileName}`,options);
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
       user.save();
@@ -545,6 +536,7 @@ app.get("/download/:slug", isLoggedIn, async (req, res) => {
     res.status(400).send("Error while downloading file. Try again later.");
   }
 });
+
 
 //============================================================
 
@@ -643,6 +635,7 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       follower.notifications.push(notification);
       await follower.save();
     });
+
 
     //deleting file from uploads folder
     let pathToFile = path.join(__dirname, "uploads", doc.fileName);
