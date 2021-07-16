@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@ilovepdf/ilovepdf-nodejs": "^0.1.0",
+    "@pdftron/pdfnet-node": "^9.0.0-3",
+    "@pdftron/webviewer": "^7.3.3",
     "@sendgrid/mail": "^7.4.2",
     "cloudmersive-convert-api-client": "^2.6.7",
     "connect-flash": "^0.1.1",

@@ -35,7 +35,7 @@ const schedule = require("node-schedule");
 
 const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
-
+//const { PDFNet } = require("@pdftron/pdfnet-node");
 
 //====================DATABASE CONNECTION==========================
 
@@ -636,6 +636,32 @@ app.post("/upload", isLoggedIn, async (req, res) => {
       await follower.save();
     });
 
+    /*    
+
+         const getThumbFromPDF=async () =>{
+          const doc=await PDFNet.PDFDoc.createFromFilePath(inputPath);
+          await doc.initSecurityHandler();
+          const pdfDraw=await PDFNet.PDFDraw.create(92);
+          const currPage=await doc.getPage(1);
+          await pdfDraw.export(currPage,outputPath,'PNG')
+    }
+
+    
+    PDFNet.runWithCleanup(getThumbFromPDF).then(() => {
+      fs.readFile(outputPath,(err,data)=>{
+         if(err){
+           res.statusCode=500;
+           res.end(err);
+         }else{
+            res.setHeader('ContentType','image/png');
+            res.end(data);
+         }
+      })
+    }).catch(err =>{
+       res.statusCode=500;
+       res.end(err);
+    });
+  */  
 
     //deleting file from uploads folder
     let pathToFile = path.join(__dirname, "uploads", doc.fileName);
