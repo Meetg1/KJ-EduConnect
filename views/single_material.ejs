@@ -205,8 +205,8 @@
             </div>
 
             <div class="card-header text-right text-light">
-              <a class="btn btn-success" role="button" data-toggle="collapse" data-target="#reviews"
-                aria-expanded="false" aria-controls="collapsereview" style="width: 100%;">
+              <a class="btn btn-success viewReviews" role="button" data-toggle="collapse" data-target="#reviews"
+                aria-expanded="false" aria-controls="collapsereview" style="width: 100%;" id="btnTrigger" >
                 <i aria-hidden="true" class="fas fa-plus"></i> View Reviews
               </a>
             </div>
@@ -240,15 +240,15 @@
                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                       </h4>
                       <div class="container mt-3">
-                        <form action="/single_material/<%=doc.slug%>/reviews" method="POST">
+                        <form id="reviewForm<%= doc.slug %>">
                           <div class="form-group">
-                            <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
+                            <input class="form-control" type="text" id="name<%=doc.slug%>" disabled value="<%= currentUser.username %>" />
                           </div>
                           <div class="form-group">
                             <span>Was this document helpful?</span>
                             <br />
                             <p class="form__answer">
-                              <input type="radio" name="upDown" id="match_1" value="upvote" checked />
+                              <input type="radio"  id="upvote<%=doc.slug%>" name="upvote"  checked />
                               <label for="match_1">
                                 <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
@@ -258,7 +258,7 @@
                               </label>
                             </p>
                             <p class="form__answer">
-                              <input type="radio" name="upDown" id="match_2" value="downvote" />
+                              <input type="radio"  id="downvote<%=doc.slug%>" name="downvote" />
                               <label for="match_2">
                                 <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
@@ -269,13 +269,13 @@
                             </p>
                             <div class="form-group">
                               <input required name="text" rows="5" cols="70" class="form-control mt-3"
-                                placeholder="Write your review..." id="tag"></input>
+                                placeholder="Write your review..." id="review<%=doc.slug%>" ></input>
                             </div>
                             <div class="form-group">
-                              <button type="submit" class="btn btn-success btn-sm">
+                              <a  class="btn btn-success btn-sm addReviewBtn" member_id="<%=doc.slug%>">
                                 Submit
                                 <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                              </button>
+                              </a>
                             </div>
                           </div>
                         </form>
@@ -290,6 +290,7 @@
                 </div>
                 <!--Collapsible Add a review form END-->
                 <hr />
+                <div id="reload-reviews">
                 <% if(doc.reviews.length===0) { %>
                   <em style="color: grey">No reviews yet.</em>
                   <% } else { %>
@@ -346,13 +347,17 @@
                           </div>
                           <div class="view-replies float-right" role="button" data-toggle="collapse"
                             data-target="#reply<%= review._id %>" aria-expanded="false" aria-controls="collapsereview"
-                            style="">
+                            >
                             <i aria-hidden="true" class="fas fa-plus"></i> <small>
+                              <div  id="viewreply<%= review._id %>">
 
-                              <% if(review.replies.length===0){ %> No replies <% } %>
+                                <% if(review.replies.length===0){ %> No replies <% } %>
                                   <% if(review.replies.length===1){ %> View 1 reply <% } %>
                                       <% if(review.replies.length>1){
-                                        %> view <%= review.replies.length %> replies<% } %>
+                                        %> view <%= review.replies.length %> replies<% } %> 
+
+                              </div>
+                              
 
                             </small>
                           </div>
@@ -360,6 +365,7 @@
 
                         <br>
                         <div id="reply<%= review._id %>" class="collapse">
+                          <div id="reply2<%= review._id %>">
                           <% review.replies.forEach(function(reply){ %>
                             <div class="row">
 
@@ -386,21 +392,23 @@
                             </div>
                             <br>
                             <% }) %>
+                          </div>
                         </div>
 
 
                         <% if (currentUser) { %>
-                          <div class="reply-form">
-                            <form action="/single_material/<%=doc.slug%>/reply" method="POST">
+                          <div class="reply-form" id="form-reply<%=review._id%>">
+                            <form  >
                               <input name="doc_id" value="<%=doc.slug%>" type="hidden">
                               <input name="comment_user_id" value="<%=review.author._id%>" type="hidden">
                               <input name="comment_id" value="<%=review._id%>" type="hidden">
                               <input name="reply_author" value="<%= review.author.fullname %>" type="hidden">
                               <div class="form-group">
                                 <textarea class="form-control" name="reply" placeholder="Reply to this comment"
-                                  class="reply-textbox" style="width: 150px;"></textarea>
+                                  class="reply-textbox" style="width: 150px;" id="reply<%=doc.slug%><%=review._id%>"></textarea>
                               </div>
-                              <button type="submit" class="btn btn-info btn-sm">Reply</button>
+                              <a doc_id="<%=doc.slug%>" review_id="<%=review._id%>" comment_user_id="<%=review.author._id%>" 
+                                  reply_author="<%= review.author.fullname %>"  class="btn btn-info btn-sm addReply">Reply</a>
                             </form>
                           </div>
                           <%} %>
@@ -409,6 +417,7 @@
                             <%}) %>
                     </div>
                     <%} %>
+                  </div>
               </div>
             </div>
             <div class="card review-card collapse" id="suggestions">
@@ -668,7 +677,68 @@
             $temp.val($url).select();
             document.execCommand("copy");
             $temp.remove();
-          })
-        </script>
+          });
 
+          $(document).ready(function(){
+            var doc_id = "";
+            $(".addReviewBtn").on('click',function(){
+
+              var doc_id = $(this).attr('member_id');
+              var name = $('#name'+doc_id).val();
+              var review = $('#review'+doc_id).val();
+              var upvote = $('input[name=upvote]:checked','#reviewForm'+doc_id).val();
+              var downvote = $('input[name=downvote]:checked','#reviewForm'+doc_id).val();
+              console.log(doc_id, name, review, upvote, downvote);
+
+              req = $.ajax({
+                url : '/single_material/<%=doc.slug%>/reviews',
+                type:'POST',
+                data: {name:name, review: review, upvote:upvote, downvote:downvote}
+              });
+
+              req.done(function(){
+                console.log("comment added");
+                
+                $('#reviews').fadeOut(1000); 
+                $('#review'+doc_id).val("");
+                $("#reload-reviews").load(location.href + " #reload-reviews");
+                $('#reviews').fadeIn(1000); 
+              });
+            });
+          });
+
+
+          $(document).ready(function(){ 
+            var comment_id=""; 
+            var doc_id="";
+          $(".addReply").on('click',function(){
+
+            doc_id = $(this).attr('doc_id');
+            comment_id = $(this).attr('review_id');
+            var comment_user_id = $(this).attr('comment_user_id');
+            var reply_author = $(this).attr('reply_author');
+            var reply = $('#reply'+doc_id+comment_id).val();
+            console.log(doc_id, comment_id, comment_user_id, reply_author, reply);
+
+            req = $.ajax({
+              url : '/single_material/'+ doc_id +'/reply',
+              type:'POST',
+              data: {name:name, comment_id: comment_id, comment_user_id:comment_user_id, reply_author:reply_author, reply:reply}
+            });
+
+            req.done(function(){
+              console.log("comment added");
+              
+              $('#reviews').fadeOut(1000);   
+              $("#viewreply"+comment_id).load(location.href + " #viewreply"+comment_id);
+              $("#reply2"+comment_id).load(location.href + " #reply2"+comment_id);
+              $('#reply'+doc_id+comment_id).val("");
+              $('#reviews').fadeIn(1000);
+            });
+            });
+            });
+
+
+
+        </script>
         </html>

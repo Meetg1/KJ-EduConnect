@@ -1250,12 +1250,11 @@ app.get("/taken-down/:slug", (req, res) => {
 app.post(
   "/single_material/:slug/reviews",
   isLoggedIn,
-  checkReviewExistence,
   async (req, res) => {
-    const upvote = req.body.upDown == "upvote" ? true : false;
+    const upvote = req.body.upvote == "on" ? true : false;
     const review = new Review({
       upvote: upvote,
-      text: req.body.text,
+      text: req.body.review,
       author: req.user._id,
     });
 
@@ -1291,7 +1290,7 @@ app.post(
 
     console.log(review);
     req.flash("success", "Review submitted successfully. You earned 5 points!");
-    res.redirect("/single_material/" + req.params.slug);
+    res.jsonp({'result':'success'});
   }
 );
 
@@ -1907,7 +1906,7 @@ app.post("/single_material/:slug/reply", isLoggedIn, async (req, res) => {
   //console.log(req_doc);
   //console.log(req_review);
   req.flash("success", "Replied to a comment.");
-  res.redirect("/single_material/" + req.params.slug);
+  res.jsonp({'result':'success'});
 });
 
 app.get("/subject-expert", isLoggedIn, (req, res) => {
