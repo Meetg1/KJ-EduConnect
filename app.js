@@ -647,7 +647,6 @@ app.post("/upload", isLoggedIn, async (req, res) => {
 
     let errors = req.validationErrors();
     if (errors) {
-      console.log("sgdagsgfds" + errors);
       return res.redirect("back");
     }
     // if (previewPicIds.length == 0) {
