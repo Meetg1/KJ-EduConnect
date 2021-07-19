@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<meta name="description" content="PDFTron SDK is the complete PDF toolkit."/>
+	<link href="Doc/images/tronsheet.css" type="text/css" rel="stylesheet">
+	<title>PDFTron SDK - What's New?</title>
+	<script language="JavaScript" type="text/javascript">
+		//<function>
+		//	<summary>Shows/Hides specified div tag and changes displayed image</summary>
+		//	<param name="objDiv">Div tag to modify</param>
+		function ToggleMenu(oButton, oItems)
+		{
+			if (oItems.style.display == "none")	
+			{
+				oItems.style.display = "block";
+				oButton.src = "Doc/images/minus.gif";
+			}	
+			else 
+			{
+				oItems.style.display = "none";
+				oButton.src = "Doc/images/plus.gif";
+			}
+			return;
+		}
+	</script>		
+</head>
+<body>
+<table class="main" cellspacing="0" cellpadding="0" align="center">
+<tr><td><img src="Doc/images/banner_logo.gif" alt="PDFTron logo"></td></tr>
+<tr><td class="cont"><table cellspacing="10" cellpadding="0">
+<tr><td style="vertical-align:top;">
+	<h1 style="font-size: 14pt;">PDFNet SDK - What's New?</h1>
+	<img src="Doc/images/plus.gif" id="v900_btn" onClick="ToggleMenu(v900_btn, v900_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v900_btn, v900_cnt);"><strong>Version 9.0.0 - April 9th, 2021</strong></A>
+	<div style="margin-left:20px;margin-top:10px;" id="v900_cnt">
+	<h1 style="font-size: 11pt;">New Features</h1>
+	<ul>
+		<li>Advanced Imaging Module, supporting the DICOM image format and many others.</li>
+		<li>Flexible and powerful document generation using office templates. Full reflow, and retains all document styles.</li>
+		<li>Added PDF2Word Module that enables conversion to Word. (Convert.ToWord()).</li>
+		<li>Added PDF2HtmlReflowParagraphsModule Module and HTMLOutputOptions.SetContentReflow() that can be used to utilize it when calling Convert.ToHtml.</li>
+		<li>Added a PDFTron Custom Security Handler that can be used to produce PDF files that can only be decrypted by PDFTron SDK and only if the password is correct and the specified id has been registered by the application. (PDFTronCustomSecurityHandler class and PDFNet.AddPDFTronCustomHandler) This provides a level of security very similar to that of writing a custom encryption method, but is much simpler to use.</li>
+		<li>Added an API to manually add or edit marked content. (ElementBuilder.CreateMarkedContentBegin, ElementBuilder.CreateMarkedContentEnd, ElementBuilder.CreateMarkedContentPoint etc.)</li>
+		<li>Added an API to produce pages showing the text differences between two pages or documents. (PDFDoc.AppendTextDiff) This API is currently experimental and subject to change.  </li>
+		<li>Added a new API to trust certificates in the FDF Data/Cert Exchange format. (VerificationOptions.LoadTrustList) This provides overall more correct results during verification than 	VerificationOptions.AddTrustedCertificates as it can handle more fine-grained trust settings.</li>
+		<li>Added new optional trust flags as input to VerificationOptions::AddTrustedCertificate to configure the desired level of trust.</li>
+		<li>Added support for specifying locale for Office conversions.</li>
+		<li>Added a filetype option to 'Convert' methods that accept a Filter and not a file path.</li>
+	</ul>
+	<h1 style="font-size: 11pt;">Changed Behaviour</h1>
+	<ul>
+		<li>Moved X509Certificate, DigestAlgorithm, ObjectIdentifier, X501AttributeTypeAndValue, X501DistinguishedName and X509Extension from pdftron.PDF to pdftron.Crypto.</li>
+		<li>Removed HTMLOutputOptions.SetReflow which wasn't usable in normal builds and overlaps in concept with the new HTMLOutputOptions.SetContentReflowSetting.</li>
+	</ul>
+
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+		<li><b>[pdf]</b> Updated Duktape to 2.6.0.</li>
+		<li><b>[jpg]</b> Updated libjpeg-turbo to 2.0.6.</li>
+		<li><b>[tiff]</b> Updated libTIFF to 4.2.0.</li>
+		<li><b>[pdf]</b> Updated OpenSSL to 1.1.1j.</li>
+		<li><b>[all]</b> Added macOS arm64 slice for Apple Silicon.</li>
+		<li><b>[all]</b> Enabled better optimization settings on PDFTron SDK on Windows.</li>
+		<li><b>[xfdf]</b> Significantly optimized the performance of XFDF export.</li>
+		<li><b>[pdf]</b> Optimized creation of PDFDoc, SDFDoc, FDFDoc and ObjSet objects. This has a significant impact on cases that create a large number of these objects.</li>
+		<li><b>[xfdf]</b> Improved support for importing XFDF into PDFs with corrupt Annotations array.</li>
+		<li><b>[xfdf]</b> Generating consistent names on all unnamed annotations for during xfdfexport. This is especially helpful for realtime collaboration use-cases.</li>
+		<li><b>[xfdf]</b> Adjusted rectangle, ellipse, export and import to support nonstandard rotation in import and export.</li>
+		<li><b>[pdf]</b> Adjusted logic for retaining text spacing adjustments, so that it would work with interleaved marked content operators. </li>
+		<li><b>[pdf]</b> Avoid "faded colors" during PDF rendering when color management is disabled and overprint is off.</li>
+		<li><b>[pdf]</b> Avoid writing unnecessary colors and colorspaces when generating annotation appearance streams.</li>
+		<li><b>[pdf]</b> Adjustment to repair corrupt documents with negative or unreasonably large object numbers.</li>
+		<li><b>[pdf]</b> Erase invalid colorspace entries in ImageMasks during PDF/A conversion</li>
+		<li><b>[svg]</b> Better handle corrupt documents with unbalanced q/Q operators in forms during Convert.ToSvg.</li>
+		<li><b>[pdf]</b> Added support for trusting intermediate certificates in the chain during for Digital Signature Verification.</li>
+		<li><b>[pdf]</b> Adjusted corrupt document processing logic to allow for an XRef entry following startxref. Previously this would be treated as garbage data and the rest of the PDF would be skipped.</li>
+		<li><b>[pdf]</b> Improved reading for field values from XFA to better handle strangely formed inheritance structures.</li>
+		<li><b>[xod]</b> Adjusted flattening to disregard cases where the blend mode is specifically set to normal. This reduces unnecessary flattening for ToXod and Flattener improving run time and output quality in these cases.</li>
+		<li><b>[pdf]</b> Optimized PDF/A conversion for files with a lot of font objects.</li>
+		<li><b>[pdf]</b> Optimized text extraction to more efficiently extract styles. This primarily impacts text selection, reflow and use cases that use TextExtractor directly to obtain text styles.</li>
+		<li><b>[pdf]</b> Added support for dashed borders on checkboxes.</li>
+		<li><b>[pdf]</b> Added support for auto-tiling of very large tiff images</li>
+		<li><b>[pdf]</b> A number of new APIs were exposed in the pdfnet-node package.</li>
+		<li><b>[pdf]</b> Handle Exif rotations through the UniversalConversion methods on the Convert class</li>							
+	</ul>
+	<h4 id="bugfixes">Bugfixes</h4>
+	<ul>
+		<li><b>[pdf]</b> Fixed a parsing issue where unusually structured encrypted documents could fail to load.</li>
+		<li><b>[pdf]</b> Avoiding a crash when using incremental download on rare documents that start with a null object.</li>
+		<li><b>[xfdf]</b> Fixed an issue with PDFDoc.FDFUpdate where it could remove RichMedia and other less commonly used annotation types.</li>
+		<li><b>[pdf]</b> Fixed incorrect text extraction word break issue when text includes a vowel sign.</li>
+		<li><b>[xfdf]</b> Fixed an issue in PDFDoc.FDFUpdate where, in rare situations, radio buttons could be incorrectly matched and not function as expected.</li>
+		<li><b>[pdf]</b> Fixed a problem where certain PDF JPEG2000 images with 4 bits per component would display as darker than they should.</li>
+		<li><b>[pdf]</b> Fixed an issue where some documents with XFA values wouldn't take these into account when displaying the selected state of check boxes and radio buttons.</li>
+		<li><b>[pdf]</b> Fixed a problem where the Metadata would still be encrypted even if using SetEncryptedMetadata(false)</li>
+		<li><b>[pdf]</b> Fixed a problem with PDFDocInfo.GetSDFObj() where it would return the trailer rather than the Info object as would be expected.</li>
+		<li><b>[pdf]</b> Fixed an issue with Optimizer where, on certain documents and when subsetting fonts, it could break the appearance of hidden annotations. This could lead to issues later when the annotation becomes no longer hidden.</li>
+		<li><b>[pdf]</b> Adjusted page insertion to clear any DigitalSignatures when inserting into a new document. Previously these would be included, but invalid.</li>
+		<li><b>[pdf]</b> Adjusted handling of Field Flags to ignore them when they are incorrectly applied to Widget only dictionaries.</li>
+		<li><b>[pdf]</b> Adjusted PDF/A validation to not provide an error for Device colorspaces (e.g. DeviceRGB) if there is an associated Default colorspace in the resource dictionary. (e.g. DefaultRGB)</li>
+		<li><b>[pdf]</b> Fixed an issue with the generated appearance of line annotations with inline captions where the line would go through the text.</li>
+		<li><b>[pdf]</b> Fixed an issue with handling of 0 length streams that could lead to slow and unexpected file growth. This issue was especially troublesome when saving large files.</li>
+		<li><b>[pdf]</b> Fix for incorrect color in some DCTDecode images where the embedded colorspace conflicts with the PDF colorspace</li>
+		<li><b>[pdf]</b> Closed potential security issue with FileAttachment annotations, where a specifically constructed annotation could access external servers during XFDF export</li>
+		<li><b>[pdf]</b> Generated fully selectable text when generating complicated shaped text output</li>
+		<li><b>[pdf]</b> Fix for potential non-optimal performance when filling an internal object cache</li>
+		<li><b>[tiff]</b> Fix for potential crash when reading some YCbCr encoded images.</li>
+		<li><b>[pdf]</b> Fixed an issue with creating bad width tables in fonts covering codepoints outside the basic multilingual plane</li>
+		<li><b>[pdf]</b> fixed an issue with bad lookups in a font's toUnicode map when handling codepoints outside the basic multilingual plane</li>
+		<li><b>[emf]</b> Now correctly handle PDFs embedded within EMF files</li>
+		<li><b>[all]</b> Fix for mishandling of short font names in all caps, like "OCR-B"</li>
+		<li><b>[all]</b> Fixed bug with custom font servers which could result in missing the first item in a specified character range</li>
+		<li><b>[all]</b> corrected mapping of fonts specified as both "light" and "bold" </li>
+		<li><b>[all]</b> Fix for incorrect font substitution on Windows systems for some symbol characters</li>
+	</ul>
+	<h1 style="font-size: 11pt;">Office-specific</h1>
+	<ul>
+		<li><b>[office]</b> Can now positively identify encrypted office documents.</li>
+		<li><b>[pptx]</b> Fix for cases where a shape had deeply nested reference to other diagrams.</li>
+		<li><b>[docx]</b> more consistent handling of table widths specified as percentages.</li>
+		<li><b>[office]</b> Fixed issue that could result in incorrect character selection in documents with explicitly specified zero width non-break space characters.</li>
+		<li><b>[docx]</b> Now correctly take endnote number formatting into account.</li>
+		<li><b>[office]</b> Fixed bug with superscript/subscript handling in some cases when resolving local and derived run styles.</li>
+		<li><b>[xlsx]</b> More robust handling of malformed number formatting codes.</li>
+		<li><b>[office]</b> Fixed error in PDF structure output for table cells when converting office->PDF.</li>
+		<li><b>[docx]</b> Fix for semi-transparent fills in some office drawings.</li>
+		<li><b>[docx]</b> More robust handling of grouped office drawings  with no shape ID.</li>
+		<li><b>[office]</b> Fixed the default label placement for 3d bar graphs.</li>
+		<li><b>[office]</b> Fixed error with occasional missing chart per-data-point labels.</li>
+		<li><b>[pptx]</b> Added missing support for column layout.</li>
+		<li><b>[docx]</b> Fix for incorrect handling of page breaks immediately preceding a continuous section break.</li>
+		<li><b>[docx]</b> Tuned line spacing to be an exact match to MS Word in more situations.</li>
+		<li><b>[docx]</b> Added support for graphic frames.</li>
+		<li><b>[docx]</b> Improved interaction between tables and floating content.</li>
+		<li><b>[pptx]</b> Fixed mishandling of tab characters within some lists.</li>
+		<li><b>[office]</b> Now correctly handle the "flatTx" attribute.</li>
+		<li><b>[docx]</b> Fix for potential crash in office files with malformed 'oMath' runs.</li>
+		<li><b>[docx]</b> Corrected handling of the 'auto' spacing property for the first and last paragraph in a document.</li>
+		<li><b>[xlsx]</b> Changed default value for unspecified opacity to opaque, rather than transparent.</li>
+		<li><b>[xlsx]</b> Implemented support of rich text for inline strings in Excel.</li>
+		<li><b>[xlsx]</b> Fix for handling of documents with no specified default styles.</li>
+		<li><b>[xls]</b> Fix for potential crash on some malformed xls documents.</li>
+		<li><b>[xlsx]</b> Optimized XLSX memory handling, now use much less memory when converting very large documents.</li>
+		<li><b>[xlsx]</b> More robust handling of malformed formulas in xlsx files.</li>
+		<li><b>[office]</b> Fixed a small memory leak (32 bytes per document).</li>
+		<li><b>[pptx]</b> Fix for not completely resolving the font style for some text.</li>
+		<li><b>[office]</b> Correctly handle data points outside the bounds of the chart axes.</li>
+		<li><b>[office]</b> Now handle clipping for all shapes, not just images.</li>
+		<li><b>[office]</b> Fixed grid line spacing for non-East Asian fonts.</li>
+		<li><b>[docx]</b> Fixed auto spacing between list paragraphs.</li>
+		<li><b>[docx]</b> Fix for too-high line spacing for some text with colored backgrounds.</li>
+		<li><b>[office]</b> Fix for incorrect parsing of percentage values that have percent symbols in them already.</li>
+		<li><b>[docx]</b> Fix for mishandled table borders in some isolated cases.</li>
+		<li><b>[docx]</b> Corrected default behaviour for non-specified vertical anchor in floating tables.</li>
+		<li><b>[docx]</b> Fix for cases where text boxes had a non-zero position and a specified wrap rectangle.</li>
+		<li><b>[docx]</b> Implemented bi-level image effect.</li>
+		<li><b>[docx]</b> Fix for unnecessary internal rounding of some fractional font sizes.</li>
+		<li><b>[office]</b> Fix for mishandling of some stroked text when converting to PDF.</li>
+		<li><b>[office]</b> Fixed drawing of stacked charts with non-zero base value.</li>
+		<li><b>[xlsx]</b> Removed exception when attempting to place some out-of-bounds content.</li>
+		<li><b>[office]</b> Added support for the luminance image effect.</li>
+		<li><b>[office]</b> Fix for mishandling of Thai text justification.</li>
+		<li><b>[pptx]</b> Fix for handling of negative indentations.</li>
+		<li><b>[office]</b> Fixed square text wrapping of rotated images.</li>
+		<li><b>[office]</b> Fix for handling of text spacing in fully justified text produced in older Word versions.</li>
+		<li><b>[office]</b> Fixed bounding box of the circular arrow and pie wedge shapes.</li>
+		<li><b>[xlsx]</b> Fix for scaling of grouped shapes with the two-cell anchor style.</li>
+		<li><b>[docx]</b> Ensure that we draw group shape elements by order of appearance.</li>
+		<li><b>[office]</b> Fixed issue with misaligned right-to-left text in rows with trailing spaces.</li>
+		<li><b>[office]</b> Much improved office equation handling.</li>
+		<li><b>[office]</b> Now translate some elements of user-specified structured document tags within OOXML to the converted PDF.</li>
+		<li><b>[xls]</b> Fixed hidden sheet state conversion for xls.</li>
+		<li><b>[xls]</b> Now correctly ignore comment shapes.</li>
+		<li><b>[office]</b> Implemented support of semi-transparent gradient fill.</li>
+		<li><b>[xlsx]</b> Now support excel rounding functions.</li>
+		<li><b>[docx]</b> Implemented handling of vanished paragraphs.</li>
+		<li><b>[doc]</b> Fixed a number of bugs with handling of numbered lists.</li>
+		<li><b>[docx]</b> Fixed automatic text color on a dark page background.</li>
+		<li><b>[office]</b> Fixed a performance issue with chart drawing, no longer waste time on non-visible elements.</li>
+		<li><b>[xlsx]</b> Fix for incorrect ISBLANK implementation.</li>
+		<li><b>[xlsx]</b> correct handling of row custom height and dyDescent.</li>
+		<li><b>[docx]</b> Better handling for custom page numbering mixed with non-custom.</li>
+		<li><b>[pptx]</b> Take trailing blank lines into account when centering text vertically.</li>
+		<li><b>[docx]</b> Correctly handle cases where a paragraph contains only floating picture anchors and a line break.</li>
+		<li><b>[xlsx]</b> Do not wrap text in date-formatted cells.</li>
+		<li><b>[xls]</b> Implemented AutoFilter support for XLS format conversion.</li>
+		<li><b>[office]</b> Added support for arbitrary text rotations.</li>
+		<li><b>[office]</b> Added support for text which is horizontally scaled to it's container.</li>
+		<li><b>[office]</b> Implemented double and heavy underlines and strike through styles.</li>
+		<li><b>[xlsx]</b> Added missing support for some forms of horizontally merged cells.</li>
+		<li><b>[office]</b> Many improvements to chart drawing and axis positioning.</li>
+	</ul>
+	</div>
+	<hr>
+
+	<img src="Doc/images/plus.gif" id="v810_btn" onClick="ToggleMenu(v810_btn, v810_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v810_btn, v810_cnt);"><strong>Version 8.1.0 - November 30th, 2020</strong></A>
+	<div style="display:none;margin-left:20px;margin-top:10px;" id="v810_cnt">
+	<h4 id="new-features">New Features</h4>
+	<ul>
+		<li>PAdES Digital Signing is now supported. (using the new function DigitalSignatureField.UseSubFilter)</li>
+		<li>Included electron support for versions 6-10 in the pdfnet-node npm package.</li>
+		<li>MSG conversion using Outlook interop is now supported.</li>
+	</ul>
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+	Roughly categorized, not an exhaustive list.
+
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+		<li><b>[pdf]</b> Prevent Optimizer from throwing exceptions on documents with a corrupt destination nametree.</li>
+		<li><b>[pdf]</b> Improved time of verification output in Digital Signature Validation to better match other PDF solutions.</li>
+		<li>Updated PDFTron SDK on Linux to be compatible with older versions of Linux. This change allows PDFTron SDK to be compatible with GLIBC 2.9+. (formerly it was compatible with GLIBC 2.17+)</li>
+		<li><b>[pdf]</b> Will now handle locally served custom webfonts synchronously, automatically using them as a source for font substitutions. </li>
+		<li><b>[pdf]</b> Performance optimizations for global font caching. Improves font substitution performance on Windows, Linux, and Android. </li>
+		<li><b>[image]</b> Updated libpng to version 1.6.37. </li>									
+	</ul>
+	<h4 id="bugfixes">Fixes</h4>
+	<ul>
+		<li><b>[pdf]</b> Fix for rare divide-by-0 error when blending transparency groups in overprint preview mode.</li>
+		<li><b>[pdf]</b> More robust treatment of corrupt documents where we are unable to recover any sort of page tree.</li>
+		<li><b>[office]</b> Fixed an off-by-one error in font coverage ranges, which could lead to poor font selection in isolated cases.</li>
+		<li><b>[pdf]</b> Initial demo license initialization is now fully thread safe. Previous logic had potential issues when Initialize was called simultaneously from multiple threads. </li>
+		<li><b>[pdf]</b> Fix for incorrect handling of some text outside of the basic multilingual plane when using ElementReader. </li>
+		<li><b>[pdf]</b> Match the behaviour of Acrobat reader when handling grayscale images with conflicting ICC and image pixel formats. </li>
+		<li><b>[pdf]</b> Fix for rendering of images with a black matte when blending edge pixels onto a fully transparent backdrop. </li>
+		<li><b>[pdf]</b> Improved logic for selecting charmaps from embedded truetype fonts. (in the case when there are multiple viable maps) </li>
+		<li><b>[pdf]</b> Fixed processing of encoding tables in the case where the font names resemble hex digits. </li>
+		<li><b>[pdf]</b> Fix for our handling of some JPEG 2000 encoded images where the pixel format in the image has conflicting data. </li>
+		<li><b>[pdf]</b> Better handling of pre-existing FontConfig configurations on modern Linux systems. </li>
+		<li><b>[office]</b> Fix for potential incorrect font selection when handling mixed arabic and latin text.</li>
+		<li><b>[office]</b> Tune substitute font scaling so that we are less likely to end up extreme scaling factors.</li>
+		<li><b>[office]</b> Better handling of symbolic fonts (eg. wingdings) on systems where we have a poor substitute font selection.</li>
+		<li><b>[office]</b> Fix for rare crash when processing Excel sheets with text that overflows cell boundaries.</li>
+		<li><b>[office]</b> Fix for potential crash when handling format strings with particular symbols in the string portion.</li>
+		<li><b>[office]</b> Better thread safety for internal font metric lookups.</li>
+		<li><b>[office]</b> Fix for failed doc conversions in some isolated cases where expected parts of the source file are missing.</li>
+		<li><b>[office]</b> Fix for incorrect scaling of some rotated picture elements.</li>
+		<li><b>[office]</b> Tuned list indentation for powerpoint files.</li>
+		<li><b>[pdf]</b> Avoid errors when Optimizing due to direct fonts in the PDF. </li>
+		<li><b>[pdf]</b> Fixed a memory leak in Digital Signature Verification. This also impacts Secure Timestamping and LTV support since these use Verification. </li>
+		<li><b>[pdf]</b> Fixed a rare issue where Linearized PDFs could be detected as not linearized. </li>
+		<li><b>[pdf]</b> Fixed an issue where Digital Signature Verification could disallow certain Long Term Validation updates. </li>
+		<li><b>[pdf]</b> Fixed issues with Unicode writing ElementWriter APIs in Node.js. </li>
+		<li><b>[pdf]</b> Updated line annotation appearance generation (used when displaying or creating lines) to better take line dashes into account. Previously the phase would be different than expected.  </li>
+		<li><b>[pdf]</b> When printing the print and hidden annotation flags are now properly taken into account. </li>
+		<li><b>[pdf]</b> Handle corrupt document where the Annotations entry is not an array in FlattenAnnotations. </li>
+		<li><b>[pdf]</b> Better handle uncommon fonts with 3 byte charcodes. </li>
+		<li><b>[svg]</b> Handle corrupt cases where the PDF has graphics state changes in BT/ET blocks for PDF to SVG conversion. </li>
+		<li><b>[pdf]</b> Updated font Substitution on Apple platforms to handle unicode characters beyond the basic multilingual plane. </li>
+		<li><b>[xfdf]</b> Fixed a problem where in rare situations extracting XFDF from PDF could produce a document with an incorrect and large font size. </li>
+		<li><b>[pdf]</b> Long Term Validation support will now update rather than rewriting existing Long Term Validation data. </li>
+		<li><b>[pdf]</b> Fixed an error with Page.GetBoundingBox which could cause it to malfunction on corrupt documents with mismatched group begin and group end elements within a form. This also had an impact on Page flattening which uses this method. </li>
+		<li><b>[pdf]</b> Diff.AppendVisualDiff will now better take into account the page rotation and cropping present in the input pages. </li>
+		<li><b>[xfdf]</b> Simplified the conditions for exporting annotation appearances in XFDF. In particular they will now be included even if that the annotation type is unsupported or certain annotation entries are missing. </li>
+		<li><b>[pdf]</b> Fix for parsing color from the Default Style (DS) entry. This improves the results after importing certain XFDF files.  </li>
+		<li><b>[pdf]</b> Fixed a memory leak in FilterWriter.WriteBuffer for .Net Core. </li>
+		<li><b>[xfdf]</b> Fixed a problem where annotations with certain goto actions could fail to match during FDFUpdate. </li>
+	</ul>
+	</div>
+	<br/>
+	<img src="Doc/images/plus.gif" id="v800_btn" onClick="ToggleMenu(v800_btn, v800_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v800_btn, v800_cnt);"><strong>Version 8.0.0 - September 4th, 2020</strong></A>
+	<div style="display:none;margin-left:20px;margin-top:10px;" id="v800_cnt">
+	<h4 id="new-features">New Features</h4>
+	<ul>
+		<li>Digital Signature Verification is now out of beta.</li>
+		<li>New APIs for certificates (X509Certificate) and a number of other Digital Signature related classes.</li>
+		<li>Digital Signing support for Embedding Secure Timestamps and Long Term Validation (LTV).</li>
+		<li>Accessibility: built in office conversion now produces tagged PDFs.</li>
+		<li>Added native support for the xls format, rounding out our support of the 6 main "office" formats (docx, pptx, xlsx, doc, ppt, and now xls)</li>
+		<li>Added support for Right-to-left languages within office files.</li>
+		<li>Added options for converting Excel sheets into multiple PDF pages.</li>
+		<li>Added new API for text shaping, enabling support for visually complex scripts (like Thai and Hindi) using elementbuilder.</li>
+		<li>Support for Compressing Monochrome (1 bit per pixel) Images with CCITT Group 4 lossless compression in Optimizer or during PDF image creation.</li>
+		<li>Utility functions to refresh all missing appearances and more easily create custom appearances. (PDFDoc.RefreshAnnotAppearances() and Annot.RefreshAppearance(RefreshOptions))</li>
+		<li>Support for Option Content Groups/Layers (SetOCGContext) in TextExtractor and TextSearch.</li>
+		<li>Added a new function PDFACompliance.GetDeclaredConformance which can get the conformance level specified in the document.</li>
+		<li>Node.js: added support for TypeScript and Node versions 13 and 14.</li>
+		<li>CAD module: added options to specify background color, color mode, handling of thin lines, and xref search paths.</li>
+	</ul>
+
+	<h4 id="changed-behaviour">Changed Behaviour</h4>
+	<ul>
+		<li>By default Optimizer will now use CCITT Group 4 compression for monochrome images. This is because the previous default of JBIG2 caused a number of issues due to its lossless nature.</li>
+		<li>The display and appearance generation of Rectangle annotations has been adjusted to be more in line with other applications. It is recommended to test any custom creation or viewing logic for these annotations.</li>
+		<li>The display and appearance generation for FileAttachment annotations has been adjusted to be more in line with other applications. In particular the aspect ratio has been changed for certain icons. It is recommended to test any custom creation logic of these annotations and refer to the FileAttachment class documentation for more information about the new appearance aspect ratios. </li>
+		<li>During PDFViewCtrl.OpenUrlAsync placeholder pages (for those which haven't finished downloading) will now throw an exception if they are edited. Most viewers handle this by disabling these edits during download.</li>
+		<li>TextExtractor and TextSearch now use the default OCG/Layers by default.</li>
+		<li>By default the logic to skip the watermark layer for Text Extraction has been disabled.</li>
+		<li>Changed Field.SetValue() to no longer turn on the current radio button when passing "True" "Off" or "On". The boolean version of SetValue() should be used instead for this.</li>
+		<li>The `Convert.StreamingPDFConversion` API will now throw an exception in the case where it is unable to initialize the conversion (previously returned a null or invalid object</li>
+	</ul>
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+	Roughly categorized, not an exhaustive list.
+
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+		<li><b>[pdf]</b> PDFViewCtrl.OpenUrlAsync has been optimized significantly by reducing contention on the document lock.</li>
+		<li><b>[html]</b> Updated HTML2PDF module on MacOS, since the latest versions of the operating system no longer support 32-bit applications.</li>
+		<li>Node.js builds no longer require a step to install or reference the library on Linux/Mac.</li>
+		<li><b>[office]</b> Improved .msg office interop conversion.</li>
+		<li><b>[pdf]</b> Copy over calculation order as appropriate during page import or merge. This is important to keep certain JavaScript actions working.</li>
+		<li><b>[pdf]</b> Fixed an infinite loop in linearized save when handling corrupt documents with a page-tree cycle. </li>
+		<li><b>[pdf]</b> Avoid throwing errors when encountering corrupt line operators that have non-number parameters.</li>
+		<li><b>[xfdf]</b> Support importing appearance image data in Signature Widgets.</li>
+		<li><b>[pdf]</b> Updated diff logic to reduce exceptions thrown on corrupt documents.</li>
+		<li><b>[xfdf]</b> Avoid throwing exceptions on XFDF export when encountering corrupt annotation objects.</li>
+		<li><b>[pdf]</b> Adjusted Optimizer to process existing annotation appearances. This gives a bit more room to reduce the document size in addition to fixing some problems with the subset option.</li>
+		<li><b>[svg]</b> Adjusted PDF2SVG logic to flatten paths filled with patterns, since these were not previously supported.</li>
+		<li><b>[pdf]</b> Adjustment to throw out integers that are over implementation limits during parsing. This better matches the behaviour of other PDF consumers.</li>
+		<li><b>[pdf]</b> The cache file provided to PDFViewCtrl.OpenURLAsync will now be written even if the server doesn't support byte ranges or Content-Length.</li>
+		<li><b>[xfdf]</b> Improved error handling for corrupt annotations during FDFUpdate.</li>
+		<li><b>[xod]</b> In error cases where temporary files cannot be opened throw exceptions to the user rather than failing silently. </li>
+		<li><b>[pdf]</b> Improved logic for rebuilding corrupt documents to better handle indirect length entries.</li>
+		<li><b>[xfdf]</b> Added repair logic in PDFDoc.FDFUpdate for corrupt Fields that are not in the Acroforms dictionary. This is important to allow the Field value to be updated.</li>
+		<li><b>[xfdf]</b> Improved identification of changed annotations in PDFDoc.FDFUpdate in order to keep more existing annotation appearances.</li>
+		<li><b>[pdf]</b> Updated FieldIterator to avoid returning Null objects on corrupt documents that utilize these in the field hierarchy.</li>
+		<li><b>[pdf]</b> Updated document Resource caching logic to provide much better performance on heavily multithreaded applications.</li>
+		<li><b>[pdf]</b> Improved error handling in the Node.js interface.</li>
+		<li><b>[pdf]</b> When importing objects into a new document (for example when merging) avoid throwing an exception if subobjects are corrupt.</li>
+		<li><b>[xfdf]</b> Added better handling for corrupt annotation Border entries in XFDF export.</li>
+		<li><b>[pdf]</b> ElementBuilder.CreateTextRunHelper will now just use the input as charcodes for some symbol fonts, since unicode input doesn't make much sense for such fonts.</li>
+		<li><b>[pdf]</b> Much improved handling of font substitution internal flow, resulting in more accurate matches and better performance.</li>
+		<li><b>[pdf]</b> Improved the performance of the Windows font substitution backend, making it better at finding Bold and Italic font variants in some situations.</li>
+		<li><b>[tiff]</b> Add support for extra tiff samples in the case where channels are arranged in a planar configuration.</li>
+		<li><b>[pdf]</b> More robust handling of (corrupt) files with non-embedded fonts and missing toUnicode maps.</li>
+		<li><b>[pdf]</b> Improved error messages for failed conversions.</li>
+		<li><b>[pdf]</b> More robust handling of (technically corrupt) type0 CID fonts with a CIDToGID map.</li>
+		<li><b>[pdf]</b> Improved pixel-hinting of thin rectangles that partially overlap clipping paths.</li>
+		<li><b>[pdf]</b> Improved support for extended unicode text (outside of the basic multilingual plane)</li>
+		<li><b>[tiff]</b> Added support for YCbCr colorspace images.</li>
+		<li><b>[OCR/CAD]</b> Better error messages from sub-modules</li>
+		<li><b>[OCR]</b> Improved logic for determining the "native" dpi of an incoming document, and added option to explicitly specify the dpi.</li>
+		<li><b>[CAD]</b> Now support referenced .gp4 images in CAD files.</li>
+	</ul>
+	<h4 id="bugfixes">Fixes</h4>
+	<ul>
+		<li><b>[pdf]</b> Fixed an occasional crash when flattening annotations on a specific type of file.</li>
+		<li><b>[pdf]</b> Updated hide action logic to also consider with the noview flag. This fixes actions on an uncommon type of document that relies on this flag.</li>
+		<li><b>[pdf]</b> Fixed occasional race condition crash when viewing some PDF prime documents.</li>
+		<li><b>[pdf]</b> Adjusted ContentReplacer to avoid introducing unrelated changes when updating certain PDF files. </li>
+		<li><b>[xps]</b> If PNG image has an invalid resolution the default DPI is now used in xps to pdf conversion.</li>
+		<li><b>[xfdf]</b> Fixed a problem on certain files during XFDF export where, in rare cases, annotation properties could be written on the wrong element.</li>
+		<li><b>[office]</b> Fixed a breakage in excel support through interop. </li>
+		<li><b>[xfdf]</b> Adjusting appearance rendering logic for stamp annotations during XFDF export to better support pattern transformations.</li>
+		<li><b>[pdf]</b> Adjusting reflow squiggly underline output to use a wavy underline rather than strikeout.</li>
+		<li><b>[pdf]</b> Fixed a bug in SDF.NameTree where the tree could be split incorrectly. (and certain values could become inaccessible)</li>
+		<li><b>[pdf]</b> Fixed a crash in Field.SetValue if called on a corrupt Widget without a connected field.</li>
+		<li><b>[pdf]</b> Fixed an issue setting the value of certain choice fields.</li>
+		<li><b>[xfdf]</b> Adjusted support for MaxLen property to use the value in the first Widget, which better matches behaviour in other viewers.</li>
+		<li><b>[pdf]</b> Fixed a potential crash calling CloseDoc() after there has been an error during download/PDFViewCtrl.OpenUrlAsync.</li>
+		<li><b>[pdf]</b> Fixed corrupt document repair to ensure that the last object of a given number is used.</li>
+		<li><b>[pdf]</b> Adding check for badly formed stream objects masquerading as Object Streams to avoid throwing them out on save.</li>
+		<li><b>[pdf]</b> Fixed a crash in FreeText.RefreshAppearance when encountering an empty DA entry. </li>
+		<li><b>[xod]</b> Fixed a problem where the first few thumbs would be included when streaming to XOD even if they were turned off.</li>
+		<li><b>[pdf]</b> Fixed an occasional crash in PDFViewCtrl.OpenUrlAsync, triggered by an early failure in the download process.</li>
+		<li><b>[image]</b> Fixed a crash when encountering problems in multipage tiff conversion. </li>
+		<li><b>[xfdf]</b> Fixed a bug where, in rare cases, field values could incorrectly end up with XML escaped output after XFDF import.</li>
+		<li><b>[xod]</b> Added basic support in XOD conversion for Image Soft Mask Matte entry.</li>
+		<li><b>[pdf]</b> Fixed an issue where calling ElementWriter.Begin could incorrectly throw an exception on certain types of documents.</li>
+		<li><b>[pdf]</b> Fixed a problem with image downsampling of annotation appearance streams. Previously these would rarely be downsampled.</li>
+		<li><b>[xfdf]</b> Fixed a problem with importing/merging fields with complex inheritance structure.</li>
+		<li><b>[pdf]</b> Fixed DigitalSignatureField.ClearSignature() so it would clear global document state if no signatures remain.</li>
+		<li><b>[xps]</b> Fixed a problem with extracting the dpi from jpeg or tiff files when they have dots-per-cm units.</li>
+		<li><b>[html]</b> Dropped the font size limit for html2pdf to work better with the latest macOS and retina displays.</li>
+		<li><b>[pdf]</b> Added default style parsing for text color in FreeText annotations. This fixes issues with text color when importing from XFDF.</li>
+		<li><b>[xfdf]</b> Fixed a problem handling corrupt Pages with duplicate annotation ids in PDFDoc.FDFUpdate. </li>
+		<li><b>[pdf]</b> Text extraction will now properly handle subforms even if a corruption is encountered in them.</li>
+		<li><b>[pdf]</b> When redacting the logical structure is now erased when to better ensure nothing relevant slips through. </li>
+		<li><b>[pdf]</b> Fixed a problem handling radio buttons with a non-unicode on state.</li>
+		<li><b>[xfdf]</b> Added support for Stream values in text fields when exporting XFDF.</li>
+		<li>[pdf/xod] Fixed an issue with flattener where text that was covered by an almost transparent layer before being occluded would be displayed on top.</li>
+		<li><b>[pdf]</b> Resolved an issue with drawing rectangle annotations with the cloudy style.</li>
+		<li><b>[bmp]</b> Fix for handling of some transparent .bmp files where the background could remain uninitialized.</li>
+		<li><b>[pdf]</b> Fixed an issue with our handling of malformed cmaps that could result in bad memory accesses.</li>
+		<li><b>[viewer]</b> Fix for potential deadlock when calling PDFView.Update()</li>
+		<li><b>[pdf]</b> Fixed issue with separation blending not working correctly when the page blend space is RGB.</li>
+		<li><b>[pdf]</b> Fixed potential crash when rendering a softmask with an empty group entry.</li>
+		<li><b>[pdf]</b> Fixed a rare issue with resolving cmap entries within TrueType fonts that could lead to garbled text rendering.</li>
+		<li><b>[OCR]</b> Fixed a bug where we would not properly handle escaped backslashes within json input.</li>
+	</ul>
+	<h4 id="bugfixes">Native Office Fixes and Improvements</h4>
+	<ul>
+		<li><b>[office]</b> More accurate reproduction of tinted theme colors</li>
+		<li><b>[office]</b> Many improvements to embedded font resolving, with powerpoint files seeing the most improvement.</li>
+		<li><b>[pptx]</b> Can now make use of docx "resource documents" when converting pptx files</li>
+		<li><b>[office]</b> Improvements to our handling of "tricky" font names that resemble other known fonts.</li>
+		<li><b>[office]</b> Change default checkbox rendering to use a box, rather than a windgdings glyph.</li>
+		<li><b>[pptx]</b>Added color override map support for each individual slide, as opposed to just the master and layout slides.</li>
+		<li><b>[office]</b> Chart improvements: data labels are now better supported, improved legend positioning, allow entries to be deleted from the legend.</li>
+		<li><b>[docx]</b> More precise handling of text-float overlap and interactions.</li>
+		<li><b>[pptx]</b> More accurate determination of text line height in powerpoint.</li>
+		<li><b>[docx]</b> Better resolving of floating content positions in complex documents.</li>
+		<li><b>[docx]</b> Added support for the "dxa" form of table margins.</li>
+		<li><b>[docx]</b> More accurate calculation of table row heights.</li>
+		<li><b>[office]</b> Added basic support for the multiLvlStrRef element in charts.</li>
+		<li><b>[office]</b> Added preliminary support for some math elements.</li>
+		<li><b>[office]</b> More robust handling of unsupported graphic data (attempt to use alternate content in more situations)</li>
+		<li><b>[office]</b> Added support for vertical text within table cells.</li>
+		<li><b>[office]</b> Added support for tiled image fills.</li>
+		<li><b>[office]</b> Added support for duotone image recoloring</li>
+		<li><b>[docx]</b> Added support for repeated table headers, where the header of a table is placed at the top of each page.</li>
+		<li><b>[office]</b> Now correctly resolve solid fill colors with an inherited "noFill" property.</li>
+		<li><b>[doc]</b> Fix for handling of .doc tables with mismatched content and column count.</li>
+		<li><b>[docx]</b> Fix for potential errors in mapping of individual symbol elements.</li>
+		<li><b>[pptx]</b> Fixed issue with decoding some embedded glyphs.</li>
+		<li><b>[office]</b> Fixed issues with resolving "auto" background colors in different contexts.</li>
+		<li><b>[docx]</b> Fix for oversize tables not properly overflowing their parent containers.</li>
+		<li><b>[docx]</b> Fixed error in treatment of individually set cell margins (under the 'tcMar' element)</li>
+		<li><b>[docx]</b> Fixed bug with resolving inherited hanging indent values.</li>
+		<li><b>[docx]</b> Relaxed the rules for placing floating content in footers, rather than skipping it.</li>
+		<li><b>[office]</b> Fix for bug where text styles were not fully resolved when determining the height of a line break.</li>
+		<li><b>[xlsx]</b> Fix for a bug where unresolved formatting codes would result in a failed conversion.</li>
+		<li><b>[office]</b> Now correctly handle vertically merged table cells in tables with the "gridBefore" property</li>
+		<li><b>[office]</b> Improved support for handling of embedded EMF files.</li>
+		<li><b>[excel]</b> Fix for our handling of cells with the special number format code "General"</li>
+		<li><b>[excel]</b> Fix for mishandling of table margins specified within the tblPrEx tag.</li>
+		<li><b>[excel]</b> Now allow conversion of xlsx sheets with no fonts defined.</li>
+		<li><b>[docx]</b> Fixed issue where a local "auto" line spacing rule would not properly override a global non-auto spacing.</li>
+		<li><b>[docx]</b> Now correctly handle NUMPAGES dynamic content within fldSimple elements.</li>
+		<li><b>[excel]</b> More robust handling of format codes with leading and trailing spaces.</li>
+		<li><b>[docx]</b> Correctly handle the case where numbered lists should inherit styles from the paragraph run properties.</li>
+		<li><b>[docx]</b> Fixed a bug where shapes were incorrectly constrained to the bounds of the page area.</li>
+		<li><b>[pptx]</b> Fix for occasional bad text positioning inside shapes.</li>
+		<li><b>[pptx]</b> Fixed incorrect cropping of transformed images.</li>
+		<li><b>[office]</b> Fixed handling of images with a global opacity value.</li>
+		<li><b>[office]</b> Fixed occasional incorrect handling of isolated symbols (list bullets, for example)</li>
+		<li><b>[ppt]</b> Fix for incorrect handling of default kerning values for ppt files.</li>
+		<li><b>[doc]</b> Fix incorrect positioning of grouped shapes within .doc files.</li>
+		<li><b>[office]</b> Fixed a number of issues with chart axis positioning</li>
+		<li><b>[doc]</b> Fixed incorrect handling of MS1252 encoded text in doc files.</li>
+		<li><b>[office]</b> Fixed a crash in pie chart drawing when trying to draw 0-size slices.</li>
+		<li><b>[office]</b> Fix for mishandling of some format codes with non-ascii values.</li>
+		<li><b>[docx]</b> Fixed a number of issues with content controls</li>
+	</ul>
+	
+	</div>
+	<hr>
+	<img src="Doc/images/plus.gif" id="v710_btn" onClick="ToggleMenu(v710_btn, v710_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v710_btn, v710_cnt);"><strong>Version 7.1.0 - February 18th, 2020</strong></A>
+	<div style="display:none;margin-left:20px;margin-top:10px;" id="v710_cnt">
+	<h4 id="new-features">New Features</h4>
+	<ul>
+		<li>Digital Signature Verification</li>
+		<li>Added support for creation of Viewer Optimized PDF files (PDFDoc.SaveViewerOptimized).</li>
+		<li>Viewers have been updated to take advantage of Viewer Optimized PDF.</li>
+		<li>Added annotation API to read, write and delete custom data. (Annot.SetCustomData, Annot.GetCustomData and Annot.DeleteCustomData).</li>
+		<li>Added the SetRequiredFieldBorderColor() method to PDFView and PDFViewCtrl.</li>
+		<li>Added functions Ink.SetHighlight and Ink.GetHighlight to choose whether the Ink will display like a highlighter.</li>
+		<li>Added ElementWriter.WriteGStateChanges() which can simplify use cases where the intention is to only write the graphics state of an element.</li>
+		<li>Added options for line weight and auto rotation to CADConvertOptions.</li>
+		<li>Added DPI option for to OCROptions.</li>
+		<li>Added built-in support the ppt format, can now view and convert these files to pdf.</li>
+	</ul>
+
+	<h4 id="changed-behaviour">Changed Behaviour</h4>
+	<ul>
+	<li>.Net Framework builds are now dependent on the Microsoft Visual C++ Redistributable Packages for Visual Studio 2013 rather than the Microsoft Visual C++ 2010 Redistributable.</li>
+	<li>Digital Signatures will now be signed with SHA256. (previously SHA1).</li>
+	<li>Ink.SetBlendMode and Ink.GetBlendMode functions have been deprecated.<br/>Customers are encouraged to use `Ink.SetHighlight` and `Ink.GetHighlight` instead, as they are more aligned with the PDF specification, and offer greater compatibility with other PDF readers, such as Adobe Acrobat.</li>
+
+
+	</ul>
+
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+	Roughly categorized, not an exhaustive list.
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+		<li><b>[pdf]</b> Page labels are now included when converting PDF -> EPUB</li>
+		<li><b>[pdf]</b> When generating appearances for Widgets, only use a font if it can represent all of the glyphs that are meant to be drawn in the widget.</li>
+		<li><b>[pdf]</b> Adjusted XFDF import of Widgets to not be dependent on the position of elements within the XFDF document.</li>
+		<li><b>[xod]</b> Added logic to upsample the smaller of the soft mask or associated image when converting to XPS/XOD. This allows us to export the entire image as RGBA, which greatly improves rendering performance and memory usage.</li>
+		<li><b>[pdf]</b> Updated Annot.Flatten and ElementBuilder.CreateForm to have complete support for nozoom, norotate and sticky note annotations.</li>
+		<li><b>[pdf]</b> Improved FieldIterator support for invalid/null/free Field entries. </li>
+		<li><b>[pdf]</b> Updated FDFUpdate to be less strict about certain differences in the XFDF. This allows it to maintain original annotation appearances more often.</li>
+		<li><b>[pdf]</b> Added support for multi-select list boxes when exporting and importing XFDF.</li>
+		<li><b>[xod]</b> Added an option for image smoothing in XOD. This is important to allow XOD to exactly match PDF rendering.</li>
+		<li><b>[pdf]</b> FileAttachment annotations can now be imported from XFDF.</li>
+		<li><b>[pdf]</b> Can now initialize the SDK with a full license key after initializing with an empty key within the same session.</li>
+		<li><b>[xps|office]</b> Optimization for finding the zip signature in damaged zip files/non-zip files. About 1000 times faster for these cases.</li>
+		<li><b>[office]</b> Added support for balanced column layouts.</li>
+		<li><b>[office]</b> Added support for images with the 3D camera rotation properties.</li>
+		<li><b>[office]</b> Added support for embedded hyperlinks, they are not converted to the equivalent PDF annotation.</li>
+		<li><b>[office]</b> Added support for clipping content within text box and table cell.</li>
+		<li><b>[xlsx]</b> Added support for diagonal cell decorations.</li>
+		<li><b>[office]</b> Added support for extended cell border styles.</li>
+		<li><b>[xlsx]</b> Improved memory usage for sheets with large numbers of columns and/or rows</li>
+	</ul>
+	<h4 id="bugfixes">Fixes</h4>
+	<ul>
+		<li><b>[pdf]</b> Fixed a potential crash when importing XFDF Widgets. </li>
+		<li><b>[pdf]</b> Fixed a potential race condition when running PDF/A conversion in multiple threads.</li>
+		<li><b>[pdf]</b> Fixed a crash exporting XFDF on very specific PDF files.</li>
+		<li><b>[pdf]</b> More lenient handling of oddly formed floating point numbers.</li>
+		<li><b>[pdf]</b> Fix for issue where importing PDF pages was not pulling in OCG layers used only in annotations.</li>
+		<li><b>[pdf]</b> Fixed issue where we could incorrectly identify large glyph indices as UTF16 surrogates.</li>
+		<li><b>[pdf]</b> Improved internal unicode data paths to fully support codepoints off the Basic MultiLingual Plane.</li>
+		<li><b>[pdf]</b> Work around Java string behaviour where an added null terminator could make the string not equal. </li>
+		<li><b>[xod]</b> Adjusted XOD flattening and rendering logic to handle the case where special blend modes are used within transparency groups. Necessary because these cases cannot be easily represented in xod/xps.</li>
+		<li><b>[pdf]</b> Fix for potential performance issue when skipping a lot of nulls at the end of a file.</li>
+		<li><b>[pdf]</b> Fixed XFDF import error, where if an arrow had the xml attribute "end" before "start" the points could be switched around.</li>
+		<li><b>[pdf]</b> Avoided exception from being thrown in XFDF export when encountering zero length action arrays.</li>
+		<li><b>[pdf]</b> Sanitizing metadata strings in PDF/A to avoid erroneously reporting errors when there are trailing nulls.</li>
+		<li><b>[pdf]</b> Fixed a problem in TextExtraction where e_remove_hidden_text would malfunction when the page is rotated.</li>
+		<li><b>[pdf]</b> Fixed a problem in TextExtraction where fully clipped text was not actually skipped.</li>
+		<li><b>[pdf]</b> Fixed a bug in RemoveAppearance where it wouldn't do anything without an appearance state dictionary. This means it would fail for all common annotation types.</li>
+		<li><b>[xod]</b> Annotations appearances are now always included even if the annotation is hidden, so they can be shown by consumers (like WebViewer) when the setting is changed.</li>
+		<li><b>[pdf]</b> Adjusted stamp appearance exporting logic in XFDF to take page rotation into account. This is important to avoid losing image quality when importing and exporting.</li>
+		<li><b>[pdf]</b> Added repair logic for corrupt PDF documents with multiple Field objects with the same name. This is only applied when NeedAppearances = true.</li>
+		<li><b>[pdf]</b> Fixed problem with importing XFDF destinations where some values are treated as default.</li>
+		<li><b>[pdf]</b> Adding logic to remove unused popups when importing XFDF. This could appear as extra invisible annotations in certain viewers.</li>
+		<li><b>[pdf]</b> Adjusted hint stream writing for linearized save to align bytes between sections for embedded thumbnail data.</li>
+		<li><b>[pdf]</b> THead, TBody, TFoot are mapped to nonstruct when converting to PDFA-1. Previously conversion of files containing these would not pass validation for other vendors. </li>
+		<li><b>[pdf]</b> Flattener public API could watermark even if a user had the permission. Now properly handles license permission.</li>
+		<li><b>[pdf]</b> Fixed XFDF Widget Import issues that would typically lead to an exception being thrown.</li>
+		<li><b>[html|epub]</b> Fixed bug where under certain circumstances the same HTML element with the same ID could be injected (malformed HTML).</li>
+		<li><b>[xod]</b> Fixed a problem in PDF to encrypted XOD conversion where the appearance file could be inaccessible from WebViewer. </li>
+		<li><b>[pdf]</b> Sorted out a problem where certain corrupt PDF files would throw exception on Linearized save.</li>
+		<li><b>[pdf]</b> Added support for non-integer intensity for cloudy annotations.</li>
+		<li><b>[pdf]</b> Fix some cases where we would not properly render field highlights with no appearance.</li>
+		<li><b>[pdf]</b> Fix a rare issue with viewer render tiles not being invalidated correctly. </li>
+		<li><b>[pdfview]</b> Fixed an issue where goto actions could scroll the view away from the destination page.</li>
+		<li><b>[pdf]</b> Fixed an issue where temp files would potentially not get cleaned up after XOD creation.</li>
+		<li><b>[pdfview, c++]</b> Fix for potential crash when rendering annotations with 1-pixel bounding boxes.</li>
+		<li><b>[pdfview, c++]</b> Fixed a bug that could cause a refresh loop in some cases involving annotations with the nozoom flag set.</li>
+		<li><b>[pdfview, c++]</b> Fix for annotation edit control not updating correctly on zoom + pan of the document.</li>
+		<li><b>[pdf]</b> Added support for the "Matte" softmask property.</li>
+		<li><b>[pdf]</b> Handle the case where a DeviceN CS is specified as being an NChannel subtype, but is missing the Colorants array.</li>
+		<li><b>[pdf]</b> Fix for isolated cases where the stroke and fill for a softmask should be obtained from the parent context.</li>
+		<li><b>[pdf]</b> Fix for rare crash when rendering content with constant alpha value of 0.</li>
+		<li><b>[pdf]</b> No longer render fileattachment annotations when there is no icon set.</li>
+		<li><b>[OCR]</b> Improved handling of scaling with rotated pages.</li>
+		<li><b>[pdf]</b> Improved internal unicode data paths to fully support codepoints off the Basic MultiLingual Plane</li>
+		<li><b>[pdf]</b> Fix for rare errors when expanding CCIT encoded images on linux.</li>
+		<li><b>[pdf]</b> Improved handling of the "All" separation in some cases when rendering in overprint preview mode.</li>
+		<li><b>[pdf]</b> Fix for bad text extraction in some cases where isolated vertical text lines could improperly change our treatment of the page.</li>
+		<li><b>[CAD]</b> Will now determine the ideal page size automatically in more cases.</li>
+		<li><b>[CAD]</b> Better reporting of error conditions.</li>
+		<li><b>[CAD]</b> PDFs converted from DWG files now convert the page labels.</li>
+		<li><b>[pdf]</b> Improved handling of ttc font files. More complete enumeration of fonts within the collection.</li>
+		<li><b>[pdf]</b> More robust font substitution when dealing with edge cases and non-typical font name formatting.</li>
+		<li><b>[pdfview, c++]</b> Fix for unresponsive behaviour when progressive rendering is disabled.</li>
+		<li><b>[pdfview]</b> Fixed case where GetAnnotationAt() could return incorrect results when handling highlight annotations with multiple quads.</li>
+		<li><b>[pdf]</b> Fix for slight over-clipping of curved shapes which are flush with the edge of a clipping path.</li>
+		<li><b>[pdf]</b> Fix for handling of linearized saves when the Undo/Redo manager is in use.</li>
+		<li><b>[pdf]</b> When using ElementBuilder, now correctly generate CID fonts containing glyphs for codepoints outside the basic Mulilingual Plane.</li>
+	</ul>
+		<h4 id="bugfixes">Office Fixes</h4>
+	<ul>
+		<li><b>[docx]</b> Improved support for positional tabs.</li>
+		<li><b>[office]</b> Better support for fonts with non-standard name formatting.</li>
+		<li><b>[office]</b> Improved support for incomplete embedded fonts.</li>
+		<li><b>[office]</b> Improved support for symbol fonts.</li>
+		<li><b>[office]</b> Improved support for bullet list with custom bullets.</li>
+		<li><b>[docx]</b> Improved support for east Asian text placement, in particular when grid placement is enabled.</li>
+		<li><b>[xlsx]</b> Fixed bug where certain equations within conditional formatting rules would not be evaluated.</li>
+		<li><b>[docx]</b> Fix for smart art with nested text rotations exceeding 360 degrees.</li>
+		<li><b>[docx]</b> Make use of AlternateContent->fallback content in the case where the primary content cannot be used.</li>
+		<li><b>[docx]</b> A number of fixes for positioning of floating elements within table cells.</li>
+		<li><b>[docx]</b> Improvements to the placement of floating elements anchored to paragraphs.</li>
+		<li><b>[office]</b> Fixes for positioning of floating tables.</li>
+		<li><b>[office]</b> A number of fixes for positioning of floating content in multi-column layouts.</li>
+		<li><b>[office]</b> Improved support for change tracking. Now support style-only changes, changes within bullet lists, and multiple-user changes.</li>
+		<li><b>[docx]</b> Improved handling of first-line indentation in a number of situations.</li>
+		<li><b>[xlsx]</b> Added support for the ISBLANK function.</li>
+		<li><b>[pptx, docx]</b> Many refinements to spacing of vertical placement of text lines, both within and between paragraphs.</li>
+		<li><b>[xlsx]</b> A number of improvements to placement of chart labels, data, and axes.</li>
+		<li><b>[xlsx]</b> Fixed case where empty sheets could cause us to ignore other non-empty sheets in the document.</li>
+		<li><b>[xlsx]</b> Now handle "automatic" cell coloring correctly.</li>
+		<li><b>[docx]</b> Corrected conversion of form checkboxes.</li>
+		<li><b>[pptx]</b> Fixed bug that could apply the default text style to empty lines in some cases.</li>
+		<li><b>[xlsx]</b> Correctly handle the case where the font list has no "count" attribute.</li>
+		<li><b>[xlsx]</b> Multiple improvements to date and number formatting.</li>
+		<li><b>[office]</b> Improved handling of fonts that have a negative line gap (like Courier New).</li>
+		<li><b>[docx]</b> More precise handling of text positioning around floating elements.</li>
+		<li><b>[office]</b> More robust font subsitution handling with text containing unusual whitespace codepoints.</li>
+		<li><b>[office]</b> Fix for incorrectly adding an outline to text with the draw_outline attribute set to 0.</li>
+		<li><b>[docx]</b> Fix for infrequent table layout error that could sometimes skip table rows when breaking across pages.</li>
+		<li><b>[docx]</b> Corrected placement of some headers and footers on even pages.</li>
+		<li><b>[docx]</b> Fix for occasionally placing an empty row at the end of a page when splitting tables across pages.</li>
+		<li><b>[xlsx]</b> Fix for skipping cell borders in isolated cases involving horizontally merged cells.</li>
+		<li><b>[xlsx]</b> Ensure that the page size is sufficient to contain all drawings and charts.</li>
+		<li><b>[xlsx]</b> Fix for incorrect handling of some unicode elements in format strings.</li>
+		<li><b>[doc]</b> Fixed bug that resulted in incorrect enumeration of section properties.</li>
+	</ul>
+	
+	</div>
+	<br/>
+	
+	<img src="Doc/images/plus.gif" id="v701_btn" onClick="ToggleMenu(v701_btn, v701_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v701_btn, v701_cnt);"><strong>Version 7.0.1 - August 20th, 2019</strong></A>
+	<div style="display:none;margin-left:20px;margin-top:10px;" id="v701_cnt">
+	<h4 id="new-features">New Features</h4>
+	<ul>
+	  <li>Added utility functions to ComboBoxWidget and ListBoxWidget which simplify reading and editing options. (GetOptions(), ReplaceOptions() and RemoveOption())</li>
+	</ul>
+
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+	Roughly categorized, not an exhaustive list.
+	<h4 id="robustness">Robustness</h4>
+	<ul>
+	  <li><b>[xod]</b> Better support corrupt PDF content streams with mismatched BT and ET entries.</li>
+	  <li><b>[xps]</b> Fixed a potential crash when reading JPEG XR files on non-windows platforms.</li>
+	  <li><b>[pdf]</b> Fixed an issue with PDFViewCtrl.OpenURL error handling when losing internet connection while download is in progress.</li>
+	</ul>
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+	  <li><b>[pdf]</b> Adjusted ElementBuilder.CreateRect to support input rectangles that are not normalized.</li>
+	  <li><b>[xps]</b> Added basic detection for proprietary PhotoShop headers that impact jpeg scaling in XPS files.</li>
+	</ul>
+
+	<h4 id="bugfixes">Bugfixes</h4>
+	<ul>
+	  <li><b>[pdf]</b> Adjusted XFDF import for Form Fields to properly construct missing fields and appearances.</li>
+	  <li><b>[pdf]</b> Fixed a problem with DigitalSignatureField.GetDocumentPermissions.</li>
+	  <li><b>[pdf]</b> Fixed filled Polyline rendering when there are line beginning/ending styles.</li>
+	  <li><b>[pdf]</b> Fixed a problem where per page XFDF export would sometimes not include all of the field attributes.</li>
+	  <li><b>[xod]</b> Fixed an uncommon issue where some completely masked graphics would be visible after ToXod conversion.</li>
+	</ul>
+	
+	</div>
+	<br/>
+
+	<img src="Doc/images/plus.gif" id="v700_btn" onClick="ToggleMenu(v700_btn, v700_cnt);" align="absmiddle"> 
+	<A href="#void" target="_self" onClick="ToggleMenu(v700_btn, v700_cnt);"><strong>Version 7.0.0 - July 25th, 2019</strong><strong></strong></A>
+	<div style="display:none;margin-left:20px;margin-top:10px;" id="v700_cnt">
+	<h4 id="new-features">New Features</h4>
+	<ul>
+	  <li>CAD conversion module and API (`Convert.FromCad`)</li>
+	  <li>OCR module and API (`OCRModule` class)</li>
+	  <li>Updated API for Digital Signature creation (`DigitalSignatureField` and `DigitalSignatureIterator` classes).</li>
+	  <li>Programmatic, low-level Undo/Redo API. (`UndoManager`, `ResultSnapshot` and `DocSnapshot` classes)</li>
+	  <li>Added an in-memory interface for rendering individual separations. (`PDFDraw.GetSeparationBitmaps `and `PDFRasterizer.RasterizeSeparations`).</li>	  
+	  <li>Added extra modes to geometry snapping: snap to point on line, snap to midpoint, and snap to line intersection.</li>
+	  <li>Added Widget functions to Set/Get Text Color, Font and Font Size.</li>
+	  <li>New Widget API for form field creation/access. (`TextWidget`, `CheckBoxWidget`, `RadioButtonWidget`, `RadioButtonGroup`, `PushButtonWidget`, `SignatureWidget`, `ListBoxWidget` and `ComboBoxWidget` classes).</li>
+	  <li>Added an API allowing sound annotations to be created from raw sound data. (`Sound.CreateWithData`).</li>
+	  <li>New method for easily rotating an annotations appearance by an arbitrary angle.</li>
+	</ul>
+
+	<h4 id="changed-behaviour">Changed Behaviour</h4>
+	<ul>
+	  <li>ToXod default options have been changed. The XOD default setting for flattening is now `e_high_quality` (previously `e_fast`) and the default setting for line thickening is false. (previously true).</li>
+	  <li>The HTML2PDF module is now included as part of desktop release packages.</li>
+	  <li>Unused ConnectToCloud API was removed.</li>
+	  <li>The GDI+ Rasterizer has been marked as deprecated and will be removed in a future version of PDFNet.</li>
+	</ul>
+
+	<h1 style="font-size: 11pt;">Other Changes</h1>
+	Roughly categorized, not an exhaustive list.
+	<h4 id="robustness">Robustness</h4>
+	<ul>
+	  <li><b>[pdf]</b> Improved error handling when processing JPEG 2000 files.</li>
+	  <li><b>[pdf]</b> Handle separation names that are not valid Unicode.</li>
+	  <li><b>[pdf]</b> Better recover from errors in initial document loading when JavaScript is enabled.</li>
+	  <li><b>[pdf]</b> Fixed a problem where particular JBig2 files could not be completely read.</li>
+	  <li><b>[pdf]</b> Better handle corrupt documents consisting of two PDFs stitched together.</li>
+	  <li><b>[pdf]</b> More robust handling of temp files and directories with unexpected permissions.</li>
+	  <li><b>[xod]</b> Now limit the number of pattern usages before flattening will occur. This is needed to avoid frequently used simple patterns from making very complicated output files.</li>
+	  <li><b>[pdf]</b> Updated `ElementWriter` to better support editing of any existing PDF file when used in conjunction with `ElementReader`. (`ElementWriter.SetDefaultGState` and updated `ElementWriter.Begin`).</li>
+	</ul>
+	<h4 id="improvements">Improvements</h4>
+	<ul>
+	  <li><b>[pdf]</b> Updated XFDF import to support importing Form Fields, Links and File Attachments.</li>
+	  <li><b>[pdf]</b> Output the "All" separation when in separation export mode.</li>
+	  <li><b>[xod]</b> Added elements to XOD files to support faux bold (stroked and filled text).</li>
+	  <li><b>[pdf]</b> Added better handling for zero-area filled paths.</li>
+	  <li><b>[pdf]</b> Improved redaction annotation rendering to support custom attributes used in Acrobat.</li>
+	  <li><b>[pdf]</b> Support encrypting files with no user password using AES 256.</li>
+	  <li><b>[pdf]</b> Adjusted `RefreshAppearance` for Radio Buttons to produce output similar to other PDF viewers.</li>
+	  <li><b>[xod]</b> Adjusted logic so if flattening is not disabled that pages with Knockout or Isolated Transparency groups are flattened.</li>
+	  <li><b>[pdf]</b> Updated logic so that the level passed to `PDFNet.SetDefaultFlateCompressionLevel()` will be respected even for image compression. (where the maximum compression setting would generally be used).</li>
+	  <li><b>[pdf]</b> Added support for soft masks in PNG and TIFF image export.</li>
+	  <li><b>[pdf]</b> Added a dropdown indicator for combo boxes.</li>
+	  <li><b>[pdf]</b> Now automatically support arbitrary rotations of rubberstamp annotations.</li>
+	</ul>
+	<h4 id="optimizations">Optimizations</h4>
+	<ul>
+	  <li><b>[pdf]</b> More efficient handling of empty transparency groups.</li>
+	  <li><b>[pdf]</b> Improved performance of `SetDoc` in `PDFview` by asynchronously reading page info.</li>
+	  <li><b>[pdf]</b> Lowered memory usage when incrementally saving to stream.</li>
+	  <li><b>[pdf]</b> Optimized reading from a file that has been edited.</li>
+	  <li><b>[pdf]</b> Optimized parsing of PDF documents with large amounts of whitespace.</li>
+	</ul>
+	<h4 id="bugfixes">Bugfixes</h4>
+	<ul>
+	  <li><b>[pdf]</b> Fixed a bug where `IsModified` can return true after a save when undo redo is used.</li>
+	  <li><b>[pdf]</b> Fixed bug where we would fail to save to documents with malformed "Rights enable" dictionaries.</li>
+	  <li><b>[pdf]</b> Fixed a bug where we would sometimes mishandle softmasks smaller than their containing group.</li>
+	  <li><b>[pdf]</b> Fixed bug where disabling annotation rendering in the viewer would not disable it in thumbnails.</li>
+	  <li><b>[pdf]</b> Fix bug in .Net wrapper where exceptions thrown in the `PDFDoc` constructor could crash.</li>
+	</ul>
+	<h4 id="office">Office</h4>
+	<ul>
+	  <li><b>[xlsx]</b> Added support for "sparkline" charts in xlsx files.</li>
+	  <li><b>[xlsx]</b> Added support for the NPER (number of periods) financial function.</li>
+	  <li><b>[docx]</b> Now correctly display change-tracked content.</li>
+	  <li><b>[xlsx]</b> Now correctly display drawings in sheets that are outside the table bounds.</li>
+	  <li><b>[docx]</b> Better support for text frame elements in .docx files.</li>
+	  <li><b>[xlsx]</b> Added support for inline strings within table cells.</li>
+	  <li><b>[xlsx]</b> Improved behaviour when text within a cell exceeds the horizontal cell bounds.</li>
+	  <li><b>[docx]</b> Improved positioning of some forms of rotated images.</li>
+	  <li><b>[xlsx]</b> Improved positioning of some forms of rotated images.</li>
+	  <li><b>[pptx]</b> Slightly improved handling of text effects.</li>
+	  <li><b>[xlsx]</b> Improved positioning category axis legends.</li>
+	  <li><b>[docx/pptx]</b> More robust handling of symbol encoded text runs.</li>
+	  <li><b>[office]</b> Better handling of oddly named fonts, where the style is part of the name</li>
+	</ul>
+	</div>
+	<br/>
+	<hr>
+	<br/>
+	<A href="older_changelogs.html" ><strong style="font-size: 14pt;">Older Changelogs</strong></A>
+</td></tr>
+<tr><td  style="vertical-align:top;">&nbsp;</td></tr>
+</table>
+</td></tr></table>
+</body>
+</html>
