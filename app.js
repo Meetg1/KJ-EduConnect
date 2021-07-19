@@ -37,6 +37,8 @@ const cookieSession = require("cookie-session");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 //const { PDFNet } = require("@pdftron/pdfnet-node");
 
+const mime_Type = require('./node_modules/mime-types');
+
 //====================DATABASE CONNECTION==========================
 
 // const dbUrl = "mongodb://localhost:27017/edu";
@@ -469,13 +471,98 @@ var upload3 = multer({
 var file;
 app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
   file = req.file;
+  console.log(file.destination);
+
   // console.log(file);
   if (!file) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
     return next(error);
   }
-  res.send(file);
+
+  const { PDFNet } = require("@pdftron/pdfnet-node");
+  //const { filename, watermark } = req.query;
+  PDFNet.initialize();
+  const fn = file.filename;
+  const watermark = "SOMAIYA";
+  console.log(__dirname);
+  
+  const inputPath =path.resolve(
+    file.destination + "/" + fn
+  );
+  const outputPath = path.resolve(
+    file.destination + "/" + fn
+  );
+
+   
+  console.log(inputPath, outputPath);
+  const watermarkPDF = async () => {
+    try{
+
+      console.log("abcd2");
+    const pdfdoc = await PDFNet.PDFDoc.createFromUFilePath(inputPath);
+    console.log("abcd4");
+    await pdfdoc.initSecurityHandler();
+    
+    const stamper = await PDFNet.Stamper.create(
+      PDFNet.Stamper.SizeType.e_relative_scale,
+      0.5,
+      0.5
+    );
+
+    console.log("abcd2"); 
+
+    stamper.setAlignment(
+      PDFNet.Stamper.HorizontalAlignment.e_horizontal_center,
+      PDFNet.Stamper.VerticalAlignment.e_vertical_center
+    );
+
+    const redColorPt = await PDFNet.ColorPt.init(1, 0, 0);
+    stamper.setFontColor(redColorPt);
+    const pgSet = await PDFNet.PageSet.createRange(
+      1,
+      await pdfdoc.getPageCount()
+    );
+
+    await stamper.stampText(pdfdoc, watermark, pgSet);
+
+    await pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+  
+
+    } catch (err){
+      console.log("hello");
+      console.log(err);
+    }
+  };  
+
+  PDFNet.runWithCleanup( watermarkPDF) // you can add the key to PDFNet.runWithCleanup(main, process.env.PDFTRONKEY)
+    .then(() => {
+       PDFNet.shutdown();
+       res.send(file);
+      //  res.redirect("back");
+      // fs.readFile(outputPath, (err, data) => {
+      //   if (err) {
+      //     res.statusCode = 500;
+      //     res.end(`Error getting the file: ${err}.`);
+      //   } else {
+      //     const ext = path.parse(outputPath).ext;
+      //    res.setHeader("Content-type", mime_Type[ext] || "text/plain");
+      //    res.send(data);
+      //    //res.jsonp({"Result":"Success"});
+      //   //res.writeHead(200, { 'Content-Type': 'application/json' });
+      //   //res.write(JSON.stringify(data));
+      //   //res.send(data);
+      //   }
+      // });
+    })
+    .catch((error) => { 
+      res.statusCode = 500;
+      console.log("hi");
+      res.end(error);
+    });
+
+
+  // res.send(file);
 });
 
 // var previewPicIds = [];
@@ -520,6 +607,7 @@ app.get("/download/:slug", isLoggedIn, async (req, res) => {
     const user = await User.findById(req.user._id);
     const doc = await Document.findOne({ slug: req.params.slug });
     await getFileFromDrive(doc.driveId, doc.fileName);
+   // console.log(getFileFromDrive(doc.driveId, doc.fileName));
     setTimeout(function () {
       res.download(__dirname + "/downloads/" + doc.fileName);
       user.save();
@@ -530,13 +618,11 @@ app.get("/download/:slug", isLoggedIn, async (req, res) => {
     doc.downloads++;
     doc.recentDownloads++;
     doc.save();
-
   } catch (error) {
     console.log(error);
     res.status(400).send("Error while downloading file. Try again later.");
   }
 });
-
 
 //============================================================
 
@@ -1273,52 +1359,48 @@ app.get("/taken-down/:slug", (req, res) => {
   res.render("taken-down.ejs");
 });
 
-app.post(
-  "/single_material/:slug/reviews",
-  isLoggedIn,
-  async (req, res) => {
-    const upvote = req.body.upvote == "on" ? true : false;
-    const review = new Review({
-      upvote: upvote,
-      text: req.body.review,
-      author: req.user._id,
-    });
+app.post("/single_material/:slug/reviews", isLoggedIn, async (req, res) => {
+  const upvote = req.body.upvote == "on" ? true : false;
+  const review = new Review({
+    upvote: upvote,
+    text: req.body.review,
+    author: req.user._id,
+  });
 
-    const foundDoc = await Document.findOne({ slug: req.params.slug });
-    const docOwner = await User.findById(foundDoc.uploader.id);
+  const foundDoc = await Document.findOne({ slug: req.params.slug });
+  const docOwner = await User.findById(foundDoc.uploader.id);
 
-    if (review.upvote) {
-      console.log("upvote done");
-      foundDoc.upvotes++;
-      docOwner.upvotes++;
-      docOwner.level_points = docOwner.level_points + 5;
-      var prev_lvl = docOwner.level;
-      var next_lvl = prev_lvl + 1;
-      if (docOwner.level_points >= docOwner.check_point + next_lvl * 100) {
-        docOwner.check_point = docOwner.check_point + next_lvl * 100;
-        docOwner.level++;
-      }
-    } else {
-      console.log("downvote done");
-      foundDoc.downvotes++;
+  if (review.upvote) {
+    console.log("upvote done");
+    foundDoc.upvotes++;
+    docOwner.upvotes++;
+    docOwner.level_points = docOwner.level_points + 5;
+    var prev_lvl = docOwner.level;
+    var next_lvl = prev_lvl + 1;
+    if (docOwner.level_points >= docOwner.check_point + next_lvl * 100) {
+      docOwner.check_point = docOwner.check_point + next_lvl * 100;
+      docOwner.level++;
     }
-    foundDoc.reviews.push(review);
-    foundDoc.save();
-    const user = await User.findById(req.user._id);
-
-    await review.save();
-    await foundDoc.save();
-    await user.save();
-    await docOwner.save();
-
-    let stat = await Stat.findOne({ id: 1 });
-    stat.save();
-
-    console.log(review);
-    req.flash("success", "Review submitted successfully. You earned 5 points!");
-    res.jsonp({'result':'success'});
+  } else {
+    console.log("downvote done");
+    foundDoc.downvotes++;
   }
-);
+  foundDoc.reviews.push(review);
+  foundDoc.save();
+  const user = await User.findById(req.user._id);
+
+  await review.save();
+  await foundDoc.save();
+  await user.save();
+  await docOwner.save();
+
+  let stat = await Stat.findOne({ id: 1 });
+  stat.save();
+
+  console.log(review);
+  req.flash("success", "Review submitted successfully. You earned 5 points!");
+  res.jsonp({ result: "success" });
+});
 
 app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
   const suggestion = new Review({
@@ -1932,7 +2014,7 @@ app.post("/single_material/:slug/reply", isLoggedIn, async (req, res) => {
   //console.log(req_doc);
   //console.log(req_review);
   req.flash("success", "Replied to a comment.");
-  res.jsonp({'result':'success'});
+  res.jsonp({ result: "success" });
 });
 
 app.get("/subject-expert", isLoggedIn, (req, res) => {
@@ -2019,6 +2101,106 @@ app.post("/uploadAvatar", isLoggedIn, async (req, res) => {
   console.log(img_src);
   res.redirect("back");
 });
+
+// try {
+//   await mongoose.connect(dbUrl, {
+//     useUnifiedTopology: true,
+//     useNewUrlParser: true,
+//     useFindAndModify: false,
+//     useCreateIndex: true,
+//   });
+//   console.log("DATABASE CONNECTED");
+// } catch (err) {
+//   console.error(err.message);
+//   process.exit(1);
+// }
+
+
+// app.get("/watermark", (req, res) => {
+  
+// const { PDFNet } = require("@pdftron/pdfnet-node");
+//   //const { filename, watermark } = req.query;
+//   PDFNet.initialize();
+//   const filename = "abcd2";
+//   const watermark = "Somaiya";
+//   console.log(__dirname);
+  
+//   const inputPath =path.resolve(
+//     __dirname +
+//     `/downloads/${filename}.pdf`
+//   );
+//   const outputPath = path.resolve(
+//     __dirname +
+//     `/downloads/${filename}4_watermarked.pdf`
+//   );
+
+   
+//   console.log(inputPath, outputPath);
+//   const watermarkPDF = async () => {
+//     try{
+
+//       console.log("abcd2");
+//     const pdfdoc = await PDFNet.PDFDoc.createFromUFilePath(inputPath);
+//     console.log("abcd4");
+//     await pdfdoc.initSecurityHandler();
+    
+//     const stamper = await PDFNet.Stamper.create(
+//       PDFNet.Stamper.SizeType.e_relative_scale,
+//       0.5,
+//       0.5
+//     );
+
+//     console.log("abcd2"); 
+
+//     stamper.setAlignment(
+//       PDFNet.Stamper.HorizontalAlignment.e_horizontal_center,
+//       PDFNet.Stamper.VerticalAlignment.e_vertical_center
+//     );
+
+//     const redColorPt = await PDFNet.ColorPt.init(1, 0, 0);
+//     stamper.setFontColor(redColorPt);
+//     const pgSet = await PDFNet.PageSet.createRange(
+//       1,
+//       await pdfdoc.getPageCount()
+//     );
+
+//     await stamper.stampText(pdfdoc, watermark, pgSet);
+
+//     await pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized);
+  
+
+//     } catch (err){
+//       console.log("hello");
+//       console.log(err);
+//     }
+//   };  
+
+//   PDFNet.runWithCleanup( watermarkPDF) // you can add the key to PDFNet.runWithCleanup(main, process.env.PDFTRONKEY)
+//     .then(() => {
+//        PDFNet.shutdown();
+//        res.redirect("back");
+//       // fs.readFile(outputPath, (err, data) => {
+//       //   if (err) {
+//       //     res.statusCode = 500;
+//       //     res.end(`Error getting the file: ${err}.`);
+//       //   } else {
+//       //     const ext = path.parse(outputPath).ext;
+//       //    res.setHeader("Content-type", mime_Type[ext] || "text/plain");
+//       //    res.send(data);
+//       //    //res.jsonp({"Result":"Success"});
+//       //   //res.writeHead(200, { 'Content-Type': 'application/json' });
+//       //   //res.write(JSON.stringify(data));
+//       //   //res.send(data);
+//       //   }
+//       // });
+//     })
+//     .catch((error) => {
+//       res.statusCode = 500;
+//       console.log("hi");
+//       res.end(error);
+//     });
+    
+// });
 
 // Error Page 404
 // app.get("*", (req, res) => {
