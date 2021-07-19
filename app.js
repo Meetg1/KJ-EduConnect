@@ -505,8 +505,8 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
     
     const stamper = await PDFNet.Stamper.create(
       PDFNet.Stamper.SizeType.e_relative_scale,
-      0.5,
-      0.5
+      0.8,
+      0.8
     );
 
     stamper.setAlignment(
@@ -514,8 +514,11 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
       PDFNet.Stamper.VerticalAlignment.e_vertical_center
     );
 
+    stamper.setRotation(-45);
+
     const redColorPt = await PDFNet.ColorPt.init(1, 0, 0);
     stamper.setFontColor(redColorPt);
+    stamper.setOpacity(0.15);
     const pgSet = await PDFNet.PageSet.createRange(
       1,
       await pdfdoc.getPageCount()
