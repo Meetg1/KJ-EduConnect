@@ -211,12 +211,12 @@
           <div style="text-align: center;">
             <% for (var i=1; i <=number_of_pages ; i++ ) { %>
               <% if (i==current_page) { %>
-                <a href="../<%= redirect %>/<%= i %>"
+                <a href="../<%= type %>/<%= i %>"
                   style="border-style: solid; padding: 10px; text-decoration: none;">
                   <%=i %>
                 </a> &nbsp;
                 <%}else{%>
-                  <a href="../<%= redirect %>/<%= i %>"
+                  <a href="../<%= type %>/<%= i %>"
                     style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
                     <%=i %>
                   </a> &nbsp;
