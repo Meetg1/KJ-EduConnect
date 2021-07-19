@@ -1318,7 +1318,10 @@ app.post("/reply/:id/delete", async (req, res) => {
   const req_review = await Review.findById(req.body.comment_id);
   console.log(req_review);
   console.log(req.body.reply_id);
-  req_review.replies.pop(req.body.reply_id);
+  console.log(req_review.replies.indexOf(req.body.reply_id));
+  var req_index = req_review.replies.indexOf(req.body.reply_id);
+  req_review.replies.splice(req_index,1);
+  //req_review.replies.pop(req.body.reply_id);
   //req_review.replies.push(reply);
   await req_review.save();
   res.jsonp({ result: "success" });
