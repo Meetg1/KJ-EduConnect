@@ -499,9 +499,8 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
   const watermarkPDF = async () => {
     try{
 
-      console.log("abcd2");
     const pdfdoc = await PDFNet.PDFDoc.createFromUFilePath(inputPath);
-    console.log("abcd4");
+   
     await pdfdoc.initSecurityHandler();
     
     const stamper = await PDFNet.Stamper.create(
@@ -509,8 +508,6 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
       0.5,
       0.5
     );
-
-    console.log("abcd2"); 
 
     stamper.setAlignment(
       PDFNet.Stamper.HorizontalAlignment.e_horizontal_center,
@@ -557,7 +554,6 @@ app.post("/uploadfile", upload1.single("file"), (req, res, next) => {
     })
     .catch((error) => { 
       res.statusCode = 500;
-      console.log("hi");
       res.end(error);
     });
 
@@ -651,7 +647,6 @@ app.post("/upload", isLoggedIn, async (req, res) => {
 
     let errors = req.validationErrors();
     if (errors) {
-      console.log("sgdagsgfds" + errors);
       return res.redirect("back");
     }
     // if (previewPicIds.length == 0) {
@@ -811,7 +806,7 @@ app.get("/results/:sortBy/:page", async (req, res) => {
       stared: user.stared,
       number_of_pages: number_of_pages,
       current_page: page,
-      redirect: "results",
+      redirect: type,
       type: type,
       page: "results",
     });
@@ -1315,6 +1310,17 @@ app.delete(
   }
 );
 
+app.post("/reply/:id/delete", async (req, res) => {
+  console.log(req.params.id);
+  const req_review = await Review.findById(req.body.comment_id);
+  console.log(req_review);
+  console.log(req.body.reply_id);
+  req_review.replies.pop(req.body.reply_id);
+  //req_review.replies.push(reply);
+  await req_review.save();
+  res.jsonp({ result: "success" });
+});
+
 app.post(
   "/single_material/:slug/report",
   isLoggedIn,
@@ -1401,6 +1407,10 @@ app.post("/single_material/:slug/reviews", isLoggedIn, async (req, res) => {
   req.flash("success", "Review submitted successfully. You earned 5 points!");
   res.jsonp({ result: "success" });
 });
+
+
+
+
 
 app.post("/single_material/:slug/suggestions", isLoggedIn, async (req, res) => {
   const suggestion = new Review({
