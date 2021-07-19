@@ -3,11 +3,14 @@
 <head>
    <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="../stylesheets/landing.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
+  integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -55,7 +58,7 @@
                 </div>
               </li>
            <%}else{%>
-              <li id="text"><a href="/signup"><span class="glyphicon glyphicon-log-in"></span>Sign in</a></li>
+              <li id="text"><a href="/results/upvotes/1"><span class="glyphicon glyphicon-log-in"></span>Sign in</a></li>
            <%}%>
          </ul>
         </div>
@@ -65,7 +68,7 @@
 
 
 
-    <div class="jumbotron text-center">
+    <!--<div class="jumbotron text-center">
       <h1></h1> 
       <p id="demo"></p>
       <!--
@@ -73,12 +76,170 @@
         <h1>Welcome to EduConnect.</h1>
       </div>
     -->
+
+    <!--
       <p></p><br><br> 
        <a href="/results/1"><div id="get_started"><h2>Get Started</h2></div></a>
     </div>
     <br>
-    <div id="about">
+  -->
+
+  
+  <div id="carousel-example" class="carousel slide" data-ride="carousel" data-interval="3000">
+    <ol class="carousel-indicators">
+      <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel-example" data-slide-to="1"></li>
+      <li data-target="#carousel-example" data-slide-to="2"></li>
+      <li data-target="#carousel-example" data-slide-to="3"></li>
+
+    </ol>
+  
+    <div class="carousel-inner">
+      <div class="item active text-center jumbotron">
+          <h1></h1> 
+          <p id="demo"></p>
+          <a href="/results/upvotes/1"><div class="get_started"><h2 style="color:whitesmoke; font-size:20px;">Get Started</h2></div></a>
+      </div>
+      <div class="item jumbo text-center">
+         <p style="color:#362905; font-size: 80px; margin-top:20px;">LEARN. </p>
+
+      </div>
+      <div class="item jum text-center">
+        <p style="color:#f3d787;font-size:80px;margin-top:20px;">UNLEARN. </p>
+      </div>
+      <div class="item bo text-center">
+        <p style="color:#d6dd1a;font-size:80px;margin-top:20px;">UNLEASH. </p>
+      </div>
+    </div>
+  
+    <a class="left carousel-control" href="#carousel-example" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+
+  <br>
+  <br>
+
+ <!-- <div class="stats" id="team">   
+    <h1 class="stat-head"style="color: black;">You are just at the right place!</h1>
+ 
+    <div class="row stat-fig" style="color: black;">
+
+      <div class="col-md-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="126" height="126" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+          <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"/>
+          <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"/>
+        </svg>
+        <div id="doc"></div>
+        <span class="stat_text">Documents Shared</span>
+      </div>
+
+      <div class="col-md-4"> 
+        <i class="fas fa-user-graduate fa-9x stud_pos"></i>
+        <div id="stud"></div>
+        <span class="stat_text">Students Benefitted</span>
+
+      </div>
+
+      <div class="col-md-4"> 
       
+        <i class="fas fa-users fa-9x"></i>
+        <div id="grow"></div>
+        <span class="stat_text">Community Growth</span>
+
+      </div>
+
+    </div>
+  </div>
+-->
+
+  <div class="grandparent">
+      <h1 class="stat-head">You are just at the right place!</h1>
+      <p class="subtext">EduConnect is the go to place for thousands of students just like you <br>
+        to share study documents and enhance their knowledge.</p>
+      <div class="parents">
+        <div class="child">
+          <svg xmlns="http://www.w3.org/2000/svg" width="126" height="126" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+            <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"/>
+            <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"/>
+          </svg>
+          <div id="doc"></div>
+          <span class="stat_text">Documents Shared</span>  
+        </div>
+        <div class="child">
+          <i class="fas fa-user-graduate fa-9x stud_pos" style="color:#58595b"></i>
+          <div id="stud"></div>
+          <span class="stat_text">Students Benefitted</span>  
+        </div>
+        <div class="child">
+          <i class="fas fa-users fa-9x" style="color:#32127a;"></i>
+          <div id="grow"></div>
+          <span class="stat_text">Community Growth</span>  
+        </div>
+      </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="grandparent">
+    <h1 class="feature-head">Educate yourself with the best content <br> right under one roof</h1>
+    <div class="par">
+      <div class="chi">
+        <i class="fas fa-download fa-7x down" style="color:#056D1F"></i>
+        <h3 class="dt" style="color: #b7202e;">Study resources</h3>
+        <p style="color: #4e657e; font-size:15px; text-align:center;">Upload and Download lecture notes, question papers and assignments 
+          completely for free!</p>
+      </div>
+      <div class="chi">
+        <i class="fas fa-network-wired fa-7x net" style="color:#9D5109"></i>
+        <h3 class="nt" style="color: #b7202e; ">Network & Grow</h3>
+        <p style="color: #4e657e; font-size:15px ;text-align:center;">Follow others and receive notifications when they upload their documents!
+      </div>
+      <div class="chi">
+        <i class="fas fa-meteor fa-7x filter" style="color:#0A636D"></i>
+        <h3 class="ft" style="color: #b7202e; ">Filtered the best</h3>
+        <p style="color: #4e657e; font-size:15px;text-align:center">All documents have been carefully moderated and checked by subject-experts to ensure good quality!
+      </div>
+    </div>
+</div>
+
+
+
+
+<!--
+  <div class="super">
+    <h1 class="feature-head">Educate yourself with the best content <br> right under one roof</h1>
+    <div class="good">
+      <div class="avg">
+        <i class="fas fa-download fa-6x down" style="color:#056D1F"></i>
+           <h3 class="dt" style="color: #b7202e; ">Free study material</h3>
+           <p style="color: #4e657e; font-size:17px; text-align:center;">Upload and Download lecture notes, question papers and assignments
+             <br> and move your way upto the leaderboards!</p>
+      </div>
+      <div class="avg">
+        <i class="fas fa-network-wired fa-6x net" style="color:#9D5109"></i>
+        <h3 class="nt" style="color: #b7202e; ">Network & Grow</h3>
+        <p style="color: #4e657e; font-size:17px ;text-align:center;">Follow others and receive notifications when they upload their documents!
+
+      </div>
+      <div class="avg">
+        <i class="fas fa-meteor fa-6x filter"></i>
+        <h3 class="ft" style="color: #b7202e; ">Filtered the best</h3>
+        <p style="color: #4e657e; font-size:17px;text-align:center;">All documents have been carefully moderated and checked by subject-experts <br> to ensure good quality!
+      </div>
+      </div>
+  </div>
+-->
+<br>
+
+    
+
+  
+    <div id="about"> 
       <p ><u><h1 style="text-align: center; color: black;">About Us</h1></u></p>
 
       <div class="container panel" style="">
@@ -160,7 +321,6 @@
     });
 
     var i = 0;
-    
     var txt="Welcome to EduConnect. ";
     var speed = 150;
 
@@ -170,7 +330,46 @@
         i++;
         setTimeout(typeWriter, speed);
       }
-    });
+    });   
+
+
+    var j = 0;
+    var num =600;
+    var speed = 1;
+    $(document).ready(function count(){
+      if (j <= num) {
+        document.getElementById("doc").innerHTML = j + " +";
+        j++;
+        setTimeout(count, speed);
+      }
+    });   
+
+    var k = 0;
+    var num1 =800;
+    var speed = 1;
+    $(document).ready(function count(){
+      if (k <= num1) {
+        document.getElementById("stud").innerHTML = k + " +";
+        k++;
+        setTimeout(count, speed);
+      }
+    });   
+
+    var l = 0;
+    var num2 =1200;
+    var speed = 1;
+    $(document).ready(function count(){
+      if (l <= num2) {
+        document.getElementById("grow").innerHTML = l + " +";
+        l++;
+        setTimeout(count, speed);
+      }
+    });   
+
+
+
+
+
 
     </script>
 
