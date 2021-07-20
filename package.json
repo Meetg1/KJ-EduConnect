@@ -38,5 +38,8 @@
     "passport-local-mongoose": "^6.1.0",
     "random": "^3.0.6",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "prettier": "2.3.2"
   }
 }
