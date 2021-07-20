@@ -450,7 +450,7 @@
                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                       </h4>
                       <div class="container mt-3">
-                        <form action="/single_material/<%=doc.slug%>/suggestions" method="POST">
+                        <form id="suggestionForm<%= doc.slug %>">
                           <div class="form-group">
                             <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
                           </div>
@@ -465,13 +465,13 @@
                           <div class="form-group">
                             <div class="form-group">
                               <input required name="text" rows="5" cols="70" class="form-control mt-3"
-                                placeholder="Write your suggestion..." id=""></input>
+                                placeholder="Write your suggestion..." id="suggestion<%= doc.slug %>"></input>
                             </div>
                             <div class="form-group">
-                              <button type="submit" class="btn btn-success btn-sm">
+                              <a class="btn btn-success btn-sm addSuggestionBtn" doc_id="<%=doc.slug%>">
                                 Submit
                                 <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                              </button>
+                              </a>
                             </div>
                           </div>
                         </form>
@@ -716,6 +716,7 @@
             document.execCommand("copy");
             $temp.remove();
           });
+          
           $(document).ready(function () {
             var doc_id = "";
             $(".addReviewBtn").on('click', function () {
@@ -792,10 +793,27 @@
             });
           });
 
-          $(document).ready(function (){
+          $(document).ready(function () {
+            var doc_id = "";
+            $(".addSuggestionBtn").on('click', function () {
+              var doc_id = $(this).attr('doc_id');
+              var text = $('#suggestion' + doc_id).val();
+              console.log(doc_id,text);
+              req = $.ajax({
+                url: '/single_material/<%=doc.slug%>/suggestions',
+                type: 'POST',
+                data: { text: text }
+              });
+              req.done(function () {
+                console.log("comment added");
 
+                $('#suggestions').fadeOut(1000);
+                $('#suggestion' + doc_id).val("");
+                $("#reload-suggestions").load(location.href + " #reload-suggestions");
+                $('#suggestions').fadeIn(1000);
+              });
+            });
           });
-
 
         </script>
 
