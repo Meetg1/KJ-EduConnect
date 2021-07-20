@@ -1254,8 +1254,7 @@ app.get('/single_material/:slug', async function (req, res) {
    }
 })
 
-app.delete(
-   '/single_material/:slug',
+app.delete('/single_material/:slug',
    isLoggedIn,
    isUploader,
    async (req, res) => {
@@ -1363,7 +1362,7 @@ app.get('/taken-down/:slug', (req, res) => {
 })
 
 app.post('/single_material/:slug/reviews', isLoggedIn, async (req, res) => {
-   const upvote = req.body.upvote == 'on' ? true : false
+   const upvote = req.body.upvote == 'Yes' ? true : false
    const review = new Review({
       upvote: upvote,
       text: req.body.review,

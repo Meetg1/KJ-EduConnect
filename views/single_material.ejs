@@ -250,8 +250,8 @@
                             <span>Was this document helpful?</span>
                             <br />
                             <p class="form__answer">
-                              <input type="radio" id="upvote<%=doc.slug%>" name="upvote" checked />
-                              <label for="match_1">
+                              <input type="radio" id="upvote<%=doc.slug%>" name="upvote" value="Yes" checked/>
+                              <label for="upvote<%=doc.slug%>">
                                 <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                                   <path
@@ -260,8 +260,8 @@
                               </label>
                             </p>
                             <p class="form__answer">
-                              <input type="radio" id="downvote<%=doc.slug%>" name="downvote" />
-                              <label for="match_2">
+                              <input type="radio" id="downvote<%=doc.slug%>" name="upvote" value="No" />
+                              <label for="downvote<%=doc.slug%>">
                                 <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                                   <path
@@ -791,6 +791,12 @@
               });
             });
           });
+
+          $(document).ready(function (){
+
+          });
+
+
         </script>
 
         </html>
