@@ -2088,9 +2088,9 @@ app.get(
 
 app.get(
    '/google/callback',
-   passport.authenticate('google', { failureRedirect: '/results/upvotes/1' }),
+   passport.authenticate('google', { failureRedirect: 'back' }),
    function (req, res) {
-      res.redirect('/results/upvotes/1')
+      res.redirect("back")
    },
 )
 
