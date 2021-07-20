@@ -347,6 +347,13 @@ li p {
   margin-right: auto;
   margin-left: auto;
 }
+.suggestion-img {
+  height: 110%;
+  width: 110%;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
 .reply-img {
   height: 90%;
   width: 90%;
@@ -359,6 +366,12 @@ li p {
 }
 
 .review-author {
+  width: 10%;
+  margin-right: 15px;
+  margin-left: 20px;
+}
+
+.suggestion-author {
   width: 10%;
   margin-right: 15px;
   margin-left: 20px;
@@ -392,6 +405,11 @@ li p {
     width: 100%;
     margin-left: 5px;
   }
+  .suggestion-img {
+    height: 100%;
+    width: 100%;
+    margin-left: 5px;
+  }
   .reply-img {
     height: 80%;
     width: 80%;
@@ -405,6 +423,12 @@ li p {
     width: 50%;
   }
   .review-author {
+    width: 10%;
+  }
+  .suggestion-content {
+    width: 50%;
+  }
+  .suggestion-author {
     width: 10%;
   }
   .reply-author {
