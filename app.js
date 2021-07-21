@@ -472,7 +472,7 @@ var upload3 = multer({
 var file
 app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
    file = req.file
-   console.log(file.destination)
+   console.log(file)
 
    // console.log(file);
    if (!file) {
@@ -484,11 +484,15 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
    //const { filename, watermark } = req.query;
    PDFNet.initialize()
    const fn = file.filename
+   var l = file.filename.length
+   const img_fn = file.filename.substring(0,l-4) + ".png"
+
    const watermark = 'SOMAIYA'
    console.log(__dirname)
 
    const inputPath = path.resolve(file.destination + '/' + fn)
    const outputPath = path.resolve(file.destination + '/' + fn)
+   const imgOutputPath =  path.resolve(file.destination + '/' + img_fn)
 
    console.log(inputPath, outputPath)
    const watermarkPDF = async () => {
@@ -521,6 +525,17 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
          await stamper.stampText(pdfdoc, watermark, pgSet)
 
          await pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized)
+
+      
+            const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath);
+            await doc.initSecurityHandler();
+            const pdfDraw = await PDFNet.PDFDraw.create(92);
+            const currPage = await doc.getPage(1);
+            await pdfDraw.export(currPage, imgOutputPath, 'PNG');
+           
+           
+
+
       } catch (err) {
          console.log('hello')
          console.log(err)
@@ -2201,50 +2216,7 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 // });
 
 
-// app.get('/thumbnail', (req, res)=>{
 
-   
-//    const filename = 'abcd';
-//      const inputPath =path.resolve(
-//     __dirname +
-//     `/downloads/${filename}.pdf`
-//   );
-//   const outputPath = path.resolve(
-//     __dirname +
-//     `/downloads/${filename}.png`
-//   );
-
-//    console.log(inputPath, outputPath)
-
-
-//   const getThumbFromPDF = async () => {
-//      const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath);
-//      await doc.initSecurityHandler();
-//      const pdfDraw = await PDFNet.PDFDraw.create(92);
-//      const currPage = await doc.getPage(1);
-//      await pdfDraw.export(currPage, outputPath, 'PNG');
-//   };
-
-//   PDFNet.runWithCleanup(getThumbFromPDF) // you can add the key to PDFNet.runWithCleanup(main, process.env.PDFTRONKEY)
-//   .then(() => {
-//     fs.readFile(outputPath, (err, data) => { 
-//       if (err) {
-//         res.statusCode = 500;
-//         res.end(`Error getting the file: ${err}.`);
-//       } else {
-//        // const ext = path.parse(outputPath).ext;
-//         res.setHeader('Content-type', 'image/png');
-//         res.end(data);
-//       }
-//     });
-//    })
-//   .catch(error => {
-//     res.statusCode = 500;
-//     res.end(error);
-//   });
-
-
-// })
 
 
 
