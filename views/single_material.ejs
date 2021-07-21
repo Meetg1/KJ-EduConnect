@@ -13,7 +13,10 @@
 
   <body>
     <%- include('partials/navbar')%>
+    <div id="messages_">
+      
       <%- messages('messages', locals) %>
+    </div>
 
         <div class="modalContent" id="modal">
           <img src="../images/arrow-download-icon.png" alt="download" />
@@ -737,6 +740,7 @@
                 $('#reviews').fadeOut(1000);
                 $('#review' + doc_id).val("");
                 $("#reload-reviews").load(location.href + " #reload-reviews");
+                $("#messages_").load(location.href + " #messages_");
                 $('#reviews').fadeIn(1000);
               });
             });
@@ -762,6 +766,7 @@
                 $("#viewreply" + comment_id).load(location.href + " #viewreply" + comment_id);
                 $("#reply2" + comment_id).load(location.href + " #reply2" + comment_id);
                 $('#reply' + doc_id + comment_id).val("");
+                $("#messages_").load(location.href + " #messages_");
                 $('#reviews').fadeIn(1000);
               });
             });
@@ -786,6 +791,7 @@
                 $("#viewreply" + comment_id).load(location.href + " #viewreply" + comment_id);
 
                 $("#reply2" + comment_id).load(location.href + " #reply2" + comment_id);
+                $("#messages_").load(location.href + " #messages_");
 
                 $('#reviews').fadeIn(1000);
 
@@ -810,6 +816,7 @@
                 $('#suggestions').fadeOut(1000);
                 $('#suggestion' + doc_id).val("");
                 $("#reload-suggestions").load(location.href + " #reload-suggestions");
+                $("#messages_").load(location.href + " #messages_");
                 $('#suggestions').fadeIn(1000);
               });
             });
