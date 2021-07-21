@@ -13,18 +13,22 @@
 
   <body>
     <%- include('partials/navbar')%>
+    <div id="messages_">
+      
       <%- messages('messages', locals) %>
+    </div>
 
         <div class="modalContent" id="modal">
           <img src="../images/arrow-download-icon.png" alt="download" />
           <p>Your download will begin in 5 seconds.</p>
           <button class="accept">Close</button>
         </div>
-
-
+ 
+  
 
         <div class="row">
           <div class="col-md-4 px-0">
+
 
             <!--Vertical Navbar-->
 
@@ -250,8 +254,8 @@
                             <span>Was this document helpful?</span>
                             <br />
                             <p class="form__answer">
-                              <input type="radio" id="upvote<%=doc.slug%>" name="upvote" checked />
-                              <label for="match_1">
+                              <input type="radio" id="upvote<%=doc.slug%>" name="upvote" value="Yes" checked/>
+                              <label for="upvote<%=doc.slug%>">
                                 <svg class="text-success" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                                   <path
@@ -260,8 +264,8 @@
                               </label>
                             </p>
                             <p class="form__answer">
-                              <input type="radio" id="downvote<%=doc.slug%>" name="downvote" />
-                              <label for="match_2">
+                              <input type="radio" id="downvote<%=doc.slug%>" name="upvote" value="No" />
+                              <label for="downvote<%=doc.slug%>">
                                 <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                   fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
                                   <path
@@ -450,7 +454,7 @@
                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                       </h4>
                       <div class="container mt-3">
-                        <form action="/single_material/<%=doc.slug%>/suggestions" method="POST">
+                        <form id="suggestionForm<%= doc.slug %>">
                           <div class="form-group">
                             <input class="form-control" type="text" disabled value="<%= currentUser.username %>" />
                           </div>
@@ -465,13 +469,13 @@
                           <div class="form-group">
                             <div class="form-group">
                               <input required name="text" rows="5" cols="70" class="form-control mt-3"
-                                placeholder="Write your suggestion..." id=""></input>
+                                placeholder="Write your suggestion..." id="suggestion<%= doc.slug %>"></input>
                             </div>
                             <div class="form-group">
-                              <button type="submit" class="btn btn-success btn-sm">
+                              <a class="btn btn-success btn-sm addSuggestionBtn" doc_id="<%=doc.slug%>">
                                 Submit
                                 <i aria-hidden="true" class="fas fa-comment-alt"></i>
-                              </button>
+                              </a>
                             </div>
                           </div>
                         </form>
@@ -594,11 +598,10 @@
           <div class="col-md-8">
             <div class="preview">
               <iframe src="https://drive.google.com/file/d/<%=doc.driveId%>/preview" width="100%" height="895%"
-                frameborder="0" scrolling="no" seamless=""></iframe>
-              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+                frameborder="0" scrolling="no" seamless=""></iframe>        
+              <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>                                          
             </div>
-          </div>
-        
+          </div>  
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
           crossorigin="anonymous"></script>
@@ -716,6 +719,7 @@
             document.execCommand("copy");
             $temp.remove();
           });
+          
           $(document).ready(function () {
             var doc_id = "";
             $(".addReviewBtn").on('click', function () {
@@ -736,6 +740,7 @@
                 $('#reviews').fadeOut(1000);
                 $('#review' + doc_id).val("");
                 $("#reload-reviews").load(location.href + " #reload-reviews");
+                $("#messages_").load(location.href + " #messages_");
                 $('#reviews').fadeIn(1000);
               });
             });
@@ -761,6 +766,7 @@
                 $("#viewreply" + comment_id).load(location.href + " #viewreply" + comment_id);
                 $("#reply2" + comment_id).load(location.href + " #reply2" + comment_id);
                 $('#reply' + doc_id + comment_id).val("");
+                $("#messages_").load(location.href + " #messages_");
                 $('#reviews').fadeIn(1000);
               });
             });
@@ -785,12 +791,37 @@
                 $("#viewreply" + comment_id).load(location.href + " #viewreply" + comment_id);
 
                 $("#reply2" + comment_id).load(location.href + " #reply2" + comment_id);
+                $("#messages_").load(location.href + " #messages_");
 
                 $('#reviews').fadeIn(1000);
 
               });
             });
           });
+
+          $(document).ready(function () {
+            var doc_id = "";
+            $(".addSuggestionBtn").on('click', function () {
+              var doc_id = $(this).attr('doc_id');
+              var text = $('#suggestion' + doc_id).val();
+              console.log(doc_id,text);
+              req = $.ajax({
+                url: '/single_material/<%=doc.slug%>/suggestions',
+                type: 'POST',
+                data: { text: text }
+              });
+              req.done(function () {
+                console.log("comment added");
+
+                $('#suggestions').fadeOut(1000);
+                $('#suggestion' + doc_id).val("");
+                $("#reload-suggestions").load(location.href + " #reload-suggestions");
+                $("#messages_").load(location.href + " #messages_");
+                $('#suggestions').fadeIn(1000);
+              });
+            });
+          });
+
         </script>
 
         </html>
