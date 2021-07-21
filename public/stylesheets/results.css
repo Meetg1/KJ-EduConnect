@@ -4,22 +4,26 @@ html {
 
 
 
+
 .result-img1 {
   height: 10rem;
-  width: 20%;
   margin-bottom: 20px;
   padding-top: 10px;
   float: left;
-  margin-right: 30px;
+  width: 20%;
+    margin-right: 30px;
 }
 
-.result-img img {
-  width: 13rem;
-  margin-bottom: 20px;
-  padding-top: 10px;
-  float: left;
-  margin-right: 30px;
+
+
+@media(max-width:901px){
+  .result-img1{
+    width: 40%;
+    margin-right: 15px;
+  }
 }
+
+
 
 /* .file {
   height: 25vh;
@@ -58,20 +62,10 @@ html {
     width: 90% !important;
   }
 
-  .searchbar {
-    width: 15em !important;
-  }
+  
 }
 
-@media (max-width: 454px) {
-  .searchbar {
-    width: 10em !important;
-  }
-  .result-img img {
-    width: 8rem;
-    margin-right: 25px;
-  }
-}
+
 
 @media (max-width: 790px) {
   html {

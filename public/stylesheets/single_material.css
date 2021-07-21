@@ -39,9 +39,6 @@
   color: black;
 }
 
-.searchbar::placeholder {
-  font-weight: 400;
-}
 
 .text-danger {
   margin-left: 50px;
@@ -114,11 +111,6 @@ input[type="radio"]:checked ~ label {
   }
 }
 
-@media (max-width: 770px) {
-  .searchbar {
-    width: 15em !important;
-  }
-}
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {

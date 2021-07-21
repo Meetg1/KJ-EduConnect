@@ -35,7 +35,8 @@ const schedule = require('node-schedule')
 
 const cookieSession = require('cookie-session')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
-//const { PDFNet } = require("@pdftron/pdfnet-node");
+
+const { PDFNet } = require('@pdftron/pdfnet-node')
 
 const mime_Type = require('./node_modules/mime-types')
 
@@ -480,7 +481,6 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
       return next(error)
    }
 
-   const { PDFNet } = require('@pdftron/pdfnet-node')
    //const { filename, watermark } = req.query;
    PDFNet.initialize()
    const fn = file.filename
@@ -2119,7 +2119,6 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 
 // app.get("/watermark", (req, res) => {
 
-// const { PDFNet } = require("@pdftron/pdfnet-node");
 //   //const { filename, watermark } = req.query;
 //   PDFNet.initialize();
 //   const filename = "abcd2";
@@ -2200,6 +2199,54 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 //     });
 
 // });
+
+
+// app.get('/thumbnail', (req, res)=>{
+
+   
+//    const filename = 'abcd';
+//      const inputPath =path.resolve(
+//     __dirname +
+//     `/downloads/${filename}.pdf`
+//   );
+//   const outputPath = path.resolve(
+//     __dirname +
+//     `/downloads/${filename}.png`
+//   );
+
+//    console.log(inputPath, outputPath)
+
+
+//   const getThumbFromPDF = async () => {
+//      const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath);
+//      await doc.initSecurityHandler();
+//      const pdfDraw = await PDFNet.PDFDraw.create(92);
+//      const currPage = await doc.getPage(1);
+//      await pdfDraw.export(currPage, outputPath, 'PNG');
+//   };
+
+//   PDFNet.runWithCleanup(getThumbFromPDF) // you can add the key to PDFNet.runWithCleanup(main, process.env.PDFTRONKEY)
+//   .then(() => {
+//     fs.readFile(outputPath, (err, data) => { 
+//       if (err) {
+//         res.statusCode = 500;
+//         res.end(`Error getting the file: ${err}.`);
+//       } else {
+//        // const ext = path.parse(outputPath).ext;
+//         res.setHeader('Content-type', 'image/png');
+//         res.end(data);
+//       }
+//     });
+//    })
+//   .catch(error => {
+//     res.statusCode = 500;
+//     res.end(error);
+//   });
+
+
+// })
+
+
 
 // Error Page 404
 // app.get("*", (req, res) => {
