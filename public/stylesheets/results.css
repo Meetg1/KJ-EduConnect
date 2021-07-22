@@ -28,6 +28,10 @@ html {
   border: 2px solid #007bff;
 }
 
+.dropdown::marker{
+  display: none;
+}
+
 
 /* .file {
   height: 25vh;

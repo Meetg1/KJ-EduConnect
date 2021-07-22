@@ -410,6 +410,31 @@
                                     </div>
                                   </div>
                                   <div class="reply-content">
+                                    
+
+
+                                    <% if (currentUser && reply.author_reply.equals(currentUser._id)) {%>
+
+                                      <div class="float-right" style="margin-left: auto;margin-right: -50px;" >
+                                      
+                                          <a class=" " href="#" id="replyOptions" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                            <div class="dot"></div>
+                                                                               
+                                          </a>
+                                          <div class="dropdown-menu" aria-labelledby="replyOptions">
+                                            <form>
+                                              <a class="delete-reply btn btn-sm btn-danger dropdown-item" reply_id="<%=reply._id%>"
+                                                review_id="<%=doc.reviews[i]._id%>">
+                                                Delete Reply </a>
+                                              </form>
+                                                      
+                                          </div>
+                                        
+                                      </div>
+                                  
+                                    <%} %>
+                                    
                                     <a href="/users/<%=reply.author_reply.id%>">
                                       <strong>
                                         <%= reply.author_reply.fullname %>
@@ -425,12 +450,12 @@
                                   </div>
                                 </div>
                                 <br>
-                                <% if (currentUser && reply.author_reply.equals(currentUser._id)) {%>
+                                <!-- <% if (currentUser && reply.author_reply.equals(currentUser._id)) {%>
                                   &nbsp;&nbsp;<form>
                                     <a class="delete-reply btn btn-sm btn-danger" reply_id="<%=reply._id%>"
                                       review_id="<%=doc.reviews[i]._id%>">
                                       Delete Reply </a>
-                                    <%} %>
+                                    <%} %> -->
 
                                       <% }) %>
                             </div>

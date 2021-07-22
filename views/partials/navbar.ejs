@@ -70,15 +70,15 @@
               <img src="../../images/nav-profile-pic.png" width="30" height="30" class="rounded-circle" />
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared">View Stared</a>
-              <hr style="margin: 2px" />
-              <a class="dropdown-item" href="/logout">Logout</a>
-              <hr style="margin: 2px" />
-              <a class="dropdown-item" href="/users/<%=currentUser._id%>">View Profile</a>
-              <hr style="margin: 2px" />
-              <a class="dropdown-item" href="/leaderboard">View Leaderboard</a>
-              <hr style="margin: 2px" />
-              <a class="dropdown-item" href="/subject-expert">Become a Subject-Expert</a>
+              <a class="dropdown-item" href="/users/<%=currentUser._id%>" style="padding: 4px 12px;">View Profile</a>
+              <hr style="margin: 0px" />
+              <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared" style="padding: 4px 12px;">View Stared</a>
+              <hr style="margin: 0px" />
+              <a class="dropdown-item" href="/subject-expert" style="padding: 4px 12px;">Become a Subject-Expert</a>              
+              <hr style="margin: 0px" />            
+              <a class="dropdown-item" href="/leaderboard" style="padding: 4px 12px;">View Leaderboard</a>
+              <hr style="margin: 0px" />
+              <a class="dropdown-item" href="/logout" style="padding: 4px 12px;">Logout</a>             
             </div>
           </li>
           <%}else{%>

@@ -440,6 +440,13 @@ li p {
   }
 }
 
+.dot:after {
+  content: '\2807';
+  font-size: 20px;
+  margin: 0px;
+  padding: 0px;
+  }
+
 /*
 
 * {
