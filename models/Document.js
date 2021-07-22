@@ -86,6 +86,10 @@ const DocumentSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  thumbnailPic: {
+    type: String,
+    default: "thumbnail.jpg",
+  },
 });
 
 // add a slug before the item gets saved to the database

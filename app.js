@@ -492,7 +492,7 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
 
    const inputPath = path.resolve(file.destination + '/' + fn)
    const outputPath = path.resolve(file.destination + '/' + fn)
-   const imgOutputPath =  path.resolve(file.destination + '/' + img_fn)
+   const imgOutputPath =  path.resolve("D:\\SHUBH\\Internships\\EduConnect\\KJ-EduConnect\\public\\images" + '/' + img_fn)
 
    console.log(inputPath, outputPath)
    const watermarkPDF = async () => {
@@ -632,7 +632,7 @@ app.get('/download/:slug', isLoggedIn, async (req, res) => {
 //============================================================
 
 app.post('/upload', isLoggedIn, async (req, res) => {
-   console.log(req.body)
+   //console.log(req.body)
    try {
       const {
          university,
@@ -664,6 +664,9 @@ app.post('/upload', isLoggedIn, async (req, res) => {
 
       const uploadedFile = await uploadToDrive(file.originalname, file.mimetype)
 
+      var l = file.originalname.length;
+      var thumbnail_image = file.originalname.substring(0,l-4)+".png";
+
       const driveId = uploadedFile.data.id
       const uploader = {
          id: req.user._id,
@@ -682,6 +685,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          driveId: driveId,
          mimeType: file.mimetype,
          fileName: file.originalname,
+         thumbnailPic : thumbnail_image,
          // previewPics: previewPicIds,
       })
 
