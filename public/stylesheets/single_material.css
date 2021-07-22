@@ -447,7 +447,7 @@ li p {
   padding: 0px;
   }
 
-/*
+
 
 * {
   margin: 0;
@@ -484,8 +484,9 @@ li p {
 .dropp {
   position: absolute;
   display: inline-block;
-  top: 1.5em;
-  right: 50.4em;
+  top: 7em;
+  right: 60.4em;
+  z-index: 100;
 }
 
 .droppdown-content {
@@ -519,5 +520,3 @@ li p {
 .show {
   display: block;
 }
-
-/*
