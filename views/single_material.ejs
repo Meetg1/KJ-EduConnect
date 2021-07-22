@@ -567,7 +567,7 @@
                           </div>
                           <br>
                           <div id="reply<%= suggestion._id %>" class="collapse">
-                        <div class="reply2<%= suggestion._id %>">
+                        <div id="reply2<%= suggestion._id %>">
                           <% suggestion.replies.forEach(function(reply){ %>
                             <div class="row">
                               <div class="reply-author">
@@ -596,18 +596,16 @@
                             <% }) %>
                         </div>
                         </div>
-                        <% if (currentUser && currentUser.role=="teacher" ) { %>
+                        <% if (currentUser) { %>
                           <div class="reply-form" id="form-reply<%=suggestion._id%>">
-                            <form action="/single_material/<%=doc.slug%>/reply" method="POST">
-                              <input name="doc_id" value="<%=doc.slug%>" type="hidden">
-                              <input name="comment_user_id" value="<%=suggestion.author._id%>" type="hidden">
-                              <input name="comment_id" value="<%=suggestion._id%>" type="hidden">
-                              <input name="reply_author" value="<%= suggestion.author.fullname %>" type="hidden">
+                            <form>
                               <div class="form-group">
                                 <textarea class="form-control" name="reply" placeholder="Reply to this comment"
-                                  style="width: 200%;"></textarea>
+                                 id="reply<%=doc.slug%><%=suggestion._id%>"></textarea>
                               </div>
-                              <button type="submit" class="btn btn-info btn-sm">Reply</button>
+                              <a doc_id="<%=doc.slug%>" review_id="<%=suggestion._id%>"
+                                comment_user_id="<%=suggestion.author._id%>"
+                                class="btn btn-info btn-sm addSuggestionReply">Reply</a>
                             </form>
                           </div>
                           <% } %>
@@ -871,9 +869,35 @@
                     }
                 }
             }
-       /* }
-        /*
+           }
+       */
 
+          $(document).ready(function () {
+            var comment_id = "";
+            var doc_id = "";
+            $(".addSuggestionReply").on('click', function () {
+              doc_id = $(this).attr('doc_id');
+              comment_id = $(this).attr('review_id');
+              var comment_user_id = $(this).attr('comment_user_id');
+              var reply = $('#reply' + doc_id + comment_id).val();
+              console.log(doc_id, comment_id, comment_user_id, reply);
+              req = $.ajax({
+                url: '/single_material/' + doc_id + '/reply',
+                type: 'POST',
+                data: { name: name, comment_id: comment_id, comment_user_id: comment_user_id, reply: reply }
+              });
+              req.done(function () {
+                console.log("comment added");
+
+                $('#suggestions').fadeOut(1000);
+                $("#viewreply" + comment_id).load(location.href + " #viewreply" + comment_id);
+                $("#reply2" + comment_id).load(location.href + " #reply2" + comment_id);
+                $('#reply' + doc_id + comment_id).val("");
+                $("#messages_").load(location.href + " #messages_");
+                $('#suggestions').fadeIn(1000);
+              });
+            });
+          });
 
         </script>
 

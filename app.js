@@ -35,7 +35,8 @@ const schedule = require('node-schedule')
 
 const cookieSession = require('cookie-session')
 const GoogleStrategy = require('passport-google-oauth2').Strategy
-//const { PDFNet } = require("@pdftron/pdfnet-node");
+
+const { PDFNet } = require('@pdftron/pdfnet-node')
 
 const mime_Type = require('./node_modules/mime-types')
 
@@ -471,7 +472,7 @@ var upload3 = multer({
 var file
 app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
    file = req.file
-   console.log(file.destination)
+   console.log(file)
 
    // console.log(file);
    if (!file) {
@@ -480,15 +481,18 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
       return next(error)
    }
 
-   const { PDFNet } = require('@pdftron/pdfnet-node')
    //const { filename, watermark } = req.query;
    PDFNet.initialize()
    const fn = file.filename
+   var l = file.filename.length
+   const img_fn = file.filename.substring(0,l-4) + ".png"
+
    const watermark = 'SOMAIYA'
    console.log(__dirname)
 
    const inputPath = path.resolve(file.destination + '/' + fn)
    const outputPath = path.resolve(file.destination + '/' + fn)
+   const imgOutputPath =  path.resolve(file.destination + '/' + img_fn)
 
    console.log(inputPath, outputPath)
    const watermarkPDF = async () => {
@@ -521,6 +525,17 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
          await stamper.stampText(pdfdoc, watermark, pgSet)
 
          await pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized)
+
+      
+            const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath);
+            await doc.initSecurityHandler();
+            const pdfDraw = await PDFNet.PDFDraw.create(92);
+            const currPage = await doc.getPage(1);
+            await pdfDraw.export(currPage, imgOutputPath, 'PNG');
+           
+           
+
+
       } catch (err) {
          console.log('hello')
          console.log(err)
@@ -1901,31 +1916,31 @@ app.get('/autocomplete', function (req, res, next) {
    })
 })
 
-app.get('/autocompleteTag', function (req, res, next) {
-   var regex = new RegExp(req.query['term'], 'i')
+// app.get('/autocompleteTag', function (req, res, next) {
+//    var regex = new RegExp(req.query['term'], 'i')
 
-   var UserFinder = User.find({ username: regex }, { username: 1 })
-      .sort({ updated_at: -1 })
-      .sort({ created_at: -1 })
-      .limit(10)
+//    var UserFinder = User.find({ username: regex }, { username: 1 })
+//       .sort({ updated_at: -1 })
+//       .sort({ created_at: -1 })
+//       .limit(10)
 
-   UserFinder.exec(function (err, data) {
-      var result = []
-      if (!err) {
-         if (data && data.length && data.length > 0) {
-            data.forEach((user) => {
-               let obj = {
-                  id: user.id,
-                  label: user.username,
-               }
-               result.push(obj)
-            })
-         }
-         // console.log(result);
-         res.jsonp(result)
-      }
-   })
-})
+//    UserFinder.exec(function (err, data) {
+//       var result = []
+//       if (!err) {
+//          if (data && data.length && data.length > 0) {
+//             data.forEach((user) => {
+//                let obj = {
+//                   id: user.id,
+//                   label: user.username,
+//                }
+//                result.push(obj)
+//             })
+//          }
+//          // console.log(result);
+//          res.jsonp(result)
+//       }
+//    })
+// })
 
 app.get('/autocompleteUniversity', function (req, res, next) {
    var regex = new RegExp(req.query['term'], 'i')
@@ -2119,7 +2134,6 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 
 // app.get("/watermark", (req, res) => {
 
-// const { PDFNet } = require("@pdftron/pdfnet-node");
 //   //const { filename, watermark } = req.query;
 //   PDFNet.initialize();
 //   const filename = "abcd2";
@@ -2200,6 +2214,11 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 //     });
 
 // });
+
+
+
+
+
 
 // Error Page 404
 // app.get("*", (req, res) => {
