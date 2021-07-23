@@ -9,8 +9,7 @@ body {
   text-decoration-color: whitesmoke;
   }
   
-  
- 
+   
 .stat-head {
   color: #58595b;
   padding-top: 45px;
@@ -48,12 +47,11 @@ h4 {
 }
 
 
-
 .navbar-nav li a {
   color: #fff !important;
 }
 .jumbotron {
-  background: url("/profilePic/carousel welcome bg paper.png");
+  background: url("/images/carousel welcome bg paper.png");
   color: #fff;
   font-family: Montserrat, sans-serif;
   height: 600px;
@@ -61,19 +59,19 @@ h4 {
 }
 
 .jumbo {
-  background: url("/profilePic/carousel_learn.png");
+  background: url("/images/carousel_learn.png");
   height: 600px;
   padding-top: 130px;
 }
 
 .jum {
-  background: url("/profilePic/carousel_unlearn.png");
+  background: url("/images/carousel_unlearn.png");
   height: 600px;
   padding-top: 130px;
 }
 
 .bo {
-  background: url("/profilePic/carousel_unleash.png");
+  background: url("/images/carousel_unleash.png");
   height: 600px;
   padding-top: 130px;
 }

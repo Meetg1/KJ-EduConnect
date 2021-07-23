@@ -2045,6 +2045,18 @@ app.get('/subject-expert', isLoggedIn, (req, res) => {
    res.render('teacher-form.ejs', { subjects })
 })
 
+app.get('/FAQ',isLoggedIn,(req,res) => {
+     res.render('faq.ejs')
+})
+
+app.get('/reach-us',isLoggedIn,(req,res) => {
+      res.render('reach_us.ejs')
+})
+
+app.get('/user_testimonials',isLoggedIn,(req,res) =>{
+         res.render('testimonials.ejs')
+})
+
 app.post('/subject-expert', isLoggedIn, async (req, res) => {
    if (!req.body.subjects) {
       req.flash('danger', 'Please select atleast 1 subject!')

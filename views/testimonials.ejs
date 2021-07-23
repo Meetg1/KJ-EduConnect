@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% layout('layouts/boilerplate') %>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <link rel="stylesheet" type="text/css" href="../stylesheets/testimonials.css">
+    </head>
+    <body style="background-color:#F5F5F5;">
+        <%- include('partials/navbar')%>
+        <%- messages('messages', locals) %>
+        <section class="testimonial text-center">
+            <div class="container">
+    
+                <div class="heading white-heading">
+                    Testimonials
+                </div>
+                <div id="testimonial4" class="carousel slide testimonial4_indicators testimonial4_control_button thumb_scroll_x swipe_x" data-ride="carousel" data-pause="hover" data-interval="5000" data-duration="2000">
+                 
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                            <div class="testimonial4_slide">
+                                <img src="../images/013_image.jpeg" class="img-circle img-responsive" />
+                                <p>Very helpful for students during exam preparations!</p>
+                                <h4>Shubh</h4>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="testimonial4_slide">
+                                <img src="../images/011_image.jpeg" class="img-circle img-responsive" /><p>This is a great platform to grow and evolve!</p>
+                                <h4>Meet</h4>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="testimonial4_slide">
+                                <img src="../images/015_image.jpeg" class="img-circle img-responsive" />
+                                <p>Didn't expect this platform to be this useful!Kuddos</p>
+                                <h4>Gosu</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#testimonial4" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#testimonial4" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        </body>
+</html>
+
+<%- include('partials/footer')%>
