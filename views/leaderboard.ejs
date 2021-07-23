@@ -7,27 +7,28 @@
     </head>
 
     <body>
+        <%- include('partials/navbar')%>
         <div class="l-wrapper">
             <!-- <div class="c-header"><img class="c-logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/813538/km-logo-color.svg" draggable="false" /><button class="c-button c-button--primary">Send Kudos</button></div>
          -->
             <div class="l-grid">
                 <div class="l-grid__item l-grid__item--sticky">
-                    <div class="c-card u-bg--light-gradient u-text--dark">
+                    <div class="c-card  u-text--dark">
                         <div class="c-card__body">
                             <img src="../profilePic/<%=logged_in_user.profilePic %>" class="image--cover">
                             <div class="u-display--flex u-justify--space-between">
 
                                 <div class="u-text--left">
 
-                                    <div class="u-text--small">My Rank</div>
+                                    <div class="u-text--small"><b>My Rank</b></div>
                                     <h2>
-                                        <%= logged_in_rank + 1%>
+                                       <b><%= logged_in_rank + 1%></b> 
                                     </h2>
                                 </div>
                                 <div class="u-text--right">
-                                    <div class="u-text--small">My Points</div>
+                                    <div class="u-text--small"><b>My Points</b></div>
                                     <h2>
-                                        <%= logged_in_user.level_points %>
+                                      <b><%= logged_in_user.level_points %></b>  
                                     </h2>
                                 </div>
                             </div>
@@ -36,7 +37,7 @@
                     <div class="c-card">
                         <div class="c-card__body">
                             <div class="u-text--center" id="winner">
-                                <%= logged_in_user.fullname %>
+                               <b> <%= logged_in_user.fullname %> </b>
                             </div>
                         </div>
                     </div>
@@ -53,22 +54,22 @@
                             <ul class="c-list" id="list">
                                 <li class="c-list__item">
                                     <div class="c-list__grid">
-                                        <div class="u-text--left u-text--small u-text--medium">Rank</div>
-                                        <div class="u-text--left u-text--small u-text--medium">Student name</div>
-                                        <div class="u-text--center u-text--small u-text--medium">Points</div>
+                                        <div class="u-text--left u-text--small u-text--medium"><b>RANK</b></div>
+                                        <div class="u-text--left u-text--small u-text--medium"><b>STUDENT NAME</b></div>
+                                        <div class="u-text--center u-text--small u-text--medium"><b>POINTS</b></div>
 
                                     </div>
                                 </li>
                                 <!-- RANK 1 -->
                                 <li class="c-list__item">
                                     <div class="c-list__grid">
-                                        <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--yellow">1</div>
+                                        <div class="c-flag c-place  u-text--dark u-bg--yellow">1</div>
                                         <div class="c-media">
                                             <img class="c-avatar c-media__img"
                                                 src="../profilePic/<%=users[0].profilePic %>" alt="" />
                                             <div class="c-media__content">
                                                 <div class="c-media__title"><a href="/users/<%=users[0].id%>"
-                                                        style="color:white;">
+                                                        style="color:black;">
                                                         <%= users[0].fullname %>
                                                     </a></div>
                                                 <a class="c-media__link u-text--small" href="#">
@@ -95,7 +96,7 @@
                                                 src="../profilePic/<%=users[1].profilePic %>" alt="" />
                                             <div class="c-media__content">
                                                 <div class="c-media__title"><a href="/users/<%=users[1].id%>"
-                                                        style="color:white;">
+                                                        style="color:black;">
                                                         <%= users[1].fullname %>
                                                     </a></div>
                                                 <a class="c-media__link u-text--small" href="#">
@@ -122,7 +123,7 @@
                                                 src="../profilePic/<%=users[2].profilePic %>" alt="" />
                                             <div class="c-media__content">
                                                 <div class="c-media__title"><a href="/users/<%=users[2].id%>"
-                                                        style="color:white;">
+                                                        style="color:black;">
                                                         <%= users[2].fullname %>
                                                     </a></div>
                                                 <a class="c-media__link u-text--small" href="#">
@@ -144,7 +145,7 @@
                                 <% for (var i=3; i < users.length; i++ ) { %>
                                     <li class="c-list__item">
                                         <div class="c-list__grid">
-                                            <div class="c-flag c-place u-bg--white">
+                                            <div class="c-flag c-place">
                                                 <%= i+1 %>
                                             </div>
                                             <div class="c-media">
@@ -153,7 +154,7 @@
                                                 <div class="c-media__content">
 
                                                     <div class="c-media__title"><a href="/users/<%=users[i].id%>"
-                                                            style="color:white;">
+                                                            style="color:black;">
                                                             <%= users[i].fullname %>
                                                         </a></div>
                                                     <a class="c-media__link u-text--small" href="#">
@@ -164,7 +165,7 @@
                                             <div class="u-text--center c-kudos">
                                                 <div class="u-mt--8">
                                                     <strong>
-                                                        <%= users[i].level_points %>
+                                                        <%= users[i].level_points %> 👏
                                                     </strong>
                                                 </div>
                                             </div>
