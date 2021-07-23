@@ -691,11 +691,11 @@ h1 {
   background-color:#E7E8E9;
   border-radius: 10px;
 }
-.timeline .event:last-of-type {
+/* .timeline .event:last-of-type {
   padding-bottom: 0;
   margin-bottom: 0;
   border: none;
-}
+} */
 .timeline .event:before,
 .timeline .event:after {
   position: absolute;
