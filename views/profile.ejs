@@ -35,7 +35,7 @@
                             <% if (user.role==="moderator" ) { %>
                               <div class="badge badge-primary univ" href="#">Moderator</div>
                               <% }else if(user.role==="teacher" ) {%>
-                                <div class="badge badge-primary univ" href="#">Teacher</div>
+                                <div class="badge badge-primary univ" href="#">Subject-Expert</div>
                                 <% } %>
                           </div>
                           <div class="text-primary univ mt-2" href="#">
@@ -465,7 +465,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A5.jpg" type="text" hidden />
@@ -474,7 +474,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A6.jpg" type="text" hidden />
@@ -483,7 +483,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A7.jpg" type="text" hidden />
@@ -492,7 +492,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A8.jpg" type="text" hidden />
@@ -501,7 +501,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A9.jpg" type="text" hidden />
@@ -510,9 +510,9 @@
                           </button>
                         </form>
                       </div>
-    
-                      
-    
+
+
+
 
 
                     </div>
@@ -528,7 +528,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A11.jpg" type="text" hidden />
@@ -537,7 +537,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A12.jpg" type="text" hidden />
@@ -555,7 +555,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A14.jpg" type="text" hidden />
@@ -564,7 +564,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A15.png" type="text" hidden />
@@ -588,7 +588,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A17.jpg" type="text" hidden />
@@ -597,7 +597,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A18.png" type="text" hidden />
@@ -606,7 +606,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A19.png" type="text" hidden />
@@ -615,7 +615,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A20.png" type="text" hidden />
@@ -624,7 +624,7 @@
                           </button>
                         </form>
                       </div>
-    
+
                       <div class="avatar-div">
                         <form method="POST" action="/uploadAvatar" class="avatar-form">
                           <input name="avatarsrc" value="Avatars/A21.png" type="text" hidden />
@@ -637,7 +637,7 @@
                     </div>
                   </div>
 
-                  
+
 
                   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                   <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -649,7 +649,7 @@
                   <span class="dot" onclick="currentSlide(2)"></span>
                   <span class="dot" onclick="currentSlide(3)"></span>
                 </div>
-                
+
 
                 <div class="row">
 
@@ -680,7 +680,7 @@
                     </form>
                   </div> -->
 
-                 
+
                   <!-- 
 
                   -->
@@ -769,32 +769,32 @@
           }
 
           var slideIndex = 1;
-showSlides(slideIndex);
+          showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
+          // Next/previous controls
+          function plusSlides(n) {
+            showSlides(slideIndex += n);
+          }
 
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
+          // Thumbnail image controls
+          function currentSlide(n) {
+            showSlides(slideIndex = n);
+          }
 
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active-dot", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active-dot";
-}
+          function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active-dot", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active-dot";
+          }
         </script>
   </body>

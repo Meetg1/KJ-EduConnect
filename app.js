@@ -298,6 +298,13 @@ passport.use(
       function (request, accessToken, refreshToken, profile, done) {
          User.findOne({ username: profile.email }).then((currentUser) => {
             if (currentUser) {
+               if (currentUser.isBanned) {
+                  request.flash(
+                     'danger',
+                     'You have been banned! Contact us for more information.',
+                  )
+                  return done(null, null)
+               }
                currentUser.isVerified = true
                currentUser.save()
                console.log(currentUser)
@@ -434,9 +441,6 @@ const storage1 = multer.diskStorage({
    filename: function (req, file, cb) {
       cb(null, file.originalname)
    },
-   limits: {
-      fileSize: 100000000, // max file size 100MB
-   },
 })
 
 var upload1 = multer({
@@ -485,14 +489,16 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
    PDFNet.initialize()
    const fn = file.filename
    var l = file.filename.length
-   const img_fn = file.filename.substring(0,l-4) + ".png"
+   const img_fn = file.filename.substring(0, l - 4) + '.png'
 
    const watermark = 'SOMAIYA'
    console.log(__dirname)
 
    const inputPath = path.resolve(file.destination + '/' + fn)
    const outputPath = path.resolve(file.destination + '/' + fn)
-   const imgOutputPath =  path.resolve("D:\\SHUBH\\Internships\\EduConnect\\KJ-EduConnect\\public\\images" + '/' + img_fn)
+   const imgOutputPath = path.resolve(
+      __dirname + '\\public\\images' + '/' + img_fn,
+   )
 
    console.log(inputPath, outputPath)
    const watermarkPDF = async () => {
@@ -526,16 +532,11 @@ app.post('/uploadfile', upload1.single('file'), (req, res, next) => {
 
          await pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized)
 
-      
-            const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath);
-            await doc.initSecurityHandler();
-            const pdfDraw = await PDFNet.PDFDraw.create(92);
-            const currPage = await doc.getPage(1);
-            await pdfDraw.export(currPage, imgOutputPath, 'PNG');
-           
-           
-
-
+         const doc = await PDFNet.PDFDoc.createFromFilePath(inputPath)
+         await doc.initSecurityHandler()
+         const pdfDraw = await PDFNet.PDFDraw.create(92)
+         const currPage = await doc.getPage(1)
+         await pdfDraw.export(currPage, imgOutputPath, 'PNG')
       } catch (err) {
          console.log('hello')
          console.log(err)
@@ -664,8 +665,8 @@ app.post('/upload', isLoggedIn, async (req, res) => {
 
       const uploadedFile = await uploadToDrive(file.originalname, file.mimetype)
 
-      var l = file.originalname.length;
-      var thumbnail_image = file.originalname.substring(0,l-4)+".png";
+      var l = file.originalname.length
+      var thumbnail_image = file.originalname.substring(0, l - 4) + '.png'
 
       const driveId = uploadedFile.data.id
       const uploader = {
@@ -685,7 +686,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          driveId: driveId,
          mimeType: file.mimetype,
          fileName: file.originalname,
-         thumbnailPic : thumbnail_image,
+         thumbnailPic: thumbnail_image,
          // previewPics: previewPicIds,
       })
 
@@ -1273,7 +1274,8 @@ app.get('/single_material/:slug', async function (req, res) {
    }
 })
 
-app.delete('/single_material/:slug',
+app.delete(
+   '/single_material/:slug',
    isLoggedIn,
    isUploader,
    async (req, res) => {
@@ -1505,8 +1507,9 @@ app.get('/users/:user_id', async (req, res) => {
    }
 })
 
-app.get('/landing', (req, res) => {
-   res.render('landing.ejs')
+app.get('/landing', async (req, res) => {
+   let stat = await Stat.findOne({ id: 1 })
+   res.render('landing.ejs', { stat })
 })
 
 // app.get("/signup", (req, res) => {
@@ -2109,7 +2112,7 @@ app.get(
    '/google/callback',
    passport.authenticate('google', { failureRedirect: 'back' }),
    function (req, res) {
-      res.redirect("back")
+      res.redirect('back')
    },
 )
 
@@ -2218,11 +2221,6 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 //     });
 
 // });
-
-
-
-
-
 
 // Error Page 404
 // app.get("*", (req, res) => {

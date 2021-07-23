@@ -113,7 +113,7 @@
                     </div>
                   </div>
                   <% if(currentUser && doc.uploader.id.equals(currentUser._id) || currentUser &&
-                    currentUser.role==='teacher' ){ %>
+                    currentUser.role==='admin' ){ %>
                     <form action='/single_material/<%=doc.slug%>?_method=DELETE' method="POST" class="d-inline">
                       <button class="btn btn-xs btn-danger">Delete</button>
                     </form>
