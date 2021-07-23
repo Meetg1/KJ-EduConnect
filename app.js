@@ -298,6 +298,13 @@ passport.use(
       function (request, accessToken, refreshToken, profile, done) {
          User.findOne({ username: profile.email }).then((currentUser) => {
             if (currentUser) {
+               if (currentUser.isBanned) {
+                  request.flash(
+                     'danger',
+                     'You have been banned! Contact us for more information.',
+                  )
+                  return done(null, null)
+               }
                currentUser.isVerified = true
                currentUser.save()
                console.log(currentUser)
@@ -1503,8 +1510,9 @@ app.get('/users/:user_id', async (req, res) => {
    }
 })
 
-app.get('/landing', (req, res) => {
-   res.render('landing.ejs')
+app.get('/landing', async (req, res) => {
+   let stat = await Stat.findOne({ id: 1 })
+   res.render('landing.ejs', { stat })
 })
 
 // app.get("/signup", (req, res) => {
