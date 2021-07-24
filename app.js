@@ -1592,7 +1592,9 @@ app.post('/register', async (req, res) => {
             'You are now registered! Please verify your account through mail.',
          )
          console.log(link)
-         sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
+         sendverifyMail(username, link).then((result) =>
+            console.log('Email sent....', result),
+         )
          let stat = await Stat.findOne({ id: 1 })
          stat.totalUsers++
          stat.save()
@@ -2045,16 +2047,16 @@ app.get('/subject-expert', isLoggedIn, (req, res) => {
    res.render('teacher-form.ejs', { subjects })
 })
 
-app.get('/FAQ',isLoggedIn,(req,res) => {
-     res.render('faq.ejs')
+app.get('/FAQ', (req, res) => {
+   res.render('faq.ejs')
 })
 
-app.get('/reach-us',isLoggedIn,(req,res) => {
-      res.render('reach_us.ejs')
+app.get('/reach-us', (req, res) => {
+   res.render('reach_us.ejs')
 })
 
-app.get('/user_testimonials',isLoggedIn,(req,res) =>{
-         res.render('testimonials.ejs')
+app.get('/user_testimonials', (req, res) => {
+   res.render('testimonials.ejs')
 })
 
 app.post('/subject-expert', isLoggedIn, async (req, res) => {
