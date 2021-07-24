@@ -10,6 +10,7 @@ const User = require('./models/user.js')
 const Document = require('./models/Document.js')
 const Review = require('./models/Review.js')
 const Reply = require('./models/Reply.js')
+const ContactUs = require('./models/ContactUs.js')
 const Notification = require('./models/Notification')
 const Request = require('./models/Request')
 const Stat = require('./models/Stat')
@@ -2054,6 +2055,27 @@ app.get('/FAQ', (req, res) => {
 app.get('/reach-us', (req, res) => {
    res.render('reach_us.ejs')
 })
+
+app.post('/contactUs', async (req, res)=>{
+   const {name, email, subject, message, TAC} = req.body
+   console.log(name, email, subject, message, TAC);
+
+  const contactus = new ContactUs({
+   name: name,
+   email: email,
+   subject: subject,
+   message: message,
+   TAC: true
+  });
+
+  let contact_us = await ContactUs.create(contactus)
+
+  xyz = await ContactUs.find({});
+  console.log(xyz);
+
+   res.redirect('/reach-us');
+
+});
 
 app.get('/user_testimonials', (req, res) => {
    res.render('testimonials.ejs')
