@@ -3,9 +3,6 @@ html {
   overflow-x: hidden;
 }
 
-.searchbar {
-  width: 25rem !important;
-}
 
 #loading {
   width: 2rem;
@@ -65,10 +62,6 @@ html {
   width: 2rem;
   object-fit: cover;
   object-position: center right;
-}
-
-.searchbar::placeholder {
-  font-weight: 400;
 }
 
 .uploadBox,
@@ -335,10 +328,6 @@ html {
     width: 90% !important;
   }
 
-  .searchbar {
-    width: 15em !important;
-  }
-
   .login:hover {
     border-bottom: 2px solid #0069d9;
     margin-bottom: -3px;
@@ -346,11 +335,7 @@ html {
 }
 
 @media (max-width: 454px) {
-  .searchbar {
-    width: 10em !important;
-  }
-
-  .profile-user-name {
+   .profile-user-name {
     font-size: 2rem;
   }
 }

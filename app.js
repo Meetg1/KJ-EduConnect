@@ -10,6 +10,7 @@ const User = require('./models/user.js')
 const Document = require('./models/Document.js')
 const Review = require('./models/Review.js')
 const Reply = require('./models/Reply.js')
+const ContactUs = require('./models/ContactUs.js')
 const Notification = require('./models/Notification')
 const Request = require('./models/Request')
 const Stat = require('./models/Stat')
@@ -1592,7 +1593,9 @@ app.post('/register', async (req, res) => {
             'You are now registered! Please verify your account through mail.',
          )
          console.log(link)
-         sendverifyMail(username,link).then(result=>console.log("Email sent....",result));
+         sendverifyMail(username, link).then((result) =>
+            console.log('Email sent....', result),
+         )
          let stat = await Stat.findOne({ id: 1 })
          stat.totalUsers++
          stat.save()
@@ -2045,16 +2048,36 @@ app.get('/subject-expert', isLoggedIn, (req, res) => {
    res.render('teacher-form.ejs', { subjects })
 })
 
-app.get('/FAQ',isLoggedIn,(req,res) => {
-     res.render('faq.ejs')
+app.get('/FAQ', (req, res) => {
+   res.render('faq.ejs')
 })
 
-app.get('/reach-us',isLoggedIn,(req,res) => {
-      res.render('reach_us.ejs')
+app.get('/reach-us', (req, res) => {
+   res.render('reach_us.ejs')
 })
 
-app.get('/user_testimonials',isLoggedIn,(req,res) =>{
-         res.render('testimonials.ejs')
+app.post('/contactUs', async (req, res) => {
+   const { name, email, subject, message, TAC } = req.body
+   console.log(name, email, subject, message, TAC)
+
+   const contactus = new ContactUs({
+      name: name,
+      email: email,
+      subject: subject,
+      message: message,
+      TAC: true,
+   })
+
+   let contact_us = await ContactUs.create(contactus)
+
+   xyz = await ContactUs.find({})
+   console.log(xyz)
+   req.flash('success', 'Query submitted successfully.')
+   res.redirect('/reach-us')
+})
+
+app.get('/user_testimonials', (req, res) => {
+   res.render('testimonials.ejs')
 })
 
 app.post('/subject-expert', isLoggedIn, async (req, res) => {

@@ -10,7 +10,7 @@
       <input name="keyword" class="form-control searchbar" type="search"
         placeholder="Search for Courses, books or documents" id="searchName" aria-label="Search"
         style="border-color: black" />
-      <button class="btn my-2 my-sm-0" type="submit" style="border: 1px solid black; margin-left: 2px;">
+      <button class="btn s-btn my-2 my-sm-0" type="submit" style="border: 1px solid black; margin-left: 2px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-search"
           style="color: black;" viewBox="0 0 16 16">
           <path
@@ -72,13 +72,14 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="/users/<%=currentUser._id%>" style="padding: 4px 12px;">View Profile</a>
               <hr style="margin: 0px" />
-              <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared" style="padding: 4px 12px;">View Stared</a>
+              <a class="dropdown-item" href="/users/<%=currentUser._id%>/stared" style="padding: 4px 12px;">View
+                Stared</a>
               <hr style="margin: 0px" />
-              <a class="dropdown-item" href="/subject-expert" style="padding: 4px 12px;">Become a Subject-Expert</a>              
-              <hr style="margin: 0px" />            
+              <a class="dropdown-item" href="/subject-expert" style="padding: 4px 12px;">Become a Subject-Expert</a>
+              <hr style="margin: 0px" />
               <a class="dropdown-item" href="/leaderboard" style="padding: 4px 12px;">View Leaderboard</a>
               <hr style="margin: 0px" />
-              <a class="dropdown-item" href="/logout" style="padding: 4px 12px;">Logout</a>             
+              <a class="dropdown-item" href="/logout" style="padding: 4px 12px;">Logout</a>
             </div>
           </li>
           <%}else{%>

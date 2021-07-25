@@ -4,184 +4,247 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="../stylesheets/leaderboard.css">
+
+    <style>
+        .searchbar {
+            width: 28rem !important;
+            margin-left: 7rem;
+            padding: 20px 10px;
+        }
+
+        .searchbar::placeholder {
+            font-weight: 400;
+            font-size: 1.3em;
+        }
+
+        .s-btn {
+            padding: 12px 13px;
+        }
+
+        @media (max-width: 1200px) {
+            .searchbar {
+                width: 15rem !important;
+                margin-left: 2rem;
+            }
+        }
+
+        .navbar {
+            background-color: #E7E8E9;
+            /* padding-top: 20px;
+            padding-bottom: 30px; */
+            border-color: black;
+        }
+
+        .navbar-brand {
+            margin-right: 15px;
+            width: 17%;
+        }
+
+        .dropdown-item {
+            font-size: 14px;
+            padding: 0px;
+        }
+
+        @media (max-width:901px) {
+            .navbar {
+                padding-bottom: 15px;
+            }
+
+            .navbar-brand {
+                width: 30%;
+                margin-right: 5px;
+            }
+
+        }
+    </style>
+
     </head>
 
     <body>
         <%- include('partials/navbar')%>
-        <div class="l-wrapper" style="margin-top:70px;">
-            <!-- <div class="c-header"><img class="c-logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/813538/km-logo-color.svg" draggable="false" /><button class="c-button c-button--primary">Send Kudos</button></div>
+            <div class="l-wrapper" style="margin-top:70px;">
+                <!-- <div class="c-header"><img class="c-logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/813538/km-logo-color.svg" draggable="false" /><button class="c-button c-button--primary">Send Kudos</button></div>
          -->
-            <div class="l-grid">
-                <div class="l-grid__item l-grid__item--sticky">
-                    <div class="c-card  u-text--dark">
-                        <div class="c-card__body">
-                            <img src="../profilePic/<%=logged_in_user.profilePic %>" class="image--cover">
-                            <div class="u-display--flex u-justify--space-between">
+                <div class="l-grid">
+                    <div class="l-grid__item l-grid__item--sticky">
+                        <div class="c-card  u-text--dark">
+                            <div class="c-card__body">
+                                <img src="../profilePic/<%=logged_in_user.profilePic %>" class="image--cover">
+                                <div class="u-display--flex u-justify--space-between">
 
-                                <div class="u-text--left">
+                                    <div class="u-text--left">
 
-                                    <div class="u-text--small"><b>My Rank</b></div>
-                                    <h2>
-                                       <b><%= logged_in_rank + 1%></b> 
-                                    </h2>
+                                        <div class="u-text--small"><b>My Rank</b></div>
+                                        <h2>
+                                            <b>
+                                                <%= logged_in_rank + 1%>
+                                            </b>
+                                        </h2>
+                                    </div>
+                                    <div class="u-text--right">
+                                        <div class="u-text--small"><b>My Points</b></div>
+                                        <h2>
+                                            <b>
+                                                <%= logged_in_user.level_points %>
+                                            </b>
+                                        </h2>
+                                    </div>
                                 </div>
-                                <div class="u-text--right">
-                                    <div class="u-text--small"><b>My Points</b></div>
-                                    <h2>
-                                      <b><%= logged_in_user.level_points %></b>  
-                                    </h2>
+                            </div>
+                        </div>
+                        <div class="c-card">
+                            <div class="c-card__body">
+                                <div class="u-text--center" id="winner">
+                                    <b>
+                                        <%= logged_in_user.fullname %>
+                                    </b>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="c-card">
-                        <div class="c-card__body">
-                            <div class="u-text--center" id="winner">
-                               <b> <%= logged_in_user.fullname %> </b>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="l-grid__item">
-                    <div class="c-card">
-                        <div class="c-card__header">
-                            <h3>Leaderboard</h3>
-                            <!-- <select class="c-select">
+                    <div class="l-grid__item">
+                        <div class="c-card">
+                            <div class="c-card__header">
+                                <h3>Leaderboard</h3>
+                                <!-- <select class="c-select">
                             <option selected="selected"></option>
                         </select> -->
-                        </div>
-                        <div class="c-card__body">
-                            <ul class="c-list" id="list">
-                                <li class="c-list__item">
-                                    <div class="c-list__grid">
-                                        <div class="u-text--left u-text--small u-text--medium"><b>RANK</b></div>
-                                        <div class="u-text--left u-text--small u-text--medium"><b>STUDENT NAME</b></div>
-                                        <div class="u-text--center u-text--small u-text--medium"><b>POINTS</b></div>
-
-                                    </div>
-                                </li>
-                                <!-- RANK 1 -->
-                                <li class="c-list__item">
-                                    <div class="c-list__grid">
-                                        <div class="c-flag c-place  u-text--dark u-bg--yellow">1</div>
-                                        <div class="c-media">
-                                            <img class="c-avatar c-media__img"
-                                                src="../profilePic/<%=users[0].profilePic %>" alt="" />
-                                            <div class="c-media__content">
-                                                <div class="c-media__title"><a href="/users/<%=users[0].id%>"
-                                                        style="color:black;">
-                                                        <%= users[0].fullname %>
-                                                    </a></div>
-                                                <a class="c-media__link u-text--small" href="#">
-                                                    <%= users[0].tag %>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="u-text--center c-kudos u-text--yellow">
-                                            <div class="u-mt--8">
-                                                <strong>
-                                                    <%= users[0].level_points %> 🏆
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <br>
-                                <!-- RANK 2 -->
-                                <li class="c-list__item">
-                                    <div class="c-list__grid">
-                                        <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--teal">2</div>
-                                        <div class="c-media">
-                                            <img class="c-avatar c-media__img"
-                                                src="../profilePic/<%=users[1].profilePic %>" alt="" />
-                                            <div class="c-media__content">
-                                                <div class="c-media__title"><a href="/users/<%=users[1].id%>"
-                                                        style="color:black;">
-                                                        <%= users[1].fullname %>
-                                                    </a></div>
-                                                <a class="c-media__link u-text--small" href="#">
-                                                    <%= users[1].tag %>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="u-text--center c-kudos u-text--teal">
-                                            <div class="u-mt--8">
-                                                <strong>
-                                                    <%= users[1].level_points %> ⭐️
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <br>
-                                <!-- RANK 3 -->
-                                <li class="c-list__item">
-                                    <div class="c-list__grid">
-                                        <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--orange">3</div>
-                                        <div class="c-media">
-                                            <img class="c-avatar c-media__img"
-                                                src="../profilePic/<%=users[2].profilePic %>" alt="" />
-                                            <div class="c-media__content">
-                                                <div class="c-media__title"><a href="/users/<%=users[2].id%>"
-                                                        style="color:black;">
-                                                        <%= users[2].fullname %>
-                                                    </a></div>
-                                                <a class="c-media__link u-text--small" href="#">
-                                                    <%= users[2].tag %>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="u-text--center c-kudos u-text--orange">
-                                            <div class="u-mt--8">
-                                                <strong>
-                                                    <%= users[2].level_points %> 🔥'
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <br>
-                                <!-- RANK 4 to end -->
-                                <% for (var i=3; i < users.length; i++ ) { %>
+                            </div>
+                            <div class="c-card__body">
+                                <ul class="c-list" id="list">
                                     <li class="c-list__item">
                                         <div class="c-list__grid">
-                                            <div class="c-flag c-place">
-                                                <%= i+1 %>
+                                            <div class="u-text--left u-text--small u-text--medium"><b>RANK</b></div>
+                                            <div class="u-text--left u-text--small u-text--medium"><b>STUDENT NAME</b>
                                             </div>
+                                            <div class="u-text--center u-text--small u-text--medium"><b>POINTS</b></div>
+
+                                        </div>
+                                    </li>
+                                    <!-- RANK 1 -->
+                                    <li class="c-list__item">
+                                        <div class="c-list__grid">
+                                            <div class="c-flag c-place  u-text--dark u-bg--yellow">1</div>
                                             <div class="c-media">
                                                 <img class="c-avatar c-media__img"
-                                                    src="../profilePic/<%=users[i].profilePic %>" />
+                                                    src="../profilePic/<%=users[0].profilePic %>" alt="" />
                                                 <div class="c-media__content">
-
-                                                    <div class="c-media__title"><a href="/users/<%=users[i].id%>"
+                                                    <div class="c-media__title"><a href="/users/<%=users[0].id%>"
                                                             style="color:black;">
-                                                            <%= users[i].fullname %>
+                                                            <%= users[0].fullname %>
                                                         </a></div>
                                                     <a class="c-media__link u-text--small" href="#">
-                                                        <%= users[i].tag %>
+                                                        <%= users[0].tag %>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="u-text--center c-kudos">
+                                            <div class="u-text--center c-kudos u-text--yellow">
                                                 <div class="u-mt--8">
                                                     <strong>
-                                                        <%= users[i].level_points %> 👏
+                                                        <%= users[0].level_points %> 🏆
                                                     </strong>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </li>
                                     <br>
-                                    <% } %>
-                            </ul>
+                                    <!-- RANK 2 -->
+                                    <li class="c-list__item">
+                                        <div class="c-list__grid">
+                                            <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--teal">2
+                                            </div>
+                                            <div class="c-media">
+                                                <img class="c-avatar c-media__img"
+                                                    src="../profilePic/<%=users[1].profilePic %>" alt="" />
+                                                <div class="c-media__content">
+                                                    <div class="c-media__title"><a href="/users/<%=users[1].id%>"
+                                                            style="color:black;">
+                                                            <%= users[1].fullname %>
+                                                        </a></div>
+                                                    <a class="c-media__link u-text--small" href="#">
+                                                        <%= users[1].tag %>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="u-text--center c-kudos u-text--teal">
+                                                <div class="u-mt--8">
+                                                    <strong>
+                                                        <%= users[1].level_points %> ⭐️
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <br>
+                                    <!-- RANK 3 -->
+                                    <li class="c-list__item">
+                                        <div class="c-list__grid">
+                                            <div class="c-flag c-place u-bg--transparent u-text--dark u-bg--orange">3
+                                            </div>
+                                            <div class="c-media">
+                                                <img class="c-avatar c-media__img"
+                                                    src="../profilePic/<%=users[2].profilePic %>" alt="" />
+                                                <div class="c-media__content">
+                                                    <div class="c-media__title"><a href="/users/<%=users[2].id%>"
+                                                            style="color:black;">
+                                                            <%= users[2].fullname %>
+                                                        </a></div>
+                                                    <a class="c-media__link u-text--small" href="#">
+                                                        <%= users[2].tag %>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="u-text--center c-kudos u-text--orange">
+                                                <div class="u-mt--8">
+                                                    <strong>
+                                                        <%= users[2].level_points %> 🔥'
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <br>
+                                    <!-- RANK 4 to end -->
+                                    <% for (var i=3; i < users.length; i++ ) { %>
+                                        <li class="c-list__item">
+                                            <div class="c-list__grid">
+                                                <div class="c-flag c-place">
+                                                    <%= i+1 %>
+                                                </div>
+                                                <div class="c-media">
+                                                    <img class="c-avatar c-media__img"
+                                                        src="../profilePic/<%=users[i].profilePic %>" />
+                                                    <div class="c-media__content">
+
+                                                        <div class="c-media__title"><a href="/users/<%=users[i].id%>"
+                                                                style="color:black;">
+                                                                <%= users[i].fullname %>
+                                                            </a></div>
+                                                        <a class="c-media__link u-text--small" href="#">
+                                                            <%= users[i].tag %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="u-text--center c-kudos">
+                                                    <div class="u-mt--8">
+                                                        <strong>
+                                                            <%= users[i].level_points %> 👏
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                        <br>
+                                        <% } %>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    <script>
+            <script>
 
 
 // const team = [{
@@ -310,6 +373,6 @@
 // 	<h3 class="u-mt--16">${winner.name}</gith3>
 // 	<span class="u-text--teal u-text--small">${winner.name}</span>
 // `;
-    </script>
+            </script>
 
-<%- include('partials/footer')%>
+            <%- include('partials/footer')%>
