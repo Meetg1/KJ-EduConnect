@@ -31,7 +31,7 @@ html, body {
     height: 100%;
 }
 body {
-    background: white;
+    background: #58595B;
     color: black;
     font-size: 1.6rem;
     font-family: 'Overpass Mono', system-ui;

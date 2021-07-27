@@ -1268,7 +1268,7 @@ app.get('/single_material/:slug', async function (req, res) {
       const user = await User.findById(req.user._id)
 
       if (user.role == 'moderator' || user.role == 'admin') {
-         return res.render('single_material.ejs', { doc })
+         return res.render('single_material.ejs', {doc: doc, stared: user.stared, })
       } else {
          res.render('taken-down.ejs')
       }
