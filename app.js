@@ -1204,7 +1204,7 @@ app.post('/results/:slug/addstar', isLoggedIn, async (req, res) => {
 
 app.post('/results/:slug/removestar', isLoggedIn, async (req, res) => {
    try {
-      console.log("inside remove")
+      console.log('inside remove')
       const user = await User.findById(req.user._id)
 
       //removing the stared document from the user.stared array
@@ -1260,20 +1260,29 @@ app.get('/single_material/:slug', async function (req, res) {
       return res.redirect('/results/upvotes/1')
    }
 
-   if (!doc.isHidden) {
-      return res.render('single_material.ejs', { doc })
-   }
-
    if (req.user) {
       const user = await User.findById(req.user._id)
-
-      if (user.role == 'moderator' || user.role == 'admin') {
-         return res.render('single_material.ejs', {doc: doc, stared: user.stared, })
+      if (doc.isHidden) {
+         if (user.role == 'moderator' || user.role == 'admin') {
+            return res.render('single_material.ejs', {
+               doc: doc,
+               stared: user.stared,
+            })
+         } else {
+            res.render('taken-down.ejs')
+         }
       } else {
-         res.render('taken-down.ejs')
+         res.render('single_material.ejs', {
+            doc: doc,
+            stared: user.stared,
+         })
       }
    } else {
-      res.render('taken-down.ejs')
+      if (doc.isHidden) {
+         res.render('taken-down.ejs')
+      } else {
+         res.render('single_material.ejs', { doc })
+      }
    }
 })
 
