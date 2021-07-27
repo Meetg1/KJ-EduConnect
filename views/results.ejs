@@ -112,6 +112,13 @@
             <br>
 
             <% if(typeof(docs) !="undefined" ) { %>
+
+              <% if (docs.length==0) { %>
+                <p class="tip">No documents found!</p>
+                <br />
+                <br />
+                <% }  %>
+
               <% docs.forEach((doc)=> { %>
                 <div class="file mt-5" id="doc-<%=doc.slug %>">
                   <div class="img ">
