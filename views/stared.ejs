@@ -10,7 +10,9 @@
   <body>
 
     <%- include('partials/navbar')%>
+    <div id="messages_">
       <%- messages('messages', locals) %>
+      </div>
 
         <div class="container m">
 
@@ -40,16 +42,26 @@
 
 
 
-          <section class="results mt-4">
+          <section class="results mt-4" id="stared-results">
 
-            <h5>Starred Documents :
-            </h5>
+            
 
             <% if(typeof(docs) !="undefined" ) { %>
+              
+              <% if (docs.length==0) { %>
+                <br>
+                <p class="tip">No Starred Documents. click <a href='/results/upvotes/1'>here</a> to star some helpful documents!</p>
+                <br />
+                <br />
+                <% }else {
+                  %>
 
+                  <h5>Starred Documents :
+                  </h5>
+                  
               <% docs.forEach((doc)=> { %>
 
-                <div class="file mt-5">
+                <div class="file mt-5" id="doc-<%=doc.slug %>">
                   <div class="img ">
                     <div class="result-img1-div">
                       <img src="/images/<%= doc.thumbnailPic %>" alt="" class="result-img1">
@@ -122,20 +134,25 @@
                       <button class="btn btn-xs btn-danger">Delete</button>
                     </form>
                     <% } %>
-                      <form action="/results/<%=doc.slug%>/removestar" method="POST" class="d-inline"><button
-                          type="submit" class="btn btn-xs btn-outline-success"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                      <form class="d-inline"><a
+                           class="btn btn-xs btn-outline-success removeStarBtn" member_id="<%=doc.slug%>"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16" >
                             <path
                               d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                          </svg> UNSTAR </button></form>
+                          </svg> UNSTAR </a></form>
+                          <hr style="margin-top : 55px;">
                 </div>
 
-                <hr style="margin-top : 55px;">
+                
                 <%})%>
 
                   <%}%>
 
                     <br>
+                  
+                  <%
+                } %>
+
 
 
 
@@ -144,3 +161,38 @@
 
         </div>
         <%- include('partials/footer')%>
+
+  </body>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+          crossorigin="anonymous"></script>
+        
+
+        <script>
+           $(document).ready(function () {
+            
+            $(".removeStarBtn").on('click', function () {
+              var doc_id = $(this).attr('member_id');
+              
+             console.log($(this).attr('member_id'))
+              req = $.ajax({
+                url: "/results/"+ doc_id +"/removestar",
+                type: 'POST',
+                data: {  }
+              });
+              req.done(function () {
+                console.log("unstared");
+                $("#messages_").load(location.href + " #messages_");
+                $("#doc-"+doc_id).load(location.href + " #doc-"+doc_id);
+               // $("#Nodoc").load(location.href + " #Nodoc");
+                
+
+               
+
+
+                
+              });
+            });
+          });
+        </script>
+        </html>

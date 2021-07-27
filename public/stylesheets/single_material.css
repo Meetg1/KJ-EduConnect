@@ -455,13 +455,13 @@ li p {
 }
 
 .icons li {
-  background: none repeat scroll 0 0 #58595b;
-  height: 7px;
-  width: 7px;
+  background: none repeat scroll 0 0 #E7E8E9;
+  height:4px;
+  width: 4px;
   line-height: 0;
   list-style: none outside none;
-  margin-right: 15px;
-  margin-top: 3px;
+  margin-right: 30px;
+  margin-top: 4px;
   vertical-align: top;
   border-radius: 50%;
   pointer-events: none;
@@ -475,7 +475,7 @@ li p {
 .droppbtn {
   position: absolute;
   color: white;
-  font-size: 16px;
+  font-size: 10px;
   border: none;
   cursor: pointer;
 }
@@ -484,9 +484,10 @@ li p {
 .dropp {
   position: absolute;
   display: inline-block;
-  top: 7em;
+  top: 6em;
   right: 60.4em;
   z-index: 100;
+  padding-top:0px ;
 }
 
 .droppdown-content {
@@ -496,7 +497,7 @@ li p {
   width:200px;
   margin-top: 60px;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 140px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -508,7 +509,7 @@ li p {
 
 .droppdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 5px 8px;
   text-decoration: none;
   display: block;
 }

@@ -1195,15 +1195,16 @@ app.post('/results/:slug/addstar', isLoggedIn, async (req, res) => {
       user.stared.push(req.params.slug)
       user.save()
       req.flash('success', 'Document added to starred documents.')
-      return res.redirect('back')
+      res.jsonp({ result: 'success' })
    } catch (error) {
       console.error(error)
-      return redirect('/results/upvotes/1')
+      return res.redirect('back')
    }
 })
 
 app.post('/results/:slug/removestar', isLoggedIn, async (req, res) => {
    try {
+      console.log("inside remove")
       const user = await User.findById(req.user._id)
 
       //removing the stared document from the user.stared array
@@ -1218,8 +1219,9 @@ app.post('/results/:slug/removestar', isLoggedIn, async (req, res) => {
          user.stared.splice(i, 1)
       }
       user.save()
+      console.log(user)
       req.flash('success', 'Document removed from starred documents.')
-      return res.redirect('back')
+      res.jsonp({ result: 'success' })
    } catch (error) {
       console.error(error)
       return redirect('/results/upvotes/1')
@@ -1422,7 +1424,7 @@ app.post('/single_material/:slug/reviews', isLoggedIn, async (req, res) => {
    stat.save()
 
    console.log(review)
-   req.flash('success', 'Review submitted successfully. You earned 5 points!')
+   // req.flash('success', 'Review submitted successfully!')
    res.jsonp({ result: 'success' })
 })
 
