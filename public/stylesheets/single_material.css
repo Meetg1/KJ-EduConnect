@@ -487,7 +487,7 @@ li p {
   top: 6em;
   right: 60.4em;
   z-index: 100;
-  padding-top:0px ;
+  padding-top:38px ;
 }
 
 .droppdown-content {
@@ -495,7 +495,7 @@ li p {
   display: none;
   right:0.1rem;
   width:200px;
-  margin-top: 60px;
+  margin-top: 30px;
   background-color: #f9f9f9;
   min-width: 140px;
   overflow: auto;
@@ -513,6 +513,9 @@ li p {
   text-decoration: none;
   display: block;
 }
+.star-unstar-btn{
+  width: 100%;
+}
 
 .dropp a:hover {
   background-color: #f1f1f1
@@ -520,4 +523,21 @@ li p {
 
 .show {
   display: block;
+}
+
+@media(max-width:901px){
+
+  .icons li {
+    background: none repeat scroll 0 0 blue;
+    height:4px;
+    width: 4px;
+    line-height: 0;
+    list-style: none outside none;
+    margin-right: 10px;
+    margin-top: 20px;
+    vertical-align: top;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
 }
