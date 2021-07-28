@@ -63,6 +63,11 @@ html {
    font-weight: bold;
    margin-right: 10px;
 }
+@media(max-width:901px){
+   #title_link{
+      font-size: 1.4rem;
+   }
+}
 
 .material_type {
    color: black;
@@ -71,6 +76,17 @@ html {
    border: #005baa 2px solid;
    border-radius: 14px;
    position: absolute;
+}
+
+@media(max-width:901px){
+   .material_type{
+      font-size: 0.7rem;
+      padding: 3px;
+      border: #005baa 2px solid;
+      border-radius: 14px;
+      
+      
+   }
 }
 
 .date {

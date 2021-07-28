@@ -34,15 +34,16 @@ body {
     background: #58595B;
     color: black;
     font-size: 1.6rem;
-    font-family: 'Overpass Mono', system-ui;
+    /* font-family: 'Overpass Mono', system-ui; */
 }
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 400;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: -.02em;
     margin-top: 0.8rem;
     margin-bottom: 0.8rem;
-    font-family: 'Oswald', system-ui;
+    /* font-family: 'Oswald', system-ui; */
+
 }
 a {
     color: var(--primary);
@@ -57,6 +58,9 @@ a {
     box-shadow: 0px 0px 0px 0.4rem var(--primary-trans);
 }
 */
+
+
+
 button, textarea, input, select {
     font-family: inherit;
     color: inherit;
@@ -259,6 +263,11 @@ button, select {
     margin-left: 22%;
     margin-bottom: 15px;
   }
+  @media(max-width:901px){
+      .image--cover{
+          margin-left:28%;
+      }
+  }
 @media screen and (max-width: 700px) {
     .c-flag {
         width: 2.4rem;
@@ -386,7 +395,7 @@ button, select {
     justify-content: space-between;
 }
 .u-text--small {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
 }
 .u-pl--2 {
     padding-left: 0.2rem;

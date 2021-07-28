@@ -66,8 +66,8 @@
 
 
           <section class="results mt-4 ">
-            <div class="top">
-              <h4 class="mb-0 d-inline">
+            <div class="top" >
+              <h4 class=" " style="text-align: center;">
                 <% if (type==="upvotes" ) { %>
                   <%= "Highest Rated Documents" %>
                     <% } else if (type==="downloads" ) { %>
@@ -81,7 +81,7 @@
               </h4>
               <span class="dropdown float-right">
                 <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                   Sort By: <% if (type==="upvotes" ) { %>
                     <%= "Upvotes" %>
                       <% } else if (type==="downloads" ) { %>
@@ -92,7 +92,7 @@
                                 <%= "Academic Year" %>
                                   <% } %>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
 
                   <a class="dropdown-item <%= type === 'upvotes' ? 'active' : '' %>"
                     href="/<%=page%>/upvotes/1">Upvotes</a>
