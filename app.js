@@ -2273,7 +2273,7 @@ app.post('/uploadAvatar', isLoggedIn, async (req, res) => {
 //   res.render("404_page.ejs");
 // });
 
-const port = 3000
+const port = process.env.PORT || 3000
 
 app.listen(port, () => {
    console.log(`Serving on port ${port}`)
