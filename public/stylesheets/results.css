@@ -39,7 +39,15 @@ html {
    width: 100%;
    height: 10rem;
    object-fit: cover;
-   border: 2px solid #007bff;
+   border: 2px solid black;
+}
+
+a {
+   color: #b7202e;
+}
+
+a:hover{
+   color: #b7202e;
 }
 
 .dropdown::marker {
@@ -71,9 +79,9 @@ html {
 
 .material_type {
    color: black;
-   font-size: 0.75rem;
+   font-size: 0.75rem; 
    padding: 5px;
-   border: #005baa 2px solid;
+   border: black 2px solid;
    border-radius: 14px;
    position: absolute;
 }
@@ -117,7 +125,7 @@ html {
 
 @media (min-width: 992px) {
    .login:hover {
-      border-bottom: 2px solid #0069d9;
+      border-bottom: 2px solid #b7202e;
       margin-bottom: -3px;
    }
 }
