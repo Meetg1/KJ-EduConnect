@@ -1822,6 +1822,7 @@ app.get('/notification/:notificationId', isLoggedIn, async (req, res) => {
 app.get('/admin/statistics', isAdmin, async (req, res) => {
    const stats = await Stat.findOne({ id: 1 })
    res.render('adminStats.ejs', { stats })
+   
 })
 
 app.get('/admin/users', isAdmin, async (req, res) => {
@@ -1843,6 +1844,11 @@ app.get('/admin/requests', isAdmin, async (req, res) => {
    const requests = await Request.find().populate('requester', 'fullname')
    console.log(requests)
    res.render('adminRequests.ejs', { requests })
+})
+
+app.get('/admin/trending',isAdmin, async(req,res) => {
+   const docs = await Document.find().sort({ recentDownloads: -1 })
+   res.render('admintrending.ejs', { docs })
 })
 
 app.post('/users/:userId/ban', isAdmin, async (req, res) => {
