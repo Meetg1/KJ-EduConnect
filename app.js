@@ -1851,6 +1851,12 @@ app.get('/admin/trending',isAdmin, async(req,res) => {
    res.render('admintrending.ejs', { docs })
 })
 
+app.get('/admin/user_queries',isAdmin, async(req,res) => {
+   const u_queries = await ContactUs.find({})
+   res.render('user_queries.ejs',{u_queries})
+
+})
+
 app.post('/users/:userId/ban', isAdmin, async (req, res) => {
    const user = await User.findById(req.params.userId)
    if (user.isBanned) {
