@@ -58,7 +58,7 @@ h2 {
 }
 
 #progressbar .active {
-   color: #0069d9;
+   color: #58595B;
 }
 
 #progressbar li {
@@ -113,7 +113,7 @@ h2 {
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-   background: #0069d9;
+   background: #58595b;
    transition: background 2s;
 }
 

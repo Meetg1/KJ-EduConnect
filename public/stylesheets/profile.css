@@ -126,7 +126,7 @@ html {
   display: inline-block;
   font-size: 3.2rem;
   font-weight: 300;
-  color: #020202;
+  color: #4e657e;
 }
 
 .followBtn {
@@ -164,7 +164,6 @@ html {
   color: #4e657e;
   font-size: 24px;
   font-weight: bold;
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
   text-align: center;
   text-decoration: underline;
   margin-top: 40px;

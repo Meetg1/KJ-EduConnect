@@ -778,7 +778,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
 })
 
 app.get('/results/:sortBy/:page', async (req, res) => {
-   var limit = 3
+   var limit = 5
    var page = req.params.page
 
    var skip = (page - 1) * limit
