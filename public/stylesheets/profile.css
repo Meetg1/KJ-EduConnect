@@ -214,6 +214,7 @@ html {
   color: #4e657e;
 }
 
+
 .tip {
   color: darkblue;
   background-color: #e6e9ec;
@@ -222,78 +223,52 @@ html {
   padding: 10px;
 }
 
-.htip {
-  color: #4e657e;
-  font-size: 20px;
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-}
 
-.bulb {
-  margin-top: -2px;
-  color: darkgoldenrod;
-}
-/* 
-.file {
-  height: 25vh;
-} */
-
-.img {
+.result-img1-div {
   height: 10rem;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  float: left;
   width: 20%;
+  margin-right: 30px;
+}
+
+.result-img img {
+  width: 13rem;
   margin-bottom: 20px;
   padding-top: 10px;
   float: left;
   margin-right: 30px;
 }
 
-#title_link {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-top: -5px;
+@media (max-width: 901px) {
+  .result-img1-div {
+     width: 40%;
+     margin-right: 15px;
+  }
 }
 
-.material_type {
-  color: gray;
-  font-size: 0.45rem;
-  padding: 3px;
-  border: rgb(224, 224, 224) 2px solid;
-  border-radius: 14px;
-}
-
-.date {
-  display: inline-block;
-  width: 21rem;
-  margin-top: 0px;
-}
-
-.date {
-  margin-top: 20px;
-  font-size: 0.75rem;
-}
-
-.content {
-  padding-top: 7px;
-}
-
-.content h5 {
-  font-size: 0.75rem;
-}
-
-.content1 {
-  margin-top: -45px;
-}
-
-.results img {
-  height: 10rem;
+.result-img1 {
   width: 100%;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  float: left;
-  margin-right: 30px;
+  height: 10rem;
+  object-fit: cover;
+  border: 2px solid black;
+}
+
+a {
+  color: #b7202e;
+}
+
+a:hover{
+  color: #b7202e;
+}
+
+.dropdown::marker {
+  display: none;
 }
 
 /* .file {
-  height: 25vh;
+ height: 25vh;
 } */
 
 .content {
@@ -307,15 +282,32 @@ html {
 #title_link {
   font-size: 1.6rem;
   font-weight: bold;
-  margin-top: -5px;
+  margin-right: 10px;
+}
+@media(max-width:901px){
+  #title_link{
+     font-size: 1.4rem;
+  }
 }
 
 .material_type {
-  color: gray;
-  font-size: 0.75rem;
-  padding: 3px;
-  border: rgb(224, 224, 224) 2px solid;
+  color: black;
+  font-size: 0.75rem; 
+  padding: 5px;
+  border: black 2px solid;
   border-radius: 14px;
+  position: absolute;
+}
+
+@media(max-width:901px){
+  .material_type{
+     font-size: 0.7rem;
+     padding: 3px;
+     border: #005baa 2px solid;
+     border-radius: 14px;
+     
+     
+  }
 }
 
 .date {
@@ -378,9 +370,7 @@ html {
     margin-right: auto;
     width: 35%;
   }
-  .image--cover{
-    width: 10px;
-  }
+  
   .container-top-stat{
     margin-left:5px ;
     margin-right: 5px;
@@ -392,10 +382,9 @@ html {
   opacity: 1;
   display: block;
   width: 100%;
-  height: 100%;
   transition: 0.5s ease;
   backface-visibility: hidden;
-  border-radius: 60%;
+  border-radius: 50%;
 }
 
 .middle {
@@ -615,102 +604,3 @@ html {
 
 
 
-
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Oswald:400,300,700);
-/* Import */
-/* Variables */
-/* Base */
-body {  
-  font-size: 16px;
-}
-
-.results{
-  background-color: white;
-}
-
-strong {
-  font-weight: 600;
-}
-h1 {
-  /* font-family: 'Oswald', sans-serif; */
-  
-  letter-spacing: 1.5px;
-  color: black;
-  font-weight: 100;
-  font-size: 2.4em;
-}
-#content {
-  margin-top: 50px;
-  text-align: center;
-}
-/* Timeline */
-.timeline {
-  border-left: 4px solid black;
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-  background: white;
-  color: black;
-  /* font-family: 'Source Sans Pro', sans-serif; */
-  margin: 50px auto;
-  letter-spacing: 0.5px;
-  position: relative;
-  line-height: 1.4em;
-  font-size: 1.03em;
-  padding: 50px;
-  list-style: none;
-  text-align: left;
-  font-weight: 100;
-  max-width: 50%;
-}
-.timeline h1,
-.timeline h2,
-.timeline h3 {
-  /* font-family: 'Oswald', sans-serif; */
-  letter-spacing: 1.5px;
-  font-weight: 100;
-  font-size: 1.4em;
-}
-.timeline .event {
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-  padding: 25px;
-  margin-bottom: 50px;
-  position: relative;
-  background-color:#E7E8E9;
-  border-radius: 10px;
-}
-/* .timeline .event:last-of-type {
-  padding-bottom: 0;
-  margin-bottom: 0;
-  border: none;
-} */
-.timeline .event:before,
-.timeline .event:after {
-  position: absolute;
-  display: block;
-  top: 0;
-}
-.timeline .event:before {
-  left: -217.5px;
-  color: rgba(255, 255, 255, 0.4);
-  content: attr(data-date);
-  text-align: right;
-  font-weight: 100;
-  font-size: 0.9em;
-  min-width: 120px;
-}
-.timeline .event:after {
-  box-shadow: 0 0 0 4px #A50C22;
-  left: -57.85px;
-  background:white;
-  border-radius: 50%;
-  height: 11px;
-  width: 11px;
-  content: "";
-  top: 5px;
-}
-
-@media(max-width:900px){
-  .timeline{
-    max-width: 100%;
-  }
-}

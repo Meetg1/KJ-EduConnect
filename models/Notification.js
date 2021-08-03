@@ -8,6 +8,10 @@ const NotificationSchema = new mongoose.Schema({
     documentId: String,
     message : {
         type: String,
+    },
+    icon : {
+        type: String,
+        default: "bell"
     }
 });
 

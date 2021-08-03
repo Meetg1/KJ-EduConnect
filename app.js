@@ -723,6 +723,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          username: foundUser.username,
          documentId: doc.slug,
          message: 'uploaded a new document!',
+         icon: 'bell'
       }
       //pushing the notification into each follower
       let followers = foundUser.followers
@@ -778,7 +779,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
 })
 
 app.get('/results/:sortBy/:page', async (req, res) => {
-   var limit = 1
+   var limit = 3
    var page = req.params.page
 
    var skip = (page - 1) * limit
@@ -2080,6 +2081,7 @@ app.post('/single_material/:slug/reply', isLoggedIn, async (req, res) => {
       username: req.user.username,
       documentId: req.params.slug,
       message: 'Replied on your comment',
+      icon: "reply"
    }
 
    let notification = await Notification.create(newNotification)

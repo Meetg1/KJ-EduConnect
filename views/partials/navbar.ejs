@@ -36,11 +36,14 @@
               <% if (notifications.length==0) { %>
                 <li>No notifications.</li>
                 <% }else{ %>
+                  <div style="height: 200px; overflow-x: hidden;">
                   <% notifications.forEach(function(notification) { %>
                     <li>
-                      <a href="/notification/<%= notification.id %>">
+                      <i class="fa fa-<%= notification.icon %>" aria-hidden="true"></i>
+
+                      <a href="/notification/<%= notification.id %>" class="ml-1">
                         <%= notification.username %>
-                          <span style="color: black">
+                          <span style="color: black" class="ml-3">
                             <%= notification.message %>
                           </span>
                       </a>
@@ -48,6 +51,7 @@
                     </li>
 
                     <% }); %>
+                  </div>
                       <% } %>
             </ul>
           </li>
