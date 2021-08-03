@@ -35,9 +35,9 @@
                     placeholder="Filter by course" id="courseName">
                 </div>
                 <div class="filterBox col-lg-3 mb-3">
-                  <label class="d-block" for="subject">Year filter</label>
-                  <input type="text" class="form-control" name="year" style="width: inherit;"
-                    placeholder="Filter by year">
+                  <label class="d-block" for="subject">Branch filter</label>
+                  <input type="text" class="form-control" name="branch" style="width: inherit;"
+                    placeholder="Filter by branch" id="branchName">
                 </div>
                 <div class="filterBox col-lg-3 mb-3">
                   <label class="d-block" for="category">Category filter</label>
@@ -137,11 +137,15 @@
                       </span>
                     </div>
                     <h5 class="pt-2" style="">
+                      <%= doc.branch %>
+                    </h5>
+                    <h5 class="pt-2" style="">
                       <%= doc.subject %>
                     </h5>
                     <h5 class="pt-2" style="">
                       <%= doc.university %>
                     </h5>
+                    
                     <div class="date mb-4">
                       <span class="mr-3 mb-auto"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                           fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
@@ -405,6 +409,34 @@
 
             });
           });
+
+          $(function () {
+            $('#branchName').autocomplete({
+              source: function (req, res) {
+                $.ajax({
+                  url: "/autocompleteBranch/",
+                  dataType: "jsonp",
+                  type: "GET",
+                  data: req,
+                  success: function (data) {
+                    res(data)
+                  },
+                  error: function (err) {
+                    console.log(err);
+                  }
+                });
+              },
+              minlength: 1,
+              select: function (event, ui) {
+                if (ui.item) {
+                  $('#branchName').text(ui.item.label);
+                }
+              }
+
+
+            });
+       
+        });
 
           $(document).ready(function () {
             

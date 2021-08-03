@@ -645,10 +645,12 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          subject,
          num_pages,
          description,
+         branch
       } = req.body
 
       req.checkBody('university', 'University is required').notEmpty()
       req.checkBody('course', 'Course is required').notEmpty()
+      req.checkBody('branch', 'Branch is required').notEmpty()
       req.checkBody('title', 'Title is required').notEmpty()
       req.checkBody('category', 'Category is required').notEmpty()
       req.checkBody('year', 'year is required').notEmpty()
@@ -678,6 +680,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          university: university,
          course: course,
          title: title,
+         branch: branch,
          category: category,
          year: year,
          subject: subject,
@@ -1034,9 +1037,9 @@ var category = ''
 app.post('/filter/:sortBy/:page', async (req, res) => {
    university = req.body.university
    course = req.body.course
-   year = req.body.year
+   branch = req.body.branch
    category = req.body.category
-   console.log(university, course, year, category)
+   console.log(university, course, branch, category)
 
    var limit = 3
    var page = req.params.page
@@ -1049,7 +1052,7 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ upvotes: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1058,7 +1061,7 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ downloads: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1067,7 +1070,7 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ recentDownloads: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1076,7 +1079,7 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ year: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1134,7 +1137,7 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ upvotes: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1143,7 +1146,7 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ downloads: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1152,7 +1155,7 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ recentDownloads: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -1161,7 +1164,7 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
       docs = await Document.find({
          university: { $regex: new RegExp(university, 'i') },
          course: { $regex: new RegExp(course, 'i') },
-         year: { $regex: new RegExp(year, 'i') },
+         branch: { $regex: new RegExp(branch, 'i') },
          category: { $regex: new RegExp(category, 'i') },
       }).sort({ year: -1 })
       docs = docs.slice(skip, skip + limit)
@@ -2051,6 +2054,34 @@ app.get('/autocompleteCourse', function (req, res, next) {
                let obj = {
                   id: doc.slug,
                   label: doc.course,
+               }
+               result.push(obj)
+            })
+         }
+
+         res.jsonp(result)
+      }
+   })
+})
+
+app.get('/autocompleteBranch', function (req, res, next) {
+   var regex = new RegExp(req.query['term'], 'i')
+
+   var DocFinder = Document.find({
+      $or: [{ branch: regex }, { branch: 1 }],
+   })
+      .sort({ updated_at: -1 })
+      .sort({ created_at: -1 })
+      .limit(10)
+
+   DocFinder.exec(function (err, data) {
+      var result = []
+      if (!err) {
+         if (data && data.length && data.length > 0) {
+            data.forEach((doc) => {
+               let obj = {
+                  id: doc.slug,
+                  label: doc.branch,
                }
                result.push(obj)
             })

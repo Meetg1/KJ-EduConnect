@@ -13,6 +13,11 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  branch: {
+    type: String,
+    required: true,
+    default: "",
+  },
   category: {
     type: String,
     required: true,
