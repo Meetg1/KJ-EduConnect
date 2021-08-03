@@ -223,6 +223,110 @@
           </section>
     
           <div style="text-align: center;">
+            <% if(current_page == 1) { %>
+
+              <a href="../<%= type %>/1" style="border-style: solid; padding: 10px; text-decoration: none;">
+                1
+              </a> &nbsp;
+
+              <% if(number_of_pages>=2) { %>
+                <a href="../<%= type %>/2"
+                  style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                  2
+                </a> &nbsp;
+              <%} %>
+
+              <% if(number_of_pages>=3) { %>
+                <a href="../<%= type %>/3"
+                  style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                  3
+                </a> &nbsp;
+              <% } %>
+
+              <% if(number_of_pages>=2){ %>
+                <a href="../<%= type %>/2"
+                  style=" padding: 10px; text-decoration: none; color: gray;">
+                  >>
+                </a>
+              <% } %>              
+                        
+            <%}
+            
+           
+
+            else if(current_page == number_of_pages){ %>
+              
+              
+
+              <% if(number_of_pages >= 1) { %>
+
+                <a href="../<%= type %>/<%= current_page-1 %>"
+                  style=" padding: 10px; text-decoration: none; color: gray;">
+                  <<
+                </a> &nbsp;
+
+                <% } %>
+
+              <% if(number_of_pages >2) { %>
+
+                <a href="../<%= type %>/<%= current_page-2 %>"
+                  style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                  <%= current_page-2 %>
+                </a> &nbsp;
+
+              <% } %>
+
+              <% if(number_of_pages >= 1 ) { %>
+
+                <a href="../<%= type %>/<%= current_page-1 %>"
+                  style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                  <%= current_page-1 %>
+                </a> &nbsp;
+
+                <% } %>
+
+
+
+              
+              
+              <a href="../<%= type %>/<%= current_page%>" style="border-style: solid; padding: 10px; text-decoration: none;">
+                <%= current_page %>
+              </a> &nbsp;
+
+            <% }
+
+            else{%>
+            
+
+              <a href="../<%= type %>/<%= prev_page %>"
+                style="padding: 10px; text-decoration: none; color: gray;">
+                <<
+              </a> &nbsp;
+              <a href="../<%= type %>/<%= prev_page %>"
+                style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                <%= current_page-1 %>
+              </a> &nbsp;
+              <a href="../<%= type %>/<%= current_page%>" style="border-style: solid; padding: 10px; text-decoration: none;">
+                <%= current_page %>
+              </a> &nbsp;
+              <a href="../<%= type %>/<%= next_page %>"
+                style="border: solid gray; padding: 10px; text-decoration: none; color: gray;">
+                <%= current_page+1 %>
+              </a> &nbsp;
+              <a href="../<%= type %>/<%= next_page %>"
+                style=" padding: 10px; text-decoration: none; color: gray;">
+                >>
+              </a>
+              
+
+            <%}
+            
+            %>
+          </div>
+
+          <br><br>
+
+          <!-- <div style="text-align: center;">
             <% for (var i=1; i <=number_of_pages ; i++ ) { %>
               <% if (i==current_page) { %>
                 <a href="../<%= type %>/<%= i %>" style="border-style: solid; padding: 3px; text-decoration: none;">
@@ -236,7 +340,7 @@
                   <%}%>
                     <% } %>
           </div>
-          <br>
+          <br> -->
         </div>
         <%- include('partials/footer')%>
   </body>

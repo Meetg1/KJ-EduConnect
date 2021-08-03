@@ -778,7 +778,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
 })
 
 app.get('/results/:sortBy/:page', async (req, res) => {
-   var limit = 5
+   var limit = 1
    var page = req.params.page
 
    var skip = (page - 1) * limit
@@ -810,6 +810,7 @@ app.get('/results/:sortBy/:page', async (req, res) => {
       docs = docs.slice(skip, skip + limit)
       type = 'recent'
    }
+   page = parseInt(page)
 
    if (req.user) {
       const user = await User.findById(req.user._id)
@@ -821,6 +822,8 @@ app.get('/results/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: type,
          type: type,
          page: 'results',
@@ -830,6 +833,8 @@ app.get('/results/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: 'results',
          type: type,
          page: 'results',
@@ -898,6 +903,8 @@ app.post('/search/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
+   page = parseInt(page)
+
    if (req.user) {
       const user = await User.findById(req.user._id)
       if (user.role === 'admin') {
@@ -908,6 +915,8 @@ app.post('/search/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -917,6 +926,8 @@ app.post('/search/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -983,6 +994,8 @@ app.get('/search/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
+   page=parseInt(page)
+
    if (req.user) {
       const user = await User.findById(req.user._id)
       if (user.role === 'admin') {
@@ -993,6 +1006,8 @@ app.get('/search/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -1002,6 +1017,8 @@ app.get('/search/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -1070,6 +1087,8 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
+   page=parseInt(page)
+
    if (req.user) {
       const user = await User.findById(req.user._id)
       if (user.role === 'admin') {
@@ -1080,6 +1099,8 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1089,6 +1110,8 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1149,6 +1172,8 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
+   page = parseInt(page)
+
    if (req.user) {
       const user = await User.findById(req.user._id)
       if (user.role === 'admin') {
@@ -1159,6 +1184,8 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1168,6 +1195,8 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
+         next_page: page+1,
+         prev_page: page-1,
          redirect: 'filter',
          type: type,
          page: 'filter',
