@@ -645,7 +645,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          subject,
          num_pages,
          description,
-         branch
+         branch,
       } = req.body
 
       req.checkBody('university', 'University is required').notEmpty()
@@ -726,7 +726,7 @@ app.post('/upload', isLoggedIn, async (req, res) => {
          username: foundUser.username,
          documentId: doc.slug,
          message: 'uploaded a new document!',
-         icon: 'bell'
+         icon: 'bell',
       }
       //pushing the notification into each follower
       let followers = foundUser.followers
@@ -826,8 +826,8 @@ app.get('/results/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: type,
          type: type,
          page: 'results',
@@ -837,8 +837,8 @@ app.get('/results/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: 'results',
          type: type,
          page: 'results',
@@ -919,8 +919,8 @@ app.post('/search/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -930,8 +930,8 @@ app.post('/search/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -998,7 +998,7 @@ app.get('/search/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
-   page=parseInt(page)
+   page = parseInt(page)
 
    if (req.user) {
       const user = await User.findById(req.user._id)
@@ -1010,8 +1010,8 @@ app.get('/search/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -1021,8 +1021,8 @@ app.get('/search/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          type: type,
          page: 'search',
          redirect: 'search',
@@ -1091,7 +1091,7 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
 
    docs = docs.slice(skip, skip + limit)
 
-   page=parseInt(page)
+   page = parseInt(page)
 
    if (req.user) {
       const user = await User.findById(req.user._id)
@@ -1103,8 +1103,8 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1114,8 +1114,8 @@ app.post('/filter/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1188,8 +1188,8 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
          stared: user.stared,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1199,8 +1199,8 @@ app.get('/filter/:sortBy/:page', async (req, res) => {
          docs: docs,
          number_of_pages: number_of_pages,
          current_page: page,
-         next_page: page+1,
-         prev_page: page-1,
+         next_page: page + 1,
+         prev_page: page - 1,
          redirect: 'filter',
          type: type,
          page: 'filter',
@@ -1631,7 +1631,7 @@ app.post('/register', async (req, res) => {
             username: user.username,
          }
          const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-         const link = `http://localhost:3000/verify-email/?token=${user.usernameToken}`
+         const link = `/verify-email/?token=${user.usernameToken}`
          req.flash(
             'success',
             'You are now registered! Please verify your account through mail.',
@@ -1712,7 +1712,7 @@ app.post('/forgot-password', (req, res) => {
                email: foundUser.username,
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const link = `http://localhost:3000/reset-password/${token}`
+            const link = `/reset-password/${token}`
             req.flash('success', 'Password reset link sent!')
             console.log(link)
             sendMail(email, link).then((result) =>
@@ -1855,7 +1855,6 @@ app.get('/notification/:notificationId', isLoggedIn, async (req, res) => {
 app.get('/admin/statistics', isAdmin, async (req, res) => {
    const stats = await Stat.findOne({ id: 1 })
    res.render('adminStats.ejs', { stats })
-   
 })
 
 app.get('/admin/users', isAdmin, async (req, res) => {
@@ -1879,15 +1878,14 @@ app.get('/admin/requests', isAdmin, async (req, res) => {
    res.render('adminRequests.ejs', { requests })
 })
 
-app.get('/admin/trending',isAdmin, async(req,res) => {
+app.get('/admin/trending', isAdmin, async (req, res) => {
    const docs = await Document.find().sort({ recentDownloads: -1 })
    res.render('admintrending.ejs', { docs })
 })
 
-app.get('/admin/user_queries',isAdmin, async(req,res) => {
+app.get('/admin/user_queries', isAdmin, async (req, res) => {
    const u_queries = await ContactUs.find({})
-   res.render('user_queries.ejs',{u_queries})
-
+   res.render('user_queries.ejs', { u_queries })
 })
 
 app.post('/users/:userId/ban', isAdmin, async (req, res) => {
@@ -2112,7 +2110,7 @@ app.post('/single_material/:slug/reply', isLoggedIn, async (req, res) => {
       username: req.user.username,
       documentId: req.params.slug,
       message: 'Replied on your comment',
-      icon: "reply"
+      icon: 'reply',
    }
 
    let notification = await Notification.create(newNotification)
