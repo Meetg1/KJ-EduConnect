@@ -616,9 +616,24 @@ app.get('/download/:slug', isLoggedIn, async (req, res) => {
       await getFileFromDrive(doc.driveId, doc.fileName)
       // console.log(getFileFromDrive(doc.driveId, doc.fileName));
       setTimeout(function () {
+         console.log('okkko')
          res.download(__dirname + '/downloads/' + doc.fileName)
          user.save()
-      }, 5000)
+         setTimeout(function () {
+            console.log('yo')
+            //deleting file from downloads folder
+            let pathToFile = path.join(__dirname, 'downloads', doc.fileName)
+            //console.log("path: "+pathToFile)
+            fs.unlink(pathToFile, function (err) {
+               if (err) {
+                  throw err
+               } else {
+                  console.log('Successfully deleted the file : ' + pathToFile)
+               }
+            })
+         }, 25000)
+      }, 10000)
+
       let stat = await Stat.findOne({ id: 1 })
       stat.totalDownloads++
       stat.save()
