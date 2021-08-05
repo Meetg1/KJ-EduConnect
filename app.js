@@ -2150,7 +2150,7 @@ app.get('/FAQ', (req, res) => {
    res.render('faq.ejs')
 })
 
-app.get('/terms_conditions',isLoggedIn,(req,res) => {
+app.get('/terms_conditions', (req, res) => {
    res.render('tac.ejs')
 })
 
