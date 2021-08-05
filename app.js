@@ -2150,6 +2150,10 @@ app.get('/FAQ', (req, res) => {
    res.render('faq.ejs')
 })
 
+app.get('/terms_conditions',isLoggedIn,(req,res) => {
+   res.render('tac.ejs')
+})
+
 app.get('/reach-us', (req, res) => {
    res.render('reach_us.ejs')
 })

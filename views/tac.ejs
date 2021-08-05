@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% layout('layouts/boilerplate') %>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/stylesheets/tac.css">
+
+</head>
+<body>
+ 
+    <%- include('partials/navbar')%>
+        <%- messages('messages', locals) %>
+
+    <section id="terms-of-service">
+        <div class="card">
+            <h1 class="primary-heading">Terms of Service</h1>
+            <p class="paragraph">
+                • These Terms of Use apply to the use of the Platform of EduConnect. Please read these Terms of Use carefully in order to ensure that you are aware of your rights and obligations when using the Platform.
+                <br><br><br>
+                1) EduConnect holds complete authority to temporarily or permanently take down any study document if found inappropriate.
+                <br><br><br>
+                2) Through the platform Students gain access to millions of Study Materials uploaded by other Students. EduConnect accepts no liability whatsoever for the Study Material offered by you or other Students by means of the Platform. 
+                <br><br><br>
+                3) Regular upload of innapropriate content/material on the platform may lead to the temporary or permanent ban of the user from using the platfrom. Moreover, abuse of any kind will not be tolerated.
+                <br><br><br>
+                4) EduConnect reserves the right to automatically insert a watermark to the uploaded study materials.
+                <br><br><br>
+                5) Any hint of plaigarism found on any of your uploaded documents may lead to the user's ban on the platform along with that document deleted
+                <br><br><br>
+                6) By registering to EduConnect, you allow us to create your profile and showing all of your stats. 
+                <br><br><br>
+                7) You accept and acknowledge that any Study Materials posted by you , will in remain accessible via the Platform.
+            </p>
+        </div>
+    </section>
+</body>
+</html>
+
+<%- include('partials/footer')%>
