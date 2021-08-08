@@ -235,7 +235,7 @@
                   <a href="#" class="nav-link text-dark">
                     <i class="fa fa-address-card text-primary fa-fw"></i>
                     <form action="/download/<%=doc.slug%>" method="get">
-                      <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn" style="background-color: #58595B;color:white;">
+                      <button type="submit" class="btn btn-lg downloadBtn" id="downloadBtn" style="background-color: #A50C22;color:white;">
                         Download
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                           class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
@@ -264,7 +264,7 @@
               -->
                 <li class="nav-item prettier">
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" style="margin: 7.5px 15px;background-color:#58595B;" type="button"
+                    <button class="btn btn-secondary dropdown-toggle" style="margin: 7.5px 15px;background-color:#A50C22;" type="button"
                       id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Share <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-share-fill" viewBox="0 0 16 16">
@@ -944,11 +944,12 @@
             $(".addSuggestionBtn").on('click', function () {
               var doc_id = $(this).attr('doc_id');
               var text = $('#suggestion' + doc_id).val();
+              var subExpert = $('#customCheck1').val();              
               console.log(doc_id,text);
               req = $.ajax({
                 url: '/single_material/<%=doc.slug%>/suggestions',
                 type: 'POST',
-                data: { text: text }
+                data: { text: text, subExpert: subExpert }
               });
               req.done(function () {
                 console.log("comment added");
