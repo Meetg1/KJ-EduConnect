@@ -1432,7 +1432,6 @@ app.post('/single_material/:slug/unreport', isLoggedIn, async (req, res) => {
    foundDoc.isHidden = false
    foundDoc.save()
    let stat = await Stat.findOne({ id: 1 })
-   stat.totalReports -= 5
    stat.save()
    req.flash('success', 'Document unreported!')
    res.redirect('back')
@@ -1646,7 +1645,7 @@ app.post('/register', async (req, res) => {
             username: user.username,
          }
          const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-         const link = `http://localhost:3000//verify-email/?token=${user.usernameToken}`
+         const link = `http://localhost:3000/verify-email/?token=${user.usernameToken}`
          req.flash(
             'success',
             'You are now registered! Please verify your account through mail.',
