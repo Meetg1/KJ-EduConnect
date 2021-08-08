@@ -1646,7 +1646,7 @@ app.post('/register', async (req, res) => {
             username: user.username,
          }
          const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-         const link = `/verify-email/?token=${user.usernameToken}`
+         const link = `http://localhost:3000//verify-email/?token=${user.usernameToken}`
          req.flash(
             'success',
             'You are now registered! Please verify your account through mail.',
