@@ -1,3 +1,15 @@
-subjects = ["DBMS", "DSA", "ITVC", "Networking","OOPM","OS","TOC","CD","PSOT","AI"];
+subjects = [
+   'DBMS',
+   'Mathematics',
+   'DSA',
+   'ITVC',
+   'Networking',
+   'OOPM',
+   'OS',
+   'TOC',
+   'CD',
+   'PSOT',
+   'AI',
+]
 
-module.exports = subjects;
+module.exports = subjects

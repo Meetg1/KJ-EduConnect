@@ -1984,7 +1984,7 @@ app.get('/autocomplete', function (req, res, next) {
                      doc.university +
                      ', Course: ' +
                      doc.course,
-                  value: doc.subject,
+                  value: doc.title,
                }
                result.push(obj)
             })
@@ -2021,32 +2021,44 @@ app.get('/autocomplete', function (req, res, next) {
 //    })
 // })
 
-app.get('/autocompleteUniversity', function (req, res, next) {
+app.get('/autocompleteUniversity', async function (req, res, next) {
    var regex = new RegExp(req.query['term'], 'i')
 
-   var DocFinder = Document.find({
-      $or: [{ university: regex }, { university: 1 }],
-   })
-      .sort({ updated_at: -1 })
-      .sort({ created_at: -1 })
-      .limit(10)
-
-   DocFinder.exec(function (err, data) {
-      var result = []
+   Document.distinct('university', { university: regex }, function (err, data) {
+      // var result = []
       if (!err) {
-         if (data && data.length && data.length > 0) {
-            data.forEach((doc) => {
-               let obj = {
-                  id: doc.slug,
-                  label: doc.university,
-               }
-               result.push(obj)
-            })
-         }
+         // console.log(data)
+         // if (data && data.length && data.length > 0) {
+         //    data.forEach((doc) => {
+         //       let obj = {
+         //          id: doc.slug,
+         //          label: doc.university,
+         //       }
+         //       result.push(obj)
+         //       console.log(result)
+         //    })
+         // }
 
-         res.jsonp(result)
+         res.jsonp(data)
       }
    })
+
+   // DocFinder.exec(function (err, data) {
+   //    var result = []
+   //    if (!err) {
+   //       if (data && data.length && data.length > 0) {
+   //          data.forEach((doc) => {
+   //             let obj = {
+   //                id: doc.slug,
+   //                label: doc.university,
+   //             }
+   //             result.push(obj)
+   //          })
+   //       }
+
+   //       res.jsonp(result)
+   //    }
+   // })
 })
 
 app.get('/autocompleteCourse', function (req, res, next) {
