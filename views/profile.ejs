@@ -38,11 +38,14 @@
                                 <div class="badge badge-primary univ" href="#">Subject-Expert</div>
                                 <% } %>
                           </div>
-                          <div class="text-primary univ mt-2" href="#">
+                          <div class=" univ mt-2" href="#" style="color: #b7202e;">
                             <%= user.university %>
                           </div>
                           <div class="text-primary univ mt-2" href="#">
-                            <%= user.username %>
+                            <a href="mailto:<%= user.username %>">
+                              <%= user.username %>
+                            </a>
+                            
                           </div>
                           <div class="profile-stats">
                             <ul class="pl-0">
